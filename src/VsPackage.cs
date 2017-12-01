@@ -1,6 +1,4 @@
-﻿using Microsoft.VisualStudio.ComponentModelHost;
-using Microsoft.VisualStudio.ExtensionManager;
-using Microsoft.VisualStudio.Shell;
+﻿using Microsoft.VisualStudio.Shell;
 using System;
 using System.ComponentModel.Design;
 using System.Runtime.InteropServices;
@@ -17,12 +15,6 @@ namespace ExtensionPackTools
     {
         protected override async Tasks.Task InitializeAsync(CancellationToken cancellationToken, IProgress<ServiceProgressData> progress)
         {
-            // Waits for MEF to initialize before the extension manager is ready to use
-            await GetServiceAsync(typeof(SComponentModel));
-
-            // Main thread required for registering the command
-            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-
             if (await GetServiceAsync(typeof(IMenuCommandService)) is OleMenuCommandService commandService)
             {
                 ExportCommand.Initialize(this, commandService);

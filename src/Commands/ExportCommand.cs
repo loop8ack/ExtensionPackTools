@@ -22,11 +22,7 @@ namespace ExtensionPackTools
             commandService.AddCommand(menuItem);
         }
 
-        public static ExportCommand Instance
-        {
-            get;
-            private set;
-        }
+        public static ExportCommand Instance { get; private set; }
 
         private IServiceProvider ServiceProvider
         {
@@ -52,14 +48,28 @@ namespace ExtensionPackTools
                             where !i.Header.SystemComponent && !i.IsPackComponent
                             select i.Header.Identifier;
 
-            var marketplaceEntries = repository.GetVSGalleryExtensions<GalleryEntry>(installed.ToList(), 1033, false);
+            try
+            {
+                var marketplaceEntries = repository.GetVSGalleryExtensions<GalleryEntry>(installed.ToList(), 1033, false);
 
-            Manifest manifest = new Manifest(marketplaceEntries);
+                Manifest manifest = new Manifest(marketplaceEntries);
 
-            var json = JsonConvert.SerializeObject(manifest, Formatting.Indented);
+                var json = JsonConvert.SerializeObject(manifest, Formatting.Indented);
 
-            File.WriteAllText(filePath, json);
-            VsShellUtilities.OpenDocument(ServiceProvider, filePath);
+                File.WriteAllText(filePath, json);
+                VsShellUtilities.OpenDocument(ServiceProvider, filePath);
+            }
+            catch (Exception)
+            {
+                VsShellUtilities.ShowMessageBox(
+                    ServiceProvider,
+                    "Something went wrong",
+                    Vsix.Name,
+                    Microsoft.VisualStudio.Shell.Interop.OLEMSGICON.OLEMSGICON_WARNING,
+                    Microsoft.VisualStudio.Shell.Interop.OLEMSGBUTTON.OLEMSGBUTTON_OK,
+                    Microsoft.VisualStudio.Shell.Interop.OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST
+                );
+            }
         }
 
         private bool TryGetFilePath(out string filePath)

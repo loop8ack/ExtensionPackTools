@@ -33,11 +33,11 @@ namespace ExtensionPackTools
 
         public class Extension
         {
-            [JsonProperty("vsixId")]
-            public string ID { get; set; }
-
             [JsonProperty("name")]
             public string Name { get; set; }
+
+            [JsonProperty("vsixId")]
+            public string ID { get; set; }
         }
     }
 }
