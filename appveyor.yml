@@ -1,0 +1,30 @@
+image: Visual Studio 2017
+
+install:
+  - ps: (new-object Net.WebClient).DownloadString("https://raw.github.com/madskristensen/ExtensionScripts/master/AppVeyor/vsix.ps1") | iex
+
+before_build:
+  - ps: Vsix-IncrementVsixVersion | Vsix-UpdateBuildVersion
+  - ps: Vsix-IncrementNuspecVersion .\build\*.nuspec
+
+build_script:
+  - .\build\build.cmd
+  - ps: .\build\download.ps1
+  - nuget restore src\TemplatePackExtension\TemplatePackExtension.csproj -Verbosity quiet
+  - msbuild src\TemplatePackExtension\TemplatePackExtension.csproj /p:configuration=Release /p:DeployExtension=false /v:m
+
+artifacts:
+  - path: build\MadsKristensen.AspNetCore.Web.Templates.*.nupkg
+    name: NuGet package
+
+after_test:
+  - ps: Vsix-PushArtifacts | Vsix-PublishToGallery
+
+deploy:
+  - provider: NuGet
+    artifact: /NuGet/
+    api_key:
+      secure: 6xBu/05BWJDPa2PRkxEH3PHU/caLvy2lzf1eWdRBGXwSCTejHtI+6e0V4s2LaVri
+    on:
+      branch: master
+      appveyor_repo_commit_message_extended: /\[release\]/

@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
+    <Metadata>
+        <Identity Id="e83d71b8-8bfc-4e06-b145-b0388910c016" Version="0.1" Language="en-US" Publisher="Mads Kristensen" />
+        <DisplayName>Extension Pack Tools</DisplayName>
+        <Description xml:space="preserve">Tools for creating Visual Studio extension packs</Description>
+        <License>Resources\LICENSE</License>
+        <Icon>Resources\icon.png</Icon>
+        <PreviewImage>Resources\icon.png</PreviewImage>
+        <Tags>extension pack, vsix</Tags>
+    </Metadata>
+    <Installation>
+        <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[15.0]" />
+    </Installation>
+    <Dependencies>
+        <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.5,)" />
+        <Dependency Id="Microsoft.VisualStudio.MPF.15.0" DisplayName="Visual Studio MPF 15.0" d:Source="Installed" Version="[15.0]" />
+    </Dependencies>
+    <Prerequisites>
+        <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[15.0,16.0)" DisplayName="Visual Studio core editor" />
+    </Prerequisites>
+    <Assets>
+        <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
+    </Assets>
+</PackageManifest>
