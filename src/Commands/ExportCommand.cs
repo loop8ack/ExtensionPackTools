@@ -1,8 +1,11 @@
-﻿using System;
-using System.ComponentModel.Design;
-using System.Globalization;
+﻿using Microsoft.VisualStudio.ExtensionManager;
 using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
+using Newtonsoft.Json;
+using System;
+using System.ComponentModel.Design;
+using System.IO;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace ExtensionPackTools
 {
@@ -10,16 +13,13 @@ namespace ExtensionPackTools
     {
         private readonly Package _package;
 
-        private ExportCommand(Package package)
+        private ExportCommand(Package package, OleMenuCommandService commandService)
         {
-            _package = package ?? throw new ArgumentNullException("package");
+            _package = package ?? throw new ArgumentNullException(nameof(package));
 
-            if (ServiceProvider.GetService(typeof(IMenuCommandService)) is OleMenuCommandService commandService)
-            {
-                var menuCommandID = new CommandID(PackageGuids.guidExportPackageCmdSet, PackageIds.ExportCmd);
-                var menuItem = new MenuCommand(Execute, menuCommandID);
-                commandService.AddCommand(menuItem);
-            }
+            var menuCommandID = new CommandID(PackageGuids.guidExportPackageCmdSet, PackageIds.ExportCmd);
+            var menuItem = new MenuCommand(Execute, menuCommandID);
+            commandService.AddCommand(menuItem);
         }
 
         public static ExportCommand Instance
@@ -33,23 +33,55 @@ namespace ExtensionPackTools
             get { return _package; }
         }
 
-        public static void Initialize(Package package)
+        public static void Initialize(AsyncPackage package, OleMenuCommandService commandService)
         {
-            Instance = new ExportCommand(package);
+            Instance = new ExportCommand(package, commandService);
         }
 
         private void Execute(object sender, EventArgs e)
         {
-            string message = string.Format(CultureInfo.CurrentCulture, "Inside {0}.MenuItemCallback()", GetType().FullName);
-            string title = "Export";
+            if (!TryGetFilePath(out string filePath))
+            {
+                return;
+            }
 
-            VsShellUtilities.ShowMessageBox(
-                this.ServiceProvider,
-                message,
-                title,
-                OLEMSGICON.OLEMSGICON_INFO,
-                OLEMSGBUTTON.OLEMSGBUTTON_OK,
-                OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST);
+            var manager = ServiceProvider.GetService(typeof(SVsExtensionManager)) as IVsExtensionManager;
+            var repository = ServiceProvider.GetService(typeof(SVsExtensionRepository)) as IVsExtensionRepository;
+
+            var installed = from i in manager.GetInstalledExtensions()
+                            where !i.Header.SystemComponent && !i.IsPackComponent
+                            select i.Header.Identifier;
+
+            var marketplaceEntries = repository.GetVSGalleryExtensions<GalleryEntry>(installed.ToList(), 1033, false);
+
+            Manifest manifest = new Manifest(marketplaceEntries);
+
+            var json = JsonConvert.SerializeObject(manifest, Formatting.Indented);
+
+            File.WriteAllText(filePath, json);
+            VsShellUtilities.OpenDocument(ServiceProvider, filePath);
+        }
+
+        private bool TryGetFilePath(out string filePath)
+        {
+            filePath = null;
+
+            using (var sfd = new SaveFileDialog())
+            {
+                sfd.DefaultExt = ".vsext";
+                sfd.FileName = "extensions";
+                sfd.Filter = "VSEXT File|*.vsext";
+
+                var result = sfd.ShowDialog();
+
+                if (result == DialogResult.OK)
+                {
+                    filePath = sfd.FileName;
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }
