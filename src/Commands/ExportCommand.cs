@@ -17,9 +17,9 @@ namespace ExtensionPackTools
         {
             _package = package ?? throw new ArgumentNullException(nameof(package));
 
-            var menuCommandID = new CommandID(PackageGuids.guidExportPackageCmdSet, PackageIds.ExportCmd);
-            var menuItem = new MenuCommand(Execute, menuCommandID);
-            commandService.AddCommand(menuItem);
+            var cmdId = new CommandID(PackageGuids.guidExportPackageCmdSet, PackageIds.ExportCmd);
+            var cmd = new MenuCommand(Execute, cmdId);
+            commandService.AddCommand(cmd);
         }
 
         public static ExportCommand Instance { get; private set; }
@@ -44,17 +44,15 @@ namespace ExtensionPackTools
             var manager = ServiceProvider.GetService(typeof(SVsExtensionManager)) as IVsExtensionManager;
             var repository = ServiceProvider.GetService(typeof(SVsExtensionRepository)) as IVsExtensionRepository;
 
-            var installed = from i in manager.GetInstalledExtensions()
-                            where !i.Header.SystemComponent && !i.IsPackComponent
-                            select i.Header.Identifier;
-
             try
             {
+                var installed = manager.GetInstalledExtensions()
+                                       .Where(i => !i.Header.SystemComponent && !i.IsPackComponent)
+                                       .Select(i => i.Header.Identifier);
+
                 var marketplaceEntries = repository.GetVSGalleryExtensions<GalleryEntry>(installed.ToList(), 1033, false);
-
                 Manifest manifest = new Manifest(marketplaceEntries);
-
-                var json = JsonConvert.SerializeObject(manifest, Formatting.Indented);
+                string json = JsonConvert.SerializeObject(manifest, Formatting.Indented);
 
                 File.WriteAllText(filePath, json);
                 VsShellUtilities.OpenDocument(ServiceProvider, filePath);
