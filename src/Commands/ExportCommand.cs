@@ -29,7 +29,7 @@ namespace ExtensionPackTools
             get { return _package; }
         }
 
-        public static void Initialize(AsyncPackage package, OleMenuCommandService commandService)
+        public static void Initialize(Package package, OleMenuCommandService commandService)
         {
             Instance = new ExportCommand(package, commandService);
         }
@@ -48,9 +48,12 @@ namespace ExtensionPackTools
             {
                 var installed = manager.GetInstalledExtensions()
                                        .Where(i => !i.Header.SystemComponent && !i.IsPackComponent)
-                                       .Select(i => i.Header.Identifier);
+                                       .Select(i => i.Header.Identifier)
+                                       .ToList();
 
-                var marketplaceEntries = repository.GetVSGalleryExtensions<GalleryEntry>(installed.ToList(), 1033, false);
+                // Filter the installed extensions to only be the ones that exist on the Marketplace
+                var marketplaceEntries = repository.GetVSGalleryExtensions<GalleryEntry>(installed, 1033, false);
+
                 Manifest manifest = new Manifest(marketplaceEntries);
                 string json = JsonConvert.SerializeObject(manifest, Formatting.Indented);
 
