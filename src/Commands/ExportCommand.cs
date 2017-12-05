@@ -47,7 +47,7 @@ namespace ExtensionPackTools
             try
             {
                 var installed = manager.GetInstalledExtensions()
-                                       .Where(i => !i.Header.SystemComponent && !i.IsPackComponent)
+                                       .Where(i => !i.Header.SystemComponent && !i.IsPackComponent && i.State == EnabledState.Enabled)
                                        .Select(i => i.Header.Identifier)
                                        .ToList();
 
