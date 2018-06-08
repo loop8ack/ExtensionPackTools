@@ -9,11 +9,13 @@ namespace ExtensionPackTools
     {
         public Manifest(IEnumerable<GalleryEntry> entries)
         {
-            Extensions = entries.Select(e => new Extension
-            {
-                ID = e.VsixID,
-                Name = e.Name,
-            });
+            Extensions = entries
+                .OrderBy(e => e.Name)
+                .Select(e => new Extension
+                {
+                    ID = e.VsixID,
+                    Name = e.Name,
+                });
         }
 
         [JsonProperty("id")]

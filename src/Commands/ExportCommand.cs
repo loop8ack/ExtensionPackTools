@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.Shell;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.IO;
 using System.Linq;
@@ -52,9 +53,9 @@ namespace ExtensionPackTools
                                        .ToList();
 
                 // Filter the installed extensions to only be the ones that exist on the Marketplace
-                var marketplaceEntries = repository.GetVSGalleryExtensions<GalleryEntry>(installed, 1033, false);
+                IEnumerable<GalleryEntry> marketplaceEntries = repository.GetVSGalleryExtensions<GalleryEntry>(installed, 1033, false);
 
-                Manifest manifest = new Manifest(marketplaceEntries);
+                var manifest = new Manifest(marketplaceEntries);
                 string json = JsonConvert.SerializeObject(manifest, Formatting.Indented);
 
                 File.WriteAllText(filePath, json);
@@ -83,7 +84,7 @@ namespace ExtensionPackTools
                 sfd.FileName = "extensions";
                 sfd.Filter = "VSEXT File|*.vsext";
 
-                var result = sfd.ShowDialog();
+                DialogResult result = sfd.ShowDialog();
 
                 if (result == DialogResult.OK)
                 {

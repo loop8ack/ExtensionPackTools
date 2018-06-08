@@ -10,7 +10,8 @@
         <Tags>extension pack, vsix</Tags>
     </Metadata>
     <Installation>
-        <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[15.0]" />
+        <!-- 15.0.27703 = VS 2017 Update 7 -->
+        <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="15.0.27703" />
     </Installation>
     <Dependencies>
         <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.5,)" />
