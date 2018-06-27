@@ -57,7 +57,7 @@ namespace ExtensionPackTools
             var dialog = new Importer.ImportWindow(manifest.Extensions, _manager, Importer.Purpose.Import);
             dialog.ShowDialog();
 
-            if (dialog.DialogResult == true)
+            if (dialog.DialogResult == true && dialog.SelectedExtensionIds.Any())
             {
                 List<string> toInstall = dialog.SelectedExtensionIds;
 

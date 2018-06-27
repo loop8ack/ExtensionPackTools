@@ -38,9 +38,11 @@ namespace ExtensionPackTools.Importer
                     CommandParameter = ext.ID,
                 };
 
-                if (_purpose == Purpose.Import)
+                if (_purpose == Purpose.Import && _manager.TryGetInstalledExtension(ext.ID, out IInstalledExtension installed))
                 {
-                    cb.IsEnabled = !_manager.TryGetInstalledExtension(ext.ID, out IInstalledExtension installed);
+                    cb.IsEnabled = false;
+                    cb.IsChecked = false;
+                    cb.Content += " (already installed)";
                 }
 
                 list.Children.Add(cb);

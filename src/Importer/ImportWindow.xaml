@@ -19,7 +19,7 @@
                 <AccessText TextWrapping="Wrap" Text="Only extensions publicly available on the Visual Studio Marketplace are shown."/>
             </Label.Content>
         </Label>
-        <StackPanel Grid.Row="1" Name="list" Margin="0" Orientation="Vertical"/>
+        <StackPanel Grid.Row="1" Name="list" Orientation="Vertical" Margin="10 0 0 0"/>
 
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Content="Select" IsDefault="true" Click="Button_Click" Margin="0 0 0 0"/>
