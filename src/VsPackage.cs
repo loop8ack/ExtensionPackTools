@@ -20,6 +20,7 @@ namespace ExtensionPackTools
             if (await GetServiceAsync(typeof(IMenuCommandService)) is OleMenuCommandService commandService)
             {
                 ExportCommand.Initialize(this, commandService);
+                await ImportCommand.InitializeAsync(this, commandService);
             }
         }
     }

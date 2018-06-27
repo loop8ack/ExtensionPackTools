@@ -21,6 +21,14 @@
           <ButtonText>Export Extensions...</ButtonText>
         </Strings>
       </Button>
+      <Button guid="guidExportPackageCmdSet" id="ImportCmd" priority="0x0200" type="Button">
+        <Parent guid="guidExportPackageCmdSet" id="MyMenuGroup" />
+        <Icon guid="ImageCatalogGuid" id="ImportCatalogPart" />
+        <CommandFlag>IconIsMoniker</CommandFlag>
+        <Strings>
+          <ButtonText>Import Extensions...</ButtonText>
+        </Strings>
+      </Button>
     </Buttons>
   </Commands>
 
@@ -30,6 +38,7 @@
     <GuidSymbol name="guidExportPackageCmdSet" value="{e84b4658-2e40-46fc-90e5-f29db9b73b46}">
       <IDSymbol name="MyMenuGroup" value="0x1020" />
       <IDSymbol name="ExportCmd" value="0x0100" />
+      <IDSymbol name="ImportCmd" value="0x0200" />
     </GuidSymbol>
   </Symbols>
 </CommandTable>

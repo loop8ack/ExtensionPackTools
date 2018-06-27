@@ -1,12 +1,13 @@
-﻿using Microsoft.VisualStudio.ExtensionManager;
-using Microsoft.VisualStudio.Shell;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using Microsoft.VisualStudio.ExtensionManager;
+using Microsoft.VisualStudio.Shell;
+using Newtonsoft.Json;
+using static ExtensionPackTools.Manifest;
 
 namespace ExtensionPackTools
 {
@@ -54,18 +55,25 @@ namespace ExtensionPackTools
 
                 // Filter the installed extensions to only be the ones that exist on the Marketplace
                 IEnumerable<GalleryEntry> marketplaceEntries = repository.GetVSGalleryExtensions<GalleryEntry>(installed, 1033, false);
+                IEnumerable<Extension> extensions = marketplaceEntries.Select(me => new Extension { ID = me.VsixID, Name = me.Name });
 
-                var manifest = new Manifest(marketplaceEntries);
-                string json = JsonConvert.SerializeObject(manifest, Formatting.Indented);
+                var dialog = new Importer.ImportWindow(extensions, manager, Importer.Purpose.Export);
+                dialog.ShowDialog();
 
-                File.WriteAllText(filePath, json);
-                VsShellUtilities.OpenDocument(ServiceProvider, filePath);
+                if (dialog.DialogResult == true)
+                {
+                    var manifest = new Manifest(marketplaceEntries.Where(me => dialog.SelectedExtensionIds.Contains(me.VsixID)));
+                    string json = JsonConvert.SerializeObject(manifest, Formatting.Indented);
+
+                    File.WriteAllText(filePath, json);
+                    VsShellUtilities.OpenDocument(ServiceProvider, filePath);
+                }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 VsShellUtilities.ShowMessageBox(
                     ServiceProvider,
-                    "Something went wrong",
+                    ex.Message,
                     Vsix.Name,
                     Microsoft.VisualStudio.Shell.Interop.OLEMSGICON.OLEMSGICON_WARNING,
                     Microsoft.VisualStudio.Shell.Interop.OLEMSGBUTTON.OLEMSGBUTTON_OK,

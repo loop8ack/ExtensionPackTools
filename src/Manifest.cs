@@ -7,6 +7,11 @@ namespace ExtensionPackTools
 {
     public class Manifest
     {
+        public Manifest()
+        {
+            Extensions = new List<Extension>();
+        }
+
         public Manifest(IEnumerable<GalleryEntry> entries)
         {
             Extensions = entries
