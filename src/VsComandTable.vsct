@@ -8,9 +8,18 @@
   <Commands package="guidVsPackage">
     <Groups>
       <Group guid="guidExportPackageCmdSet" id="MyMenuGroup" priority="0x0600">
-        <Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_TOOLS"/>
+        <Parent guid="guidExportPackageCmdSet" id="MyMenu"/>
       </Group>
     </Groups>
+
+    <Menus>
+      <Menu guid="guidExportPackageCmdSet" id="MyMenu" priority="0x9999" type="Menu">
+        <Parent guid="guidSHLMainMenu" id="IDG_VS_TOOLS_EXTENSIBILITY"/>
+        <Strings>
+          <ButtonText>Import/Export Extensions</ButtonText>
+        </Strings>
+      </Menu>
+    </Menus>
 
     <Buttons>
       <Button guid="guidExportPackageCmdSet" id="ExportCmd" priority="0x0100" type="Button">
@@ -29,6 +38,14 @@
           <ButtonText>Import Extensions...</ButtonText>
         </Strings>
       </Button>
+      <Button guid="guidExportPackageCmdSet" id="ExportSolutionCmd" priority="0x0200" type="Button">
+        <Parent guid="guidSHLMainMenu" id="IDG_VS_CTXT_SOLUTION_ADD" />
+        <Icon guid="ImageCatalogGuid" id="Extension" />
+        <CommandFlag>IconIsMoniker</CommandFlag>
+        <Strings>
+          <ButtonText>Manage Solution Extensions...</ButtonText>
+        </Strings>
+      </Button>
     </Buttons>
   </Commands>
 
@@ -36,9 +53,11 @@
     <GuidSymbol name="guidVsPackage" value="{3ec2fa73-1f0d-4e31-88c3-604c4e46ec14}" />
 
     <GuidSymbol name="guidExportPackageCmdSet" value="{e84b4658-2e40-46fc-90e5-f29db9b73b46}">
+      <IDSymbol name="MyMenu" value="0x0001" />
       <IDSymbol name="MyMenuGroup" value="0x1020" />
       <IDSymbol name="ExportCmd" value="0x0100" />
       <IDSymbol name="ImportCmd" value="0x0200" />
+      <IDSymbol name="ExportSolutionCmd" value="0x0300" />
     </GuidSymbol>
   </Symbols>
 </CommandTable>

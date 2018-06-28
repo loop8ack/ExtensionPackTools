@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using Microsoft.VisualStudio.ExtensionManager;
-using static ExtensionPackTools.Manifest;
+using System.Windows.Interop;
+using Microsoft.VisualStudio.Shell;
 
 namespace ExtensionPackTools.Importer
 {
@@ -12,37 +14,62 @@ namespace ExtensionPackTools.Importer
     public partial class ImportWindow : Window
     {
         private readonly IEnumerable<Extension> _extensions;
-        private readonly IVsExtensionManager _manager;
         private readonly Purpose _purpose;
 
-        public ImportWindow(IEnumerable<Extension> extensions, IVsExtensionManager manager, Purpose purpose)
+        public ImportWindow(IEnumerable<Extension> extensions, Purpose purpose)
         {
             _extensions = extensions;
-            _manager = manager;
             _purpose = purpose;
             Loaded += ImportWindow_Loaded;
             InitializeComponent();
             Title = Vsix.Name;
         }
 
-        public List<string> SelectedExtensionIds { get; private set; }
+        public List<Extension> SelectedExtension { get; private set; }
 
         private void ImportWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            bool hasCategory = false;
+
+            if (_purpose == Purpose.Install)
+            {
+                var label = new Label
+                {
+                    Content = "New extensions",
+                    Margin = new Thickness(0, 0, 0, 5),
+                    FontWeight = FontWeights.Bold
+                };
+
+                list.Children.Add(label);
+            }
+
             foreach (Extension ext in _extensions)
             {
                 var cb = new CheckBox
                 {
                     Content = ext.Name,
-                    IsChecked = true,
+                    IsChecked = ext.Selected,
                     CommandParameter = ext.ID,
+                    Margin = new Thickness(10, 0, 0, 0),
                 };
 
-                if (_purpose == Purpose.Import && _manager.TryGetInstalledExtension(ext.ID, out IInstalledExtension installed))
+                if (_purpose == Purpose.Install && !ext.Selected)
                 {
+                    if (!hasCategory)
+                    {
+                        hasCategory = true;
+
+                        var label = new Label
+                        {
+                            Content = "Already installed",
+                            Margin = new Thickness(0, 10, 0, 5),
+                            FontWeight = FontWeights.Bold
+                        };
+
+                        list.Children.Add(label);
+                    }
+
                     cb.IsEnabled = false;
-                    cb.IsChecked = false;
-                    cb.Content += " (already installed)";
                 }
 
                 list.Children.Add(cb);
@@ -51,24 +78,39 @@ namespace ExtensionPackTools.Importer
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            SelectedExtensionIds = new List<string>();
+            SelectedExtension = new List<Extension>();
 
             foreach (CheckBox cb in list.Children)
             {
                 if (cb.IsChecked == true && cb.IsEnabled == true)
                 {
-                    SelectedExtensionIds.Add((string)cb.CommandParameter);
+                    SelectedExtension.Add(_extensions.First(ext => ext.ID == (string)cb.CommandParameter));
                 }
             }
 
             DialogResult = true;
             Close();
         }
+
+        public static ImportWindow Open(IEnumerable<Extension> extensions, Purpose purpose)
+        {
+            var dte = Package.GetGlobalService(typeof(EnvDTE.DTE)) as EnvDTE.DTE;
+
+            var dialog = new ImportWindow(extensions, purpose);
+            var hwnd = new IntPtr(dte.MainWindow.HWnd);
+
+            var window = (Window)HwndSource.FromHwnd(hwnd).RootVisual;
+
+            dialog.Owner = window;
+            dialog.ShowDialog();
+
+            return dialog;
+        }
     }
 
     public enum Purpose
     {
-        Import,
-        Export
+        Install,
+        List
     }
 }

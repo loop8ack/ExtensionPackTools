@@ -51,15 +51,20 @@ namespace ExtensionPackTools
                 return;
             }
 
-            string file = File.ReadAllText(filePath);
-            Manifest manifest = JsonConvert.DeserializeObject<Manifest>(file);
+            var manifest = Manifest.FromFile(filePath);
 
-            var dialog = new Importer.ImportWindow(manifest.Extensions, _manager, Importer.Purpose.Import);
-            dialog.ShowDialog();
-
-            if (dialog.DialogResult == true && dialog.SelectedExtensionIds.Any())
+            foreach (Extension ext in manifest.Extensions)
             {
-                List<string> toInstall = dialog.SelectedExtensionIds;
+                ext.Selected = !_manager.TryGetInstalledExtension(ext.ID, out IInstalledExtension installed);
+            }
+
+            IOrderedEnumerable<Extension> sortedList = manifest.Extensions.OrderByDescending(x => x.Selected).ThenBy(x => x.Name);
+
+            var dialog = Importer.ImportWindow.Open(sortedList, Importer.Purpose.Install);
+
+            if (dialog.DialogResult == true && dialog.SelectedExtension.Any())
+            {
+                var toInstall = dialog.SelectedExtension.Select(ext => ext.ID).ToList() ;
 
                 var repository = ServiceProvider.GetService(typeof(SVsExtensionRepository)) as IVsExtensionRepository;
                 IEnumerable<GalleryEntry> marketplaceEntries = repository.GetVSGalleryExtensions<GalleryEntry>(toInstall, 1033, false);

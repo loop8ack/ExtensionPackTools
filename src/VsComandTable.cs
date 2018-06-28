@@ -22,8 +22,10 @@ namespace ExtensionPackTools
     /// </summary>
     internal sealed partial class PackageIds
     {
+        public const int MyMenu = 0x0001;
         public const int MyMenuGroup = 0x1020;
         public const int ExportCmd = 0x0100;
         public const int ImportCmd = 0x0200;
+        public const int ExportSolutionCmd = 0x0300;
     }
 }

@@ -1,26 +1,19 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using Newtonsoft.Json;
 
 namespace ExtensionPackTools
 {
     public class Manifest
     {
-        public Manifest()
-        {
-            Extensions = new List<Extension>();
-        }
+        public Manifest() : this(new List<Extension>())
+        { }
 
-        public Manifest(IEnumerable<GalleryEntry> entries)
+        public Manifest(IEnumerable<Extension> entries)
         {
-            Extensions = entries
-                .OrderBy(e => e.Name)
-                .Select(e => new Extension
-                {
-                    ID = e.VsixID,
-                    Name = e.Name,
-                });
+            Extensions = entries;
         }
 
         [JsonProperty("id")]
@@ -38,13 +31,10 @@ namespace ExtensionPackTools
         [JsonProperty("extensions")]
         public IEnumerable<Extension> Extensions { get; set; }
 
-        public class Extension
+        public static Manifest FromFile(string filePath)
         {
-            [JsonProperty("name")]
-            public string Name { get; set; }
-
-            [JsonProperty("vsixId")]
-            public string ID { get; set; }
+            string file = File.ReadAllText(filePath);
+            return JsonConvert.DeserializeObject<Manifest>(file);
         }
     }
 }

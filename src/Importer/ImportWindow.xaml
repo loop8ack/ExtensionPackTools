@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:ExtensionPackTools.Importer"
              mc:Ignorable="d" 
              local:VsTheme.UseVsTheme="True"
-             Height="300" Width="350" ShowInTaskbar="False" WindowStartupLocation="CenterOwner">
+             Height="320" MaxHeight="700" Width="450" ShowInTaskbar="False" WindowStartupLocation="CenterOwner" SizeToContent="WidthAndHeight">
     <Grid Margin="10 10 10 10">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
@@ -16,10 +16,12 @@
 
         <Label Grid.Row="0" Margin="0 00 0 10">
             <Label.Content>
-                <AccessText TextWrapping="Wrap" Text="Only extensions publicly available on the Visual Studio Marketplace are shown."/>
+                <AccessText TextWrapping="Wrap" Text="Only extensions published to the Visual Studio Marketplace are shown."/>
             </Label.Content>
         </Label>
-        <StackPanel Grid.Row="1" Name="list" Orientation="Vertical" Margin="10 0 0 0"/>
+        <ScrollViewer Grid.Row="1" Margin="0 0 0 20" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Hidden">
+            <StackPanel Name="list" Orientation="Vertical"/>
+        </ScrollViewer>
 
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Content="Select" IsDefault="true" Click="Button_Click" Margin="0 0 0 0"/>
