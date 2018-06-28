@@ -87,7 +87,7 @@ namespace ExtensionPackTools.Importer
         {
             SelectedExtension = new List<Extension>();
 
-            foreach (CheckBox cb in list.Children)
+            foreach (CheckBox cb in list.Children.OfType<CheckBox>())
             {
                 if (cb.IsChecked == true && cb.IsEnabled == true)
                 {
