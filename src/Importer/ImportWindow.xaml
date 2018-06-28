@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:ExtensionPackTools.Importer"
              mc:Ignorable="d" 
              local:VsTheme.UseVsTheme="True"
-             Height="320" MaxHeight="700" Width="450" ShowInTaskbar="False" WindowStartupLocation="CenterOwner" SizeToContent="WidthAndHeight">
+             Height="320" MaxHeight="700" Width="400" ShowInTaskbar="False" WindowStartupLocation="CenterOwner" SizeToContent="Height">
     <Grid Margin="10 10 10 10">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
@@ -14,17 +14,19 @@
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
-        <Label Grid.Row="0" Margin="0 00 0 10">
+        <Label Grid.Row="0" Name="lblMessage" Margin="0 00 0 10">
             <Label.Content>
                 <AccessText TextWrapping="Wrap" Text="Only extensions published to the Visual Studio Marketplace are shown."/>
             </Label.Content>
         </Label>
         <ScrollViewer Grid.Row="1" Margin="0 0 0 20" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Hidden">
-            <StackPanel Name="list" Orientation="Vertical"/>
+            <Border BorderThickness="1" BorderBrush="DarkGray">
+                <StackPanel Name="list" Orientation="Vertical" Margin="5,5,5,10"/>
+            </Border>
         </ScrollViewer>
 
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Content="Select" IsDefault="true" Click="Button_Click" Margin="0 0 0 0"/>
+            <Button Content="Select" Name="btnOk" IsDefault="true" Click="Button_Click" Margin="0 0 0 0"/>
             <Button Content="Cancel" IsCancel="true" Margin="10 0 0 0"/>
         </StackPanel>
 

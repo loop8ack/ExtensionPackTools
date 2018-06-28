@@ -16,13 +16,20 @@ namespace ExtensionPackTools.Importer
         private readonly IEnumerable<Extension> _extensions;
         private readonly Purpose _purpose;
 
-        public ImportWindow(IEnumerable<Extension> extensions, Purpose purpose)
+        public ImportWindow(IEnumerable<Extension> extensions, Purpose purpose, string text = null)
         {
             _extensions = extensions;
             _purpose = purpose;
             Loaded += ImportWindow_Loaded;
             InitializeComponent();
             Title = Vsix.Name;
+
+            if (!string.IsNullOrEmpty(text))
+            {
+                lblMessage.Content = text;
+            }
+
+                btnOk.Content = purpose == Purpose.Install ? "Install..." : "Select";
         }
 
         public List<Extension> SelectedExtension { get; private set; }
@@ -31,11 +38,11 @@ namespace ExtensionPackTools.Importer
         {
             bool hasCategory = false;
 
-            if (_purpose == Purpose.Install)
+            if (_extensions.FirstOrDefault()?.Selected == true)
             {
                 var label = new Label
                 {
-                    Content = "New extensions",
+                    Content = "Extensions",
                     Margin = new Thickness(0, 0, 0, 5),
                     FontWeight = FontWeights.Bold
                 };
@@ -92,11 +99,11 @@ namespace ExtensionPackTools.Importer
             Close();
         }
 
-        public static ImportWindow Open(IEnumerable<Extension> extensions, Purpose purpose)
+        public static ImportWindow Open(IEnumerable<Extension> extensions, Purpose purpose, string msg = null)
         {
             var dte = Package.GetGlobalService(typeof(EnvDTE.DTE)) as EnvDTE.DTE;
 
-            var dialog = new ImportWindow(extensions, purpose);
+            var dialog = new ImportWindow(extensions, purpose, msg);
             var hwnd = new IntPtr(dte.MainWindow.HWnd);
 
             var window = (Window)HwndSource.FromHwnd(hwnd).RootVisual;

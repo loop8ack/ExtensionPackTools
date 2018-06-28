@@ -31,6 +31,14 @@ namespace ExtensionPackTools
         [JsonProperty("extensions")]
         public IEnumerable<Extension> Extensions { get; set; }
 
+        public void MarkSelected(IEnumerable<Extension> installed)
+        {
+            foreach (Extension ext in Extensions)
+            {
+                ext.Selected = !installed.Contains(ext);
+            }
+        }
+
         public static Manifest FromFile(string filePath)
         {
             string file = File.ReadAllText(filePath);
