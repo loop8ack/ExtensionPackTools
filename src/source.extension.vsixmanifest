@@ -2,8 +2,9 @@
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
         <Identity Id="e83d71b8-8bfc-4e06-b145-b0388910c016" Version="0.1" Language="en-US" Publisher="Mads Kristensen" />
-        <DisplayName>Extension Pack Tools</DisplayName>
-        <Description xml:space="preserve">Tools for creating Visual Studio extension packs</Description>
+        <DisplayName>Extension Manager</DisplayName>
+        <Description xml:space="preserve">Import/export extensions as well as associate extensions with individual solutions</Description>
+        <MoreInfo>https://github.com/madskristensen/ExtensionPackTools</MoreInfo>
         <License>Resources\LICENSE</License>
         <Icon>Resources\icon.png</Icon>
         <PreviewImage>Resources\icon.png</PreviewImage>

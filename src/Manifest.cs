@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
 
-namespace ExtensionPackTools
+namespace ExtensionManager
 {
     public class Manifest
     {

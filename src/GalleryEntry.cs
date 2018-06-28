@@ -2,7 +2,7 @@
 using System.Windows.Media.Imaging;
 using Microsoft.VisualStudio.ExtensionManager;
 
-namespace ExtensionPackTools
+namespace ExtensionManager
 {
     public class GalleryEntry : GalleryOnlineExtension, IRepositoryEntry
     {

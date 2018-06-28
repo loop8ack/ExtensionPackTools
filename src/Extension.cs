@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.ExtensionManager;
 using Newtonsoft.Json;
 
-namespace ExtensionPackTools
+namespace ExtensionManager
 {
     public class Extension
     {

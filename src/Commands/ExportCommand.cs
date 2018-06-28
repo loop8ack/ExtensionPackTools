@@ -8,7 +8,7 @@ using Microsoft.VisualStudio.ExtensionManager;
 using Microsoft.VisualStudio.Shell;
 using Newtonsoft.Json;
 
-namespace ExtensionPackTools
+namespace ExtensionManager
 {
     internal sealed class ExportCommand
     {
@@ -37,12 +37,13 @@ namespace ExtensionPackTools
 
         private void Execute(object sender, EventArgs e)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             var manager = ServiceProvider.GetService(typeof(SVsExtensionManager)) as IVsExtensionManager;
             var repository = ServiceProvider.GetService(typeof(SVsExtensionRepository)) as IVsExtensionRepository;
 
             try
             {
-                IEnumerable<Extension> extensions = ExtensionHelpers.GetInstalledExtensions(manager, repository);
+                IEnumerable<Extension> extensions = Helpers.GetInstalledExtensions(manager, repository);
 
                 var dialog = Importer.ImportWindow.Open(extensions, Importer.Purpose.List);
 

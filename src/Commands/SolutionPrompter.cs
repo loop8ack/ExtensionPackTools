@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using Microsoft.VisualStudio.ExtensionManager;
 
-namespace ExtensionPackTools
+namespace ExtensionManager
 {
     public class SolutionPrompter
     {
@@ -23,7 +23,7 @@ namespace ExtensionPackTools
             }
 
             var manifest = Manifest.FromFile(fileName);
-            IEnumerable<Extension> installed = ExtensionHelpers.GetInstalledExtensions(_manager, _repository);
+            IEnumerable<Extension> installed = Helpers.GetInstalledExtensions(_manager, _repository);
             manifest.MarkSelected(installed);
 
             if (manifest.Extensions.Any(e => e.Selected))

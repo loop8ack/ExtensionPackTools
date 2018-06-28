@@ -1,18 +1,17 @@
-﻿using Microsoft.VisualStudio;
-using Microsoft.VisualStudio.ExtensionManager;
-using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Events;
-using Microsoft.VisualStudio.Shell.Interop;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel.Design;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.VisualStudio;
+using Microsoft.VisualStudio.ExtensionManager;
+using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Events;
+using Microsoft.VisualStudio.Shell.Interop;
 using Task = System.Threading.Tasks.Task;
 
-namespace ExtensionPackTools
+namespace ExtensionManager
 {
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
     [InstalledProductRegistration("#110", "#112", Vsix.Version, IconResourceID = 400)]
@@ -30,7 +29,10 @@ namespace ExtensionPackTools
 
             if (isSolutionLoaded)
             {
-                HandleOpenSolutionAsync(solService, cancellationToken);//.FileAndForget($"{nameof(SuggestedExtensions)}/{nameof(HandleOpenSolutionAsync)}");
+                JoinableTaskFactory.RunAsync(() =>
+                {
+                    return HandleOpenSolutionAsync(solService, cancellationToken);
+                }).FileAndForget($"{nameof(ExtensionManager)}/{nameof(HandleOpenSolutionAsync)}"); ;
             }
 
             // Listen for subsequent solution events
@@ -56,13 +58,14 @@ namespace ExtensionPackTools
         private async Task HandleOpenSolutionAsync(IVsSolution solService, CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
+            {
                 return;
+            }
 
             await JoinableTaskFactory.SwitchToMainThreadAsync();
 
             ErrorHandler.ThrowOnFailure(solService.GetProperty((int)__VSPROPID.VSPROPID_SolutionFileName, out object value));
 
-            
             if (value is string solFileName && !string.IsNullOrEmpty(solFileName))
             {
                 string fileName = Path.ChangeExtension(solFileName, ".vsext");

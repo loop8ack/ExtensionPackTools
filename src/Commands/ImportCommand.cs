@@ -10,10 +10,9 @@ using Microsoft.VisualStudio.ExtensionManager;
 using Microsoft.VisualStudio.Setup.Configuration;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
-using Newtonsoft.Json;
 using Task = System.Threading.Tasks.Task;
 
-namespace ExtensionPackTools
+namespace ExtensionManager
 {
     internal sealed class ImportCommand
     {
@@ -46,6 +45,8 @@ namespace ExtensionPackTools
 
         private void Execute(object sender, EventArgs e)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
             if (!TryGetFilePath(out string filePath))
             {
                 return;
@@ -86,7 +87,7 @@ namespace ExtensionPackTools
 
         private static string PrepareTempDir()
         {
-            string tempDir = Path.Combine(Path.GetTempPath(), nameof(ExtensionPackTools));
+            string tempDir = Path.Combine(Path.GetTempPath(), nameof(ExtensionManager));
 
             if (Directory.Exists(tempDir))
             {

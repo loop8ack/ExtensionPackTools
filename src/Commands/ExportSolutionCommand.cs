@@ -10,7 +10,7 @@ using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Newtonsoft.Json;
 
-namespace ExtensionPackTools
+namespace ExtensionManager
 {
     internal sealed class ExportSolutionCommand
     {
@@ -39,6 +39,8 @@ namespace ExtensionPackTools
 
         private void Execute(object sender, EventArgs e)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
             var manager = ServiceProvider.GetService(typeof(SVsExtensionManager)) as IVsExtensionManager;
             var repository = ServiceProvider.GetService(typeof(SVsExtensionRepository)) as IVsExtensionRepository;
             var dte = ServiceProvider.GetService(typeof(DTE)) as DTE;
@@ -47,7 +49,7 @@ namespace ExtensionPackTools
 
             try
             {
-                var extensions = ExtensionHelpers.GetInstalledExtensions(manager, repository).ToList(); 
+                var extensions = Helpers.GetInstalledExtensions(manager, repository).ToList(); 
 
                 if (File.Exists(fileName))
                 {
