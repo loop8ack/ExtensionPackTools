@@ -53,9 +53,7 @@ namespace ExtensionManager
             var manifest = Manifest.FromFile(filePath);
             manifest.MarkSelected(_es.GetInstalledExtensions());
             
-            IOrderedEnumerable<Extension> sortedList = manifest.Extensions.OrderByDescending(x => x.Selected).ThenBy(x => x.Name);
-
-            var dialog = Importer.ImportWindow.Open(sortedList, Importer.Purpose.Install);
+            var dialog = Importer.ImportWindow.Open(manifest.Extensions, Importer.Purpose.Install);
 
             if (dialog.DialogResult == true && dialog.SelectedExtension.Any())
             {

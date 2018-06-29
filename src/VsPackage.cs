@@ -75,8 +75,11 @@ namespace ExtensionManager
             {
                 string fileName = Path.ChangeExtension(solFileName, ".vsext");
 
-                var prompter = new SolutionPrompter(es);
-                prompter.Check(fileName);
+                await ThreadHelper.JoinableTaskFactory.StartOnIdle(() =>
+                {
+                    var prompter = new SolutionPrompter(es);
+                    prompter.Check(fileName);
+                });
             }
         }
     }

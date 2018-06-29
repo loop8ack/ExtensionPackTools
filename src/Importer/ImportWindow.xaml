@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:ExtensionManager.Importer"
              mc:Ignorable="d" 
              local:VsTheme.UseVsTheme="True"
-             Height="320" MaxHeight="400" Width="400" ShowInTaskbar="False" WindowStartupLocation="CenterOwner" SizeToContent="Height" WindowStyle="None" AllowsTransparency="True">
+             Height="320" MaxHeight="400" Width="400" BorderBrush="DarkGray" BorderThickness="1" ShowInTaskbar="False" WindowStartupLocation="CenterOwner" SizeToContent="Height" WindowStyle="None" AllowsTransparency="True">
     <Grid Margin="10 10 10 10">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />

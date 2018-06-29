@@ -34,6 +34,12 @@ namespace ExtensionManager.Importer
         private void ImportWindow_Loaded(object sender, RoutedEventArgs e)
         {
             bool hasCategory = false;
+            IEnumerable<Extension> sortedList = _extensions;
+
+            if (_purpose == Purpose.Install)
+            {
+                sortedList = _extensions.OrderByDescending(x => x.Selected).ThenBy(x => x.Name);
+            }
 
             if (_extensions.FirstOrDefault()?.Selected == true)
             {
@@ -47,7 +53,7 @@ namespace ExtensionManager.Importer
                 list.Children.Add(label);
             }
 
-            foreach (Extension ext in _extensions)
+            foreach (Extension ext in sortedList)
             {
                 var cb = new CheckBox
                 {
