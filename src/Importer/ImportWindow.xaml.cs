@@ -4,14 +4,10 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interop;
-using Microsoft.VisualStudio.Imaging;
 using Microsoft.VisualStudio.Shell;
 
 namespace ExtensionManager.Importer
 {
-    /// <summary>
-    /// Interaction logic for ImportWindow.xaml
-    /// </summary>
     public partial class ImportWindow : Window
     {
         private readonly IEnumerable<Extension> _extensions;
@@ -31,7 +27,6 @@ namespace ExtensionManager.Importer
             }
 
             btnOk.Content = purpose == Purpose.Install ? "Install..." : "Select";
-            Icon = Helpers.GetIconForImageMoniker(KnownMonikers.VBExtension, 16, 16);
         }
 
         public List<Extension> SelectedExtension { get; private set; }

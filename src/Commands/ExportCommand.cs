@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.IO;
-using System.Linq;
 using System.Windows.Forms;
-using Microsoft.VisualStudio.ExtensionManager;
 using Microsoft.VisualStudio.Shell;
 using Newtonsoft.Json;
 
@@ -13,10 +11,12 @@ namespace ExtensionManager
     internal sealed class ExportCommand
     {
         private readonly Package _package;
+        private readonly ExtensionService _es;
 
-        private ExportCommand(Package package, OleMenuCommandService commandService)
+        private ExportCommand(Package package, OleMenuCommandService commandService, ExtensionService es)
         {
             _package = package ?? throw new ArgumentNullException(nameof(package));
+            _es = es;
 
             var cmdId = new CommandID(PackageGuids.guidExportPackageCmdSet, PackageIds.ExportCmd);
             var cmd = new MenuCommand(Execute, cmdId);
@@ -30,20 +30,18 @@ namespace ExtensionManager
             get { return _package; }
         }
 
-        public static void Initialize(Package package, OleMenuCommandService commandService)
+        public static void Initialize(Package package, OleMenuCommandService commandService, ExtensionService es)
         {
-            Instance = new ExportCommand(package, commandService);
+            Instance = new ExportCommand(package, commandService, es);
         }
 
         private void Execute(object sender, EventArgs e)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
-            var manager = ServiceProvider.GetService(typeof(SVsExtensionManager)) as IVsExtensionManager;
-            var repository = ServiceProvider.GetService(typeof(SVsExtensionRepository)) as IVsExtensionRepository;
 
             try
             {
-                IEnumerable<Extension> extensions = Helpers.GetInstalledExtensions(manager, repository);
+                IEnumerable<Extension> extensions = _es.GetInstalledExtensions();
 
                 var dialog = Importer.ImportWindow.Open(extensions, Importer.Purpose.List);
 

@@ -24,25 +24,30 @@ namespace ExtensionManager
         {
             await JoinableTaskFactory.SwitchToMainThreadAsync();
 
+            var manager = await GetServiceAsync(typeof(SVsExtensionManager)) as IVsExtensionManager;
+            var repository = await GetServiceAsync(typeof(SVsExtensionRepository)) as IVsExtensionRepository;
+
+            var extService = new ExtensionService(manager, repository);
             var solService = await GetServiceAsync(typeof(SVsSolution)) as IVsSolution;
+
             bool isSolutionLoaded = await IsSolutionLoadedAsync(solService);
 
             if (isSolutionLoaded)
             {
                 JoinableTaskFactory.RunAsync(() =>
                 {
-                    return HandleOpenSolutionAsync(solService, cancellationToken);
+                    return HandleOpenSolutionAsync(solService, extService, cancellationToken);
                 }).FileAndForget($"{nameof(ExtensionManager)}/{nameof(HandleOpenSolutionAsync)}"); ;
             }
 
             // Listen for subsequent solution events
-            SolutionEvents.OnAfterOpenSolution += (s, e) => HandleOpenSolutionAsync(solService, cancellationToken).ConfigureAwait(false);
+            SolutionEvents.OnAfterOpenSolution += (s, e) => HandleOpenSolutionAsync(solService, extService, cancellationToken).ConfigureAwait(false);
 
             if (await GetServiceAsync(typeof(IMenuCommandService)) is OleMenuCommandService commandService)
             {
-                ExportCommand.Initialize(this, commandService);
-                ExportSolutionCommand.Initialize(this, commandService);
-                await ImportCommand.InitializeAsync(this, commandService);
+                ExportCommand.Initialize(this, commandService, extService);
+                ExportSolutionCommand.Initialize(this, commandService, extService);
+                ImportCommand.Initialize(this, commandService, extService);
             }
         }
 
@@ -55,7 +60,7 @@ namespace ExtensionManager
             return value is bool isSolOpen && isSolOpen;
         }
 
-        private async Task HandleOpenSolutionAsync(IVsSolution solService, CancellationToken cancellationToken)
+        private async Task HandleOpenSolutionAsync(IVsSolution solService, ExtensionService es, CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
             {
@@ -69,10 +74,8 @@ namespace ExtensionManager
             if (value is string solFileName && !string.IsNullOrEmpty(solFileName))
             {
                 string fileName = Path.ChangeExtension(solFileName, ".vsext");
-                var manager = await GetServiceAsync(typeof(SVsExtensionManager)) as IVsExtensionManager;
-                var repository = await GetServiceAsync(typeof(SVsExtensionRepository)) as IVsExtensionRepository;
 
-                var prompter = new SolutionPrompter(manager, repository);
+                var prompter = new SolutionPrompter(es);
                 prompter.Check(fileName);
             }
         }

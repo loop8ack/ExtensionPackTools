@@ -15,13 +15,19 @@ namespace ExtensionManager
     internal sealed class ExportSolutionCommand
     {
         private readonly Package _package;
+        private readonly ExtensionService _es;
 
-        private ExportSolutionCommand(Package package, OleMenuCommandService commandService)
+        private ExportSolutionCommand(Package package, OleMenuCommandService commandService, ExtensionService es)
         {
             _package = package ?? throw new ArgumentNullException(nameof(package));
+            _es = es;
 
             var cmdId = new CommandID(PackageGuids.guidExportPackageCmdSet, PackageIds.ExportSolutionCmd);
-            var cmd = new MenuCommand(Execute, cmdId);
+            var cmd = new MenuCommand(Execute, cmdId)
+            {
+                Supported = false
+            };
+
             commandService.AddCommand(cmd);
         }
 
@@ -32,24 +38,21 @@ namespace ExtensionManager
             get { return _package; }
         }
 
-        public static void Initialize(Package package, OleMenuCommandService commandService)
+        public static void Initialize(Package package, OleMenuCommandService commandService, ExtensionService es)
         {
-            Instance = new ExportSolutionCommand(package, commandService);
+            Instance = new ExportSolutionCommand(package, commandService, es);
         }
 
         private void Execute(object sender, EventArgs e)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
 
-            var manager = ServiceProvider.GetService(typeof(SVsExtensionManager)) as IVsExtensionManager;
-            var repository = ServiceProvider.GetService(typeof(SVsExtensionRepository)) as IVsExtensionRepository;
             var dte = ServiceProvider.GetService(typeof(DTE)) as DTE;
-
             string fileName = Path.ChangeExtension(dte.Solution.FileName, ".vsext");
 
             try
             {
-                var extensions = Helpers.GetInstalledExtensions(manager, repository).ToList(); 
+                var extensions = _es.GetInstalledExtensions().ToList(); 
 
                 if (File.Exists(fileName))
                 {

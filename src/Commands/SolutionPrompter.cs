@@ -1,29 +1,30 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Microsoft.VisualStudio.ExtensionManager;
+using Microsoft.VisualStudio.Shell;
 
 namespace ExtensionManager
 {
     public class SolutionPrompter
     {
-        private readonly IVsExtensionManager _manager;
-        private readonly IVsExtensionRepository _repository;
+        private readonly ExtensionService _extService;
 
-        public SolutionPrompter(IVsExtensionManager manager, IVsExtensionRepository repository)
+        public SolutionPrompter(ExtensionService extService)
         {
-            _manager = manager;
-            _repository = repository;
+            _extService = extService;
         }
+
         public void Check(string fileName)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
             if (!File.Exists(fileName))
             {
                 return;
             }
 
             var manifest = Manifest.FromFile(fileName);
-            IEnumerable<Extension> installed = Helpers.GetInstalledExtensions(_manager, _repository);
+            IEnumerable<Extension> installed = _extService.GetInstalledExtensions();
             manifest.MarkSelected(installed);
 
             if (manifest.Extensions.Any(e => e.Selected))

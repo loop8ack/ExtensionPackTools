@@ -17,13 +17,12 @@ namespace ExtensionManager
     internal sealed class ImportCommand
     {
         private readonly Package _package;
-        private readonly IVsExtensionManager _manager;
+        private readonly ExtensionService _es;
 
-        private ImportCommand(Package package, OleMenuCommandService commandService, IVsExtensionManager manager)
+        private ImportCommand(Package package, OleMenuCommandService commandService, ExtensionService es)
         {
-            ThreadHelper.ThrowIfNotOnUIThread();
             _package = package ?? throw new ArgumentNullException(nameof(package));
-            _manager = manager;
+            _es = es;
 
             var cmdId = new CommandID(PackageGuids.guidExportPackageCmdSet, PackageIds.ImportCmd);
             var cmd = new MenuCommand(Execute, cmdId);
@@ -37,10 +36,9 @@ namespace ExtensionManager
             get { return _package; }
         }
 
-        public static async Task InitializeAsync(AsyncPackage package, OleMenuCommandService commandService)
+        public static void Initialize(AsyncPackage package, OleMenuCommandService commandService, ExtensionService es)
         {
-            var manager = await package.GetServiceAsync(typeof(SVsExtensionManager)) as IVsExtensionManager;
-            Instance = new ImportCommand(package, commandService, manager);
+            Instance = new ImportCommand(package, commandService, es);
         }
 
         private void Execute(object sender, EventArgs e)
@@ -53,12 +51,8 @@ namespace ExtensionManager
             }
 
             var manifest = Manifest.FromFile(filePath);
-
-            foreach (Extension ext in manifest.Extensions)
-            {
-                ext.Selected = !_manager.TryGetInstalledExtension(ext.ID, out IInstalledExtension installed);
-            }
-
+            manifest.MarkSelected(_es.GetInstalledExtensions());
+            
             IOrderedEnumerable<Extension> sortedList = manifest.Extensions.OrderByDescending(x => x.Selected).ThenBy(x => x.Name);
 
             var dialog = Importer.ImportWindow.Open(sortedList, Importer.Purpose.Install);
