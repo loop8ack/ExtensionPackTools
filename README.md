@@ -6,9 +6,13 @@
 
 This extension allows you to export a list of extensions and importing them back into any instance of VS 2017.
 
+![Tools menu](art/menu_tools.png)
+
 ## Export
 
-![Tools menu](art/menu_tools.png)
+A dialog appears that lets you select which extensions you wish to export.
+
+![Export](art/export.png)
 
 The output is a JSON file with an .vsext file extension looking like this:
 
@@ -43,6 +47,19 @@ Clicking the import button prompts you to select a .vsext file. Doing that will 
 Before showing the list it will verify that the extensions exist on the Marketplace and that can take a few seconds.
 
 Clicking the **Select** button in the dialog will start the VSIX Installer in a separate process and you can follow the normal install flow from there.
+
+## Manage solution extensions
+This allows you to specify which extensions needed to work on any given solution. When a developer opens the solution and doesn't have one or more of the extensions installed, they are prompted to install them.
+
+Right-click the solution to manage the extensions.
+
+![Context menu](art/context-menu.png)
+
+This will show this dialog where you can pick wich of your extensions to associate with the solution.
+
+![Manage solution extensions](art/manage-solution-extensions.png)
+
+When clicking **Select** a .vsext file will be created and placed next to the solution file (.sln). You should commit the generated .vsext file to souce control.
 
 ## License
 [Apache 2.0](LICENSE)

@@ -48,6 +48,13 @@ namespace ExtensionManager
             ThreadHelper.ThrowIfNotOnUIThread();
 
             var dte = ServiceProvider.GetService(typeof(DTE)) as DTE;
+
+            if (string.IsNullOrEmpty(dte.Solution?.FileName))
+            {
+                ShowMessageBox("The solution must be saved in order to manage solution extensions.");
+                return;
+            }
+
             string fileName = Path.ChangeExtension(dte.Solution.FileName, ".vsext");
 
             try
@@ -78,15 +85,20 @@ namespace ExtensionManager
             }
             catch (Exception ex)
             {
-                VsShellUtilities.ShowMessageBox(
+                ShowMessageBox(ex.Message);
+            }
+        }
+
+        private void ShowMessageBox(string message)
+        {
+            VsShellUtilities.ShowMessageBox(
                     ServiceProvider,
-                    ex.Message,
+                    message,
                     Vsix.Name,
                     OLEMSGICON.OLEMSGICON_WARNING,
                     OLEMSGBUTTON.OLEMSGBUTTON_OK,
                     OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST
                 );
-            }
         }
 
         private bool TryGetFilePath(out string filePath)
