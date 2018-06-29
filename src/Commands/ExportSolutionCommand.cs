@@ -71,6 +71,13 @@ namespace ExtensionManager
                         ext.Selected = manifest.Extensions.Contains(ext);
                     }
                 }
+                else
+                {
+                    foreach (Extension ext in extensions)
+                    {
+                        ext.Selected = false;
+                    }
+                }
 
                 var dialog = Importer.ImportWindow.Open(extensions, Importer.Purpose.List);
 

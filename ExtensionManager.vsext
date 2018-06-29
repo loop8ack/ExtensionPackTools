@@ -1,0 +1,12 @@
+{
+  "id": "4333311c-b344-414b-9c7b-01499ab5ae93",
+  "name": "My Visual Studio extensions",
+  "description": "A collection of my Visual Studio extensions",
+  "version": "1.0",
+  "extensions": [
+    {
+      "name": "Extensibility Tools",
+      "vsixId": "f8330d54-0469-43a7-8fc0-7f19febeb897"
+    }
+  ]
+}
