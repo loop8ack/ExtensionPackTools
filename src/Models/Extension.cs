@@ -15,7 +15,7 @@ namespace ExtensionManager
         public string MoreInfoUrl { get; set; }
 
         [JsonIgnore]
-        public bool Selected { get; set; } = true;
+        public bool Selected { get; set; }
 
         public static Extension FromGalleryExtension(GalleryEntry entry)
         {

@@ -104,6 +104,8 @@ namespace ExtensionManager.Importer
 
         public static ImportWindow Open(IEnumerable<Extension> extensions, Purpose purpose, string msg = null)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
             var dte = Package.GetGlobalService(typeof(EnvDTE.DTE)) as EnvDTE.DTE;
 
             var dialog = new ImportWindow(extensions, purpose, msg);

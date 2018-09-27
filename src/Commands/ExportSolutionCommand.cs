@@ -5,6 +5,8 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using EnvDTE;
+using ExtensionManager.Importer;
+using Microsoft;
 using Microsoft.VisualStudio.ExtensionManager;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
@@ -48,6 +50,7 @@ namespace ExtensionManager
             ThreadHelper.ThrowIfNotOnUIThread();
 
             var dte = ServiceProvider.GetService(typeof(DTE)) as DTE;
+            Assumes.Present(dte);
 
             if (string.IsNullOrEmpty(dte.Solution?.FileName))
             {
@@ -79,7 +82,7 @@ namespace ExtensionManager
                     }
                 }
 
-                var dialog = Importer.ImportWindow.Open(extensions, Importer.Purpose.List);
+                var dialog = ImportWindow.Open(extensions, Purpose.List);
 
                 if (dialog.DialogResult == true)
                 {
