@@ -56,7 +56,7 @@ namespace ExtensionManager
 
             var manifest = Manifest.FromFile(filePath);
             manifest.MarkSelected(_es.GetInstalledExtensions());
-            
+
             var dialog = ImportWindow.Open(manifest.Extensions, Purpose.Install);
 
             if (dialog.DialogResult == true && dialog.SelectedExtension.Any())
@@ -79,7 +79,7 @@ namespace ExtensionManager
                 ThreadHelper.JoinableTaskFactory.RunAsync(async () =>
                 {
                     await DownloadExtensionAsync(marketplaceEntries, tempDir);
-                    
+
                     InvokeVsixInstaller(tempDir, rootSuffix);
 
                     await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
