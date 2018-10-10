@@ -1,6 +1,6 @@
-﻿using ExtensionManager;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Runtime.InteropServices;
+using ExtensionManager;
 
 [assembly: AssemblyTitle(Vsix.Name)]
 [assembly: AssemblyDescription(Vsix.Description)]
