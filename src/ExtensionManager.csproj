@@ -130,13 +130,10 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Madskristensen.VisualStudio.SDK">
-      <Version>15.7.68-pre</Version>
+      <Version>15.7.72-pre</Version>
     </PackageReference>
     <PackageReference Include="Madskristensen.VSSDK.Resourcer">
       <Version>1.0.10</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Setup.Configuration.Interop">
-      <Version>1.16.30</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.VSSDK.BuildTools">
       <Version>15.8.3252</Version>
