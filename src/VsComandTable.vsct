@@ -47,6 +47,12 @@
     </Buttons>
   </Commands>
 
+  <CommandPlacements>
+    <CommandPlacement guid="guidExportPackageCmdSet" id="MyMenu" priority="0xFFFF">
+      <Parent guid="guidExtensionMenu" id="guidExtensionMenuGroup" />
+    </CommandPlacement>
+  </CommandPlacements>
+
   <VisibilityConstraints>
     <VisibilityItem guid="guidExportPackageCmdSet" id="ExportSolutionCmd" context="UICONTEXT_SolutionHasMultipleProjects" />
     <VisibilityItem guid="guidExportPackageCmdSet" id="ExportSolutionCmd" context="UICONTEXT_SolutionHasSingleProject" />
@@ -61,6 +67,10 @@
       <IDSymbol name="ExportCmd" value="0x0100" />
       <IDSymbol name="ImportCmd" value="0x0200" />
       <IDSymbol name="ExportSolutionCmd" value="0x0300" />
+    </GuidSymbol>
+
+    <GuidSymbol name="guidExtensionMenu" value="{d309f791-903f-11d0-9efc-00a0c911004f}">
+      <IDSymbol name="guidExtensionMenuGroup" value="0x6000" />
     </GuidSymbol>
   </Symbols>
 </CommandTable>

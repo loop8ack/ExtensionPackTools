@@ -31,10 +31,5 @@ namespace ExtensionManager
                 .Select(e => Extension.FromGalleryExtension(e))
                 .OrderBy(e => e.Name);
         }
-
-        public bool IsInstalled(string identifier)
-        {
-            return _manager.TryGetInstalledExtension(identifier, out IInstalledExtension result);
-        }
     }
 }
