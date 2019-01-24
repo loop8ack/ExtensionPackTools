@@ -16,7 +16,7 @@
       <Menu guid="guidExportPackageCmdSet" id="MyMenu" priority="0x9999" type="Menu">
         <Parent guid="guidSHLMainMenu" id="IDG_VS_TOOLS_EXTENSIBILITY"/>
         <Strings>
-          <ButtonText>Import/Export Extensions</ButtonText>
+          <ButtonText>Import and Export Extensions</ButtonText>
         </Strings>
       </Menu>
     </Menus>
