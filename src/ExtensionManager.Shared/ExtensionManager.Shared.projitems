@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>2ab1d114-bf6f-4093-85bb-cd64886604de</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>ExtensionManager.Shared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Commands\ExportCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Commands\ExportSolutionCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Commands\ImportCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Commands\SolutionPrompter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExtensionService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Importer\ImportWindow.xaml.cs">
+      <DependentUpon>ImportWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Importer\VsTheme.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Extension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Manifest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Properties\AssemblyInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)VsPackage.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)Importer\ImportWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+</Project>
