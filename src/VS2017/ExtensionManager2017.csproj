@@ -16,7 +16,7 @@
     <ProjectGuid>{4D43C293-951C-4F14-B304-C1B256B70DA6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>ExtensionManager</RootNamespace>
-    <AssemblyName>ExtensionManager</AssemblyName>
+    <AssemblyName>ExtensionManager2017</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <GeneratePkgDefFile>true</GeneratePkgDefFile>
     <IncludeAssemblyInVSIXContainer>true</IncludeAssemblyInVSIXContainer>

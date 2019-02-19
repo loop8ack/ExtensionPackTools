@@ -11,7 +11,7 @@ namespace ExtensionManager
         public const string Name = "Extension Manager 2019";
         public const string Description = @"Import/export extensions as well as associate extensions with individual solutions";
         public const string Language = "en-US";
-        public const string Version = "0.5.999";
+        public const string Version = "0.6.999";
         public const string Author = "Mads Kristensen";
         public const string Tags = "extension pack, vsix";
     }
