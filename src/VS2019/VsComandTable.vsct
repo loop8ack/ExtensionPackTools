@@ -14,7 +14,7 @@
 
     <Menus>
       <Menu guid="guidExportPackageCmdSet" id="MyMenu" priority="0x9999" type="Menu">
-        <Parent guid="guidSHLMainMenu" id="IDG_VS_TOOLS_EXTENSIBILITY"/>
+        <Parent guid="guidExtensionMenu" id="guidExtensionMenuGroup"/>
         <Strings>
           <ButtonText>Import and Export Extensions</ButtonText>
         </Strings>
@@ -46,12 +46,6 @@
       </Button>
     </Buttons>
   </Commands>
-
-  <CommandPlacements>
-    <CommandPlacement guid="guidExportPackageCmdSet" id="MyMenu" priority="0xFFFF">
-      <Parent guid="guidExtensionMenu" id="guidExtensionMenuGroup" />
-    </CommandPlacement>
-  </CommandPlacements>
 
   <VisibilityConstraints>
     <VisibilityItem guid="guidExportPackageCmdSet" id="ExportSolutionCmd" context="UICONTEXT_SolutionHasMultipleProjects" />
