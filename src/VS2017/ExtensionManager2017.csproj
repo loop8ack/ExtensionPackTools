@@ -110,6 +110,9 @@
     <PackageReference Include="Madskristensen.VisualStudio.SDK" ExcludeAssets="runtime">
       <Version>15.7.81-pre</Version>
     </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.SDK.Analyzers">
+      <Version>15.8.36</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.VSSDK.BuildTools">
       <Version>16.0.2250</Version>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
