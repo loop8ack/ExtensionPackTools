@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.IO;
-using System.Windows.Forms;
 using Microsoft.VisualStudio.Shell;
 using Newtonsoft.Json;
+using static ExtensionManager.FilePathHelpers;
 
 namespace ExtensionManager
 {
@@ -70,28 +70,6 @@ namespace ExtensionManager
                     Microsoft.VisualStudio.Shell.Interop.OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST
                 );
             }
-        }
-
-        private bool TryGetFilePath(out string filePath)
-        {
-            filePath = null;
-
-            using (var sfd = new SaveFileDialog())
-            {
-                sfd.DefaultExt = ".vsext";
-                sfd.FileName = "extensions";
-                sfd.Filter = "VSEXT File|*.vsext";
-
-                DialogResult result = sfd.ShowDialog();
-
-                if (result == DialogResult.OK)
-                {
-                    filePath = sfd.FileName;
-                    return true;
-                }
-            }
-
-            return false;
         }
     }
 }
