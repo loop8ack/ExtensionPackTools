@@ -129,10 +129,11 @@ namespace ExtensionManager
         private async Task DownloadExtensionAsync(IEnumerable<GalleryEntry> entries, string dir)
         {
             var tasks = new List<Task>();
+            int incrementor = 0;
 
             foreach (GalleryEntry entry in entries)
             {
-                string localPath = Path.Combine(dir, Guid.NewGuid() + ".vsix");
+                string localPath = Path.Combine(dir, incrementor++ + ".vsix");
 
                 using (var client = new WebClient())
                 {
