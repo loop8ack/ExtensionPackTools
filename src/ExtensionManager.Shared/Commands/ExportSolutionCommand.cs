@@ -3,6 +3,7 @@ using System.ComponentModel.Design;
 using System.IO;
 using System.Linq;
 using EnvDTE;
+using EnvDTE80;
 using ExtensionManager.Importer;
 using Microsoft;
 using Microsoft.VisualStudio.Shell;
@@ -87,6 +88,11 @@ namespace ExtensionManager
                     string json = JsonConvert.SerializeObject(manifest, Formatting.Indented);
 
                     File.WriteAllText(fileName, json);
+
+                    // Add the file to the solution items folder if it's new or if it's not there already.
+                    var solItems = GetOrCreateSolutionItems((DTE2)dte);
+                    solItems.ProjectItems.AddFromFile(fileName);
+
                     VsShellUtilities.OpenDocument(ServiceProvider, fileName);
                 }
             }
@@ -106,6 +112,26 @@ namespace ExtensionManager
                     OLEMSGBUTTON.OLEMSGBUTTON_OK,
                     OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST
                 );
+        }
+
+        /// <summary>
+        /// Gets or creates solution items folder (project).
+        /// from https://blog.agchapman.com/creating-solution-items-from-vs-extension/
+        /// </summary>
+        /// <param name="dte">The DTE.</param>
+        /// <returns>the solution items folder (project)</returns>
+        static Project GetOrCreateSolutionItems(DTE2 dte)
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
+            var solItems = dte.Solution.Projects.Cast<Project>().FirstOrDefault(p => p.Name == "Solution Items" || p.Kind == EnvDTE.Constants.vsProjectItemKindSolutionItems);
+            if (solItems == null)
+            {
+                Solution2 sol2 = (Solution2)dte.Solution;
+                solItems = sol2.AddSolutionFolder("Solution Items");
+                dte.StatusBar.Text = $"Created Solution Items project for solution {dte.Solution.FullName}";
+            }
+            return solItems;
         }
     }
 }
