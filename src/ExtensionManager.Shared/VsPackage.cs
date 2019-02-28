@@ -30,7 +30,7 @@ namespace ExtensionManager
             var extService = new ExtensionService(manager, repository);
             var solService = await GetServiceAsync(typeof(SVsSolution)) as IVsSolution;
 
-            bool isSolutionLoaded = await IsSolutionLoadedAsync(solService);
+            var isSolutionLoaded = await IsSolutionLoadedAsync(solService);
 
             if (isSolutionLoaded)
             {
@@ -55,7 +55,7 @@ namespace ExtensionManager
         {
             await JoinableTaskFactory.SwitchToMainThreadAsync();
 
-            ErrorHandler.ThrowOnFailure(solService.GetProperty((int)__VSPROPID.VSPROPID_IsSolutionOpen, out object value));
+            ErrorHandler.ThrowOnFailure(solService.GetProperty((int)__VSPROPID.VSPROPID_IsSolutionOpen, out var value));
 
             return value is bool isSolOpen && isSolOpen;
         }
@@ -69,11 +69,11 @@ namespace ExtensionManager
 
             await JoinableTaskFactory.SwitchToMainThreadAsync();
 
-            ErrorHandler.ThrowOnFailure(solService.GetProperty((int)__VSPROPID.VSPROPID_SolutionFileName, out object value));
+            ErrorHandler.ThrowOnFailure(solService.GetProperty((int)__VSPROPID.VSPROPID_SolutionFileName, out var value));
 
             if (value is string solFileName && !string.IsNullOrEmpty(solFileName))
             {
-                string fileName = Path.ChangeExtension(solFileName, ".vsext");
+                var fileName = Path.ChangeExtension(solFileName, ".vsext");
 
                 await ThreadHelper.JoinableTaskFactory.StartOnIdle(() =>
                 {

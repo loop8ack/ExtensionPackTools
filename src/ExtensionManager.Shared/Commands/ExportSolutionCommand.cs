@@ -33,10 +33,7 @@ namespace ExtensionManager
 
         public static ExportSolutionCommand Instance { get; private set; }
 
-        private IServiceProvider ServiceProvider
-        {
-            get { return _package; }
-        }
+        private IServiceProvider ServiceProvider => _package;
 
         public static void Initialize(Package package, OleMenuCommandService commandService, ExtensionService es)
         {
@@ -56,7 +53,7 @@ namespace ExtensionManager
                 return;
             }
 
-            string fileName = Path.ChangeExtension(dte.Solution.FileName, ".vsext");
+            var fileName = Path.ChangeExtension(dte.Solution.FileName, ".vsext");
 
             try
             {
@@ -85,12 +82,12 @@ namespace ExtensionManager
                 if (dialog.DialogResult == true)
                 {
                     var manifest = new Manifest(dialog.SelectedExtension);
-                    string json = JsonConvert.SerializeObject(manifest, Formatting.Indented);
+                    var json = JsonConvert.SerializeObject(manifest, Formatting.Indented);
 
                     File.WriteAllText(fileName, json);
 
                     // Add the file to the solution items folder if it's new or if it's not there already.
-                    var solItems = GetOrCreateSolutionItems((DTE2)dte);
+                    Project solItems = GetOrCreateSolutionItems((DTE2)dte);
                     solItems.ProjectItems.AddFromFile(fileName);
 
                     VsShellUtilities.OpenDocument(ServiceProvider, fileName);
@@ -124,10 +121,10 @@ namespace ExtensionManager
         {
             ThreadHelper.ThrowIfNotOnUIThread();
 
-            var solItems = dte.Solution.Projects.Cast<Project>().FirstOrDefault(p => p.Name == "Solution Items" || p.Kind == EnvDTE.Constants.vsProjectItemKindSolutionItems);
+            Project solItems = dte.Solution.Projects.Cast<Project>().FirstOrDefault(p => p.Name == "Solution Items" || p.Kind == EnvDTE.Constants.vsProjectItemKindSolutionItems);
             if (solItems == null)
             {
-                Solution2 sol2 = (Solution2)dte.Solution;
+                var sol2 = (Solution2)dte.Solution;
                 solItems = sol2.AddSolutionFolder("Solution Items");
                 dte.StatusBar.Text = $"Created Solution Items project for solution {dte.Solution.FullName}";
             }

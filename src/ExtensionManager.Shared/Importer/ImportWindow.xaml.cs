@@ -33,7 +33,7 @@ namespace ExtensionManager.Importer
 
         private void ImportWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            bool hasCategory = false;
+            var hasCategory = false;
             IEnumerable<Extension> sortedList = _extensions;
 
             if (_purpose == Purpose.Install)

@@ -42,7 +42,7 @@ namespace ExtensionManager
 
         public static Manifest FromFile(string filePath)
         {
-            string file = File.ReadAllText(filePath);
+            var file = File.ReadAllText(filePath);
 
             return From2017Format(file) ?? FromLegacyFormat(file);
         }

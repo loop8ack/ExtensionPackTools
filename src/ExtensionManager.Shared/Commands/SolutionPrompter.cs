@@ -29,7 +29,7 @@ namespace ExtensionManager
 
             if (manifest.Extensions.Any(e => e.Selected))
             {
-                string msg = "This solution asks that you install the following extensions.";
+                var msg = "This solution asks that you install the following extensions.";
                 Importer.ImportWindow.Open(manifest.Extensions, Importer.Purpose.Install, msg);
             }
         }

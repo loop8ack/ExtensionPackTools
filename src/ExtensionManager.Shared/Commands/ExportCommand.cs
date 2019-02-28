@@ -53,7 +53,7 @@ namespace ExtensionManager
                     }
 
                     var manifest = new Manifest(dialog.SelectedExtension);
-                    string json = JsonConvert.SerializeObject(manifest, Formatting.Indented);
+                    var json = JsonConvert.SerializeObject(manifest, Formatting.Indented);
 
                     File.WriteAllText(filePath, json);
                     VsShellUtilities.OpenDocument(ServiceProvider, filePath);

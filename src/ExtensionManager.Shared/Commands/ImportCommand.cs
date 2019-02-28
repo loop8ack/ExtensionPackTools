@@ -67,30 +67,29 @@ namespace ExtensionManager
                 Assumes.Present(repository);
 
                 IEnumerable<GalleryEntry> marketplaceEntries = repository.GetVSGalleryExtensions<GalleryEntry>(toInstall, 1033, false);
-                string tempDir = PrepareTempDir();
+                var tempDir = PrepareTempDir();
 
                 var dte = ServiceProvider.GetService(typeof(DTE)) as DTE;
                 Assumes.Present(dte);
 
                 dte.StatusBar.Text = "Downloading extensions...";
 
-                HasRootSuffix(out string rootSuffix);
+                HasRootSuffix(out var rootSuffix);
 
                 ThreadHelper.JoinableTaskFactory.RunAsync(async () =>
                 {
                     await DownloadExtensionAsync(marketplaceEntries, tempDir);
-
-                    InvokeVsixInstaller(tempDir, rootSuffix);
-
+                    
                     await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
                     dte.StatusBar.Text = "Extensions downloaded. Starting VSIX Installer...";
+                    InvokeVsixInstaller(tempDir, rootSuffix);
                 });
             }
         }
 
         private static string PrepareTempDir()
         {
-            string tempDir = Path.Combine(Path.GetTempPath(), nameof(ExtensionManager));
+            var tempDir = Path.Combine(Path.GetTempPath(), nameof(ExtensionManager));
 
             if (Directory.Exists(tempDir))
             {
@@ -104,8 +103,8 @@ namespace ExtensionManager
         private void InvokeVsixInstaller(string tempDir, string rootSuffix)
         {
             var process = System.Diagnostics.Process.GetCurrentProcess();
-            string dir = Path.GetDirectoryName(process.MainModule.FileName);
-            string exe = Path.Combine(dir, "VSIXInstaller.exe");
+            var dir = Path.GetDirectoryName(process.MainModule.FileName);
+            var exe = Path.Combine(dir, "VSIXInstaller.exe");
             var configuration = new SetupConfiguration() as ISetupConfiguration;
             ISetupInstance instance = configuration.GetInstanceForCurrentProcess();
             IEnumerable<string> vsixFiles = Directory.EnumerateFiles(tempDir, "*.vsix").Select(f => Path.GetFileName(f));
@@ -129,11 +128,11 @@ namespace ExtensionManager
         private async Task DownloadExtensionAsync(IEnumerable<GalleryEntry> entries, string dir)
         {
             var tasks = new List<Task>();
-            int incrementor = 0;
+            var incrementor = 0;
 
             foreach (GalleryEntry entry in entries)
             {
-                string localPath = Path.Combine(dir, incrementor++ + ".vsix");
+                var localPath = Path.Combine(dir, incrementor++ + ".vsix");
 
                 using (var client = new WebClient())
                 {
@@ -153,7 +152,7 @@ namespace ExtensionManager
 
             if (Microsoft.VisualStudio.Shell.ServiceProvider.GlobalProvider.GetService(typeof(SVsAppCommandLine)) is IVsAppCommandLine appCommandLine)
             {
-                if (ErrorHandler.Succeeded(appCommandLine.GetOption("rootsuffix", out int hasRootSuffix, out rootSuffix)))
+                if (ErrorHandler.Succeeded(appCommandLine.GetOption("rootsuffix", out var hasRootSuffix, out rootSuffix)))
                 {
                     return hasRootSuffix != 0;
                 }
