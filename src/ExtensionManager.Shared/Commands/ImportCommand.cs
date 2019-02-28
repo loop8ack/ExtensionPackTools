@@ -5,7 +5,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Windows.Forms;
 using EnvDTE;
 using ExtensionManager.Importer;
 using Microsoft;
@@ -15,6 +14,7 @@ using Microsoft.VisualStudio.Setup.Configuration;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Task = System.Threading.Tasks.Task;
+using static ExtensionManager.FilePathHelpers;
 
 namespace ExtensionManager
 {
@@ -143,28 +143,6 @@ namespace ExtensionManager
             }
 
             await Task.WhenAll(tasks);
-        }
-
-        private bool TryGetFilePath(out string filePath)
-        {
-            filePath = null;
-
-            using (var sfd = new OpenFileDialog())
-            {
-                sfd.DefaultExt = ".vsext";
-                sfd.FileName = "extensions";
-                sfd.Filter = "VSEXT File|*.vsext";
-
-                DialogResult result = sfd.ShowDialog();
-
-                if (result == DialogResult.OK)
-                {
-                    filePath = sfd.FileName;
-                    return true;
-                }
-            }
-
-            return false;
         }
 
         public static bool HasRootSuffix(out string rootSuffix)

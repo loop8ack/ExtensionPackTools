@@ -2,7 +2,6 @@
 using System.ComponentModel.Design;
 using System.IO;
 using System.Linq;
-using System.Windows.Forms;
 using EnvDTE;
 using EnvDTE80;
 using ExtensionManager.Importer;
@@ -113,28 +112,6 @@ namespace ExtensionManager
                     OLEMSGBUTTON.OLEMSGBUTTON_OK,
                     OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST
                 );
-        }
-
-        private bool TryGetFilePath(out string filePath)
-        {
-            filePath = null;
-
-            using (var sfd = new SaveFileDialog())
-            {
-                sfd.DefaultExt = ".vsext";
-                sfd.FileName = "extensions";
-                sfd.Filter = "VSEXT File|*.vsext";
-
-                DialogResult result = sfd.ShowDialog();
-
-                if (result == DialogResult.OK)
-                {
-                    filePath = sfd.FileName;
-                    return true;
-                }
-            }
-
-            return false;
         }
 
         /// <summary>
