@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.IO;
+using System.Windows.Forms;
 using Microsoft.VisualStudio.Shell;
 using Newtonsoft.Json;
-using static ExtensionManager.FilePathHelpers;
 
 namespace ExtensionManager
 {
@@ -25,10 +25,7 @@ namespace ExtensionManager
 
         public static ExportCommand Instance { get; private set; }
 
-        private IServiceProvider ServiceProvider
-        {
-            get { return _package; }
-        }
+        private IServiceProvider ServiceProvider => _package;
 
         public static void Initialize(Package package, OleMenuCommandService commandService, ExtensionService es)
         {

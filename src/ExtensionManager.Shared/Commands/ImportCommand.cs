@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Windows.Forms;
 using EnvDTE;
 using ExtensionManager.Importer;
 using Microsoft;
@@ -14,7 +15,6 @@ using Microsoft.VisualStudio.Setup.Configuration;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Task = System.Threading.Tasks.Task;
-using static ExtensionManager.FilePathHelpers;
 
 namespace ExtensionManager
 {
@@ -35,10 +35,7 @@ namespace ExtensionManager
 
         public static ImportCommand Instance { get; private set; }
 
-        private IServiceProvider ServiceProvider
-        {
-            get { return _package; }
-        }
+        private IServiceProvider ServiceProvider => _package;
 
         public static void Initialize(AsyncPackage package, OleMenuCommandService commandService, ExtensionService es)
         {
@@ -61,7 +58,7 @@ namespace ExtensionManager
 
             if (dialog.DialogResult == true && dialog.SelectedExtension.Any())
             {
-                var toInstall = dialog.SelectedExtension.Select(ext => ext.ID).ToList() ;
+                var toInstall = dialog.SelectedExtension.Select(ext => ext.ID).ToList();
 
                 var repository = ServiceProvider.GetService(typeof(SVsExtensionRepository)) as IVsExtensionRepository;
                 Assumes.Present(repository);
@@ -109,8 +106,7 @@ namespace ExtensionManager
             ISetupInstance instance = configuration.GetInstanceForCurrentProcess();
             IEnumerable<string> vsixFiles = Directory.EnumerateFiles(tempDir, "*.vsix").Select(f => Path.GetFileName(f));
 
-            var start = new ProcessStartInfo
-            {
+            var start = new ProcessStartInfo {
                 FileName = exe,
                 Arguments = $"{string.Join(" ", vsixFiles)} /instanceIds:{instance.GetInstanceId()}",
                 WorkingDirectory = tempDir,

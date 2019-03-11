@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="4a196712-2c3f-4730-ad1d-e7cda4185eb2" Version="0.6.999" Language="en-US" Publisher="Mads Kristensen" />
+    <Identity Id="4a196712-2c3f-4730-ad1d-e7cda4185eb2" Version="0.6.9999" Language="en-US" Publisher="Mads Kristensen" />
     <DisplayName>Extension Manager 2019</DisplayName>
     <Description xml:space="preserve">Import/export extensions as well as associate extensions with individual solutions</Description>
     <MoreInfo>https://github.com/madskristensen/ExtensionPackTools</MoreInfo>
