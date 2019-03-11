@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.IO;
-using System.Windows.Forms;
 using Microsoft.VisualStudio.Shell;
 using Newtonsoft.Json;
+using static ExtensionManager.FilePathHelpers;
 
 namespace ExtensionManager
 {

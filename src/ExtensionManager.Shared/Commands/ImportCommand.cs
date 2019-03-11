@@ -5,7 +5,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Windows.Forms;
 using EnvDTE;
 using ExtensionManager.Importer;
 using Microsoft;
@@ -15,6 +14,7 @@ using Microsoft.VisualStudio.Setup.Configuration;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Task = System.Threading.Tasks.Task;
+using static ExtensionManager.FilePathHelpers;
 
 namespace ExtensionManager
 {
