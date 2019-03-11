@@ -1,0 +1,44 @@
+{
+  "id": "abbf0212-9b1d-404a-bb0a-4651edc8b339",
+  "name": "My Visual Studio extensions",
+  "description": "A collection of my Visual Studio extensions",
+  "version": "1.0",
+  "extensions": [
+    {
+      "name": "Clear MEF Component Cache",
+      "vsixId": "f5028141-9dd0-4ac4-ae6d-0481ae9a940d"
+    },
+    {
+      "name": "Command Explorer",
+      "vsixId": "1a973c52-a674-48d8-a276-65ddab1ac598"
+    },
+    {
+      "name": "Extensibility Essentials 2019",
+      "vsixId": "4c38fd13-e407-4da6-a7b2-a04346af8942"
+    },
+    {
+      "name": "Extension Manager 2019",
+      "vsixId": "4a196712-2c3f-4730-ad1d-e7cda4185eb2"
+    },
+    {
+      "name": "File Icons",
+      "vsixId": "3a7b4930-a5fb-46ec-a9b8-9610c8f953b8"
+    },
+    {
+      "name": "Git Pull",
+      "vsixId": "c71355fb-bd6f-4235-a3b0-0ebaa2bad36f"
+    },
+    {
+      "name": "GitHub Extension for Visual Studio",
+      "vsixId": "c3d3dc68-c977-411f-b3e8-03b0dccf7dfc"
+    },
+    {
+      "name": "KnownMonikers Explorer",
+      "vsixId": "c38f3512-4653-4d97-a4c5-860a425209f5"
+    },
+    {
+      "name": "Pkgdef Language",
+      "vsixId": "06278dd5-5d9d-4f27-a3e8-cd619b101a50"
+    }
+  ]
+}

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.IO;
+using System.Windows.Forms;
 using Microsoft.VisualStudio.Shell;
 using Newtonsoft.Json;
-using static ExtensionManager.FilePathHelpers;
 
 namespace ExtensionManager
 {
@@ -25,10 +25,7 @@ namespace ExtensionManager
 
         public static ExportCommand Instance { get; private set; }
 
-        private IServiceProvider ServiceProvider
-        {
-            get { return _package; }
-        }
+        private IServiceProvider ServiceProvider => _package;
 
         public static void Initialize(Package package, OleMenuCommandService commandService, ExtensionService es)
         {
@@ -47,7 +44,7 @@ namespace ExtensionManager
 
                 if (dialog.DialogResult == true)
                 {
-                    if (!TryGetFilePath(out string filePath))
+                    if (!TryGetFilePath(out var filePath))
                     {
                         return;
                     }
@@ -70,6 +67,28 @@ namespace ExtensionManager
                     Microsoft.VisualStudio.Shell.Interop.OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST
                 );
             }
+        }
+
+        public static bool TryGetFilePath(out string filePath)
+        {
+            filePath = null;
+
+            using (var sfd = new SaveFileDialog())
+            {
+                sfd.DefaultExt = ".vsext";
+                sfd.FileName = "extensions";
+                sfd.Filter = "VSEXT File|*.vsext";
+
+                DialogResult result = sfd.ShowDialog();
+
+                if (result == DialogResult.OK)
+                {
+                    filePath = sfd.FileName;
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

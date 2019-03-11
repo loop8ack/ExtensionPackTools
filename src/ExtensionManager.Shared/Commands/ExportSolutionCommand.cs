@@ -23,8 +23,7 @@ namespace ExtensionManager
             _es = es;
 
             var cmdId = new CommandID(PackageGuids.guidExportPackageCmdSet, PackageIds.ExportSolutionCmd);
-            var cmd = new MenuCommand(Execute, cmdId)
-            {
+            var cmd = new MenuCommand(Execute, cmdId) {
                 Supported = false
             };
 
@@ -117,11 +116,16 @@ namespace ExtensionManager
         /// </summary>
         /// <param name="dte">The DTE.</param>
         /// <returns>the solution items folder (project)</returns>
-        static Project GetOrCreateSolutionItems(DTE2 dte)
+        private static Project GetOrCreateSolutionItems(DTE2 dte)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
 
-            Project solItems = dte.Solution.Projects.Cast<Project>().FirstOrDefault(p => p.Name == "Solution Items" || p.Kind == EnvDTE.Constants.vsProjectItemKindSolutionItems);
+            Project solItems = dte.Solution.Projects.Cast<Project>().FirstOrDefault(p =>
+            {
+                ThreadHelper.ThrowIfNotOnUIThread();
+                return p.Name == "Solution Items" || p.Kind == EnvDTE.Constants.vsProjectItemKindSolutionItems;
+            });
+
             if (solItems == null)
             {
                 var sol2 = (Solution2)dte.Solution;
