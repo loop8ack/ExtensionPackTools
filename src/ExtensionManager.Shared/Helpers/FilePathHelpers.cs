@@ -4,23 +4,36 @@ namespace ExtensionManager
 {
     public static class FilePathHelpers
     {
-        public static bool TryGetFilePath(out string filePath)
+        public static bool TrySaveFilePath(out string filePath)
+        {
+            using (var sfd = new SaveFileDialog())
+            {
+                return TryGetFilePath(out filePath, sfd);
+            }
+        }
+
+        public static bool TryOpenFilePath(out string filePath)
+        {
+            using (var ofd = new OpenFileDialog())
+            {
+                return TryGetFilePath(out filePath, ofd);
+            }
+        }
+
+        private static bool TryGetFilePath(out string filePath, FileDialog dialog)
         {
             filePath = null;
 
-            using (var sfd = new SaveFileDialog())
+            dialog.DefaultExt = ".vsext";
+            dialog.FileName = "extensions";
+            dialog.Filter = "VSEXT File|*.vsext";
+
+            DialogResult result = dialog.ShowDialog();
+
+            if (result == DialogResult.OK)
             {
-                sfd.DefaultExt = ".vsext";
-                sfd.FileName = "extensions";
-                sfd.Filter = "VSEXT File|*.vsext";
-
-                DialogResult result = sfd.ShowDialog();
-
-                if (result == DialogResult.OK)
-                {
-                    filePath = sfd.FileName;
-                    return true;
-                }
+                filePath = dialog.FileName;
+                return true;
             }
 
             return false;

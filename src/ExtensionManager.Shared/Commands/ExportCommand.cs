@@ -47,7 +47,7 @@ namespace ExtensionManager
 
                 if (dialog.DialogResult == true)
                 {
-                    if (!TryGetFilePath(out string filePath))
+                    if (!TrySaveFilePath(out string filePath))
                     {
                         return;
                     }

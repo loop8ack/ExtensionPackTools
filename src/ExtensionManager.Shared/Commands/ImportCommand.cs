@@ -49,7 +49,7 @@ namespace ExtensionManager
         {
             ThreadHelper.ThrowIfNotOnUIThread();
 
-            if (!TryGetFilePath(out string filePath))
+            if (!TryOpenFilePath(out string filePath))
             {
                 return;
             }
@@ -79,7 +79,7 @@ namespace ExtensionManager
                 ThreadHelper.JoinableTaskFactory.RunAsync(async () =>
                 {
                     await DownloadExtensionAsync(marketplaceEntries, tempDir);
-                    
+
                     await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
                     dte.StatusBar.Text = "Extensions downloaded. Starting VSIX Installer...";
                     InvokeVsixInstaller(tempDir, rootSuffix);
