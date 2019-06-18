@@ -29,6 +29,7 @@
             <Button Content="Select" Name="btnOk" IsDefault="true" Click="Button_Click" Margin="0 0 0 0"/>
             <Button Content="Cancel" IsCancel="true" Margin="10 0 0 0"/>
         </StackPanel>
+        <CheckBox Name="chkInstallSystemWide" Content="Install for all users" HorizontalAlignment="Left" Grid.Row="2" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>

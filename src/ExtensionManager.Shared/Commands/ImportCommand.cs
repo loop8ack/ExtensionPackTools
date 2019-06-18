@@ -58,6 +58,7 @@ namespace ExtensionManager
 
             if (dialog.DialogResult == true && dialog.SelectedExtension.Any())
             {
+                var installSystemWide = dialog.InstallSystemWide;
                 var toInstall = dialog.SelectedExtension.Select(ext => ext.ID).ToList();
 
                 var repository = ServiceProvider.GetService(typeof(SVsExtensionRepository)) as IVsExtensionRepository;
@@ -79,7 +80,7 @@ namespace ExtensionManager
 
                     await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
                     dte.StatusBar.Text = "Extensions downloaded. Starting VSIX Installer...";
-                    InvokeVsixInstaller(tempDir, rootSuffix);
+                    InvokeVsixInstaller(tempDir, rootSuffix, installSystemWide);
                 });
             }
         }
@@ -119,18 +120,19 @@ namespace ExtensionManager
             return tempDir;
         }
 
-        private void InvokeVsixInstaller(string tempDir, string rootSuffix)
+        private void InvokeVsixInstaller(string tempDir, string rootSuffix, bool installSystemWide)
         {
             var process = System.Diagnostics.Process.GetCurrentProcess();
             var dir = Path.GetDirectoryName(process.MainModule.FileName);
             var exe = Path.Combine(dir, "VSIXInstaller.exe");
             var configuration = new SetupConfiguration() as ISetupConfiguration;
+            var adminSwitch = installSystemWide ? "/admin" : string.Empty;
             ISetupInstance instance = configuration.GetInstanceForCurrentProcess();
             IEnumerable<string> vsixFiles = Directory.EnumerateFiles(tempDir, "*.vsix").Select(f => Path.GetFileName(f));
 
             var start = new ProcessStartInfo {
                 FileName = exe,
-                Arguments = $"{string.Join(" ", vsixFiles)} /instanceIds:{instance.GetInstanceId()}",
+                Arguments = $"{string.Join(" ", vsixFiles)} /instanceIds:{instance.GetInstanceId()} {adminSwitch}",
                 WorkingDirectory = tempDir,
                 UseShellExecute = false,
             };

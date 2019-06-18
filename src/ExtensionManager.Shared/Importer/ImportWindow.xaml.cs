@@ -27,9 +27,12 @@ namespace ExtensionManager.Importer
             }
 
             btnOk.Content = purpose == Purpose.Install ? "Install..." : "Select";
+            chkInstallSystemWide.Visibility = purpose == Purpose.Install ? Visibility.Visible : Visibility.Hidden;
         }
 
         public List<Extension> SelectedExtension { get; private set; }
+
+        public bool InstallSystemWide { get; private set; }
 
         private void ImportWindow_Loaded(object sender, RoutedEventArgs e)
         {
@@ -98,6 +101,7 @@ namespace ExtensionManager.Importer
                 }
             }
 
+            InstallSystemWide = chkInstallSystemWide.IsChecked ?? false;
             DialogResult = true;
             Close();
         }
