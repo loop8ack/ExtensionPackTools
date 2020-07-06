@@ -106,6 +106,26 @@ namespace ExtensionManager.Importer
             Close();
         }
 
+        private void SelectAllButton_Click(object sender, RoutedEventArgs e)
+        {
+            SelectedExtension = new List<Extension>();
+
+            foreach (CheckBox cb in list.Children.OfType<CheckBox>())
+            {
+                cb.IsChecked = true;
+            }
+        }
+
+        private void DeselectAllButton_Click(object sender, RoutedEventArgs e)
+        {
+            SelectedExtension = new List<Extension>();
+
+            foreach (CheckBox cb in list.Children.OfType<CheckBox>())
+            {
+                cb.IsChecked = false;
+            }
+        }
+
         public static ImportWindow Open(IEnumerable<Extension> extensions, Purpose purpose, string msg = null)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
