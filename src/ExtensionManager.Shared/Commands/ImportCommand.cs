@@ -5,6 +5,10 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Security.Cryptography;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using EnvDTE;
 using ExtensionManager.Importer;
@@ -14,6 +18,8 @@ using Microsoft.VisualStudio.ExtensionManager;
 using Microsoft.VisualStudio.Setup.Configuration;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
+using Microsoft.VisualStudio.Threading;
+using Process = System.Diagnostics.Process;
 using Task = System.Threading.Tasks.Task;
 
 namespace ExtensionManager
@@ -36,6 +42,9 @@ namespace ExtensionManager
         public static ImportCommand Instance { get; private set; }
 
         private IServiceProvider ServiceProvider => _package;
+
+        private int _currentCount;
+        protected int EntriesCount { get; private set; }
 
         public static void Initialize(AsyncPackage package, OleMenuCommandService commandService, ExtensionService es)
         {
@@ -64,7 +73,7 @@ namespace ExtensionManager
                 var repository = ServiceProvider.GetService(typeof(SVsExtensionRepository)) as IVsExtensionRepository;
                 Assumes.Present(repository);
 
-                IEnumerable<GalleryEntry> marketplaceEntries = repository.GetVSGalleryExtensions<GalleryEntry>(toInstall, 1033, false);
+                IEnumerable<GalleryEntry> marketplaceEntries = repository.GetVSGalleryExtensions<GalleryEntry>(toInstall, 1033, false).Where(x => x.DownloadUrl != null);
                 var tempDir = PrepareTempDir();
 
                 var dte = ServiceProvider.GetService(typeof(DTE)) as DTE;
@@ -73,16 +82,20 @@ namespace ExtensionManager
                 dte.StatusBar.Text = "Downloading extensions...";
 
                 HasRootSuffix(out var rootSuffix);
-
-                ThreadHelper.JoinableTaskFactory.RunAsync(async () =>
-                {
-                    await DownloadExtensionAsync(marketplaceEntries, tempDir);
-
-                    await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-                    dte.StatusBar.Text = "Extensions downloaded. Starting VSIX Installer...";
-                    InvokeVsixInstaller(tempDir, rootSuffix, installSystemWide);
-                });
+                ThreadHelper.JoinableTaskFactory.Run(() => DownloadExtensionsAsync(installSystemWide, marketplaceEntries, tempDir, dte, rootSuffix));
             }
+        }
+
+        private async Task DownloadExtensionsAsync(bool installSystemWide, IEnumerable<GalleryEntry> marketplaceEntries, string tempDir, DTE dte, string rootSuffix)
+        {
+            ServicePointManager.DefaultConnectionLimit = 100;
+            EntriesCount = marketplaceEntries.Count();
+            _currentCount = 0;
+            await DownloadExtensionAsync(marketplaceEntries, tempDir, dte);
+
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+            dte.StatusBar.Text = "Extensions downloaded. Starting VSIX Installer...";
+            InvokeVsixInstaller(tempDir, rootSuffix, installSystemWide);
         }
 
         public static bool TryGetFilePath(out string filePath)
@@ -122,7 +135,7 @@ namespace ExtensionManager
 
         private void InvokeVsixInstaller(string tempDir, string rootSuffix, bool installSystemWide)
         {
-            var process = System.Diagnostics.Process.GetCurrentProcess();
+            var process = Process.GetCurrentProcess();
             var dir = Path.GetDirectoryName(process.MainModule.FileName);
             var exe = Path.Combine(dir, "VSIXInstaller.exe");
             var configuration = new SetupConfiguration() as ISetupConfiguration;
@@ -142,28 +155,50 @@ namespace ExtensionManager
                 start.Arguments += $" /rootSuffix:{rootSuffix}";
             }
 
-            System.Diagnostics.Process.Start(start);
+            Process.Start(start);
         }
 
-        private async Task DownloadExtensionAsync(IEnumerable<GalleryEntry> entries, string dir)
+        private Task DownloadExtensionAsync(IEnumerable<GalleryEntry> entries, string dir, DTE dte)
         {
-            var tasks = new List<Task>();
-            var incrementor = 0;
+            return Task.WhenAll(entries.Select(entry => Task.Run(() => DownloadExtensionFileAsync(entry, dir, dte))).ToArray());
+        }
 
-            foreach (GalleryEntry entry in entries)
+        private async Task DownloadExtensionFileAsync(GalleryEntry entry, string dir, DTE dte)
+        {
+            var localPath = Path.Combine(dir, CreateMD5(entry.DownloadUrl) + ".vsix");
+
+            using (var client = new WebClient())
             {
-                var localPath = Path.Combine(dir, incrementor++ + ".vsix");
-
-                using (var client = new WebClient())
-                {
-                    Task task = client.DownloadFileTaskAsync(entry.DownloadUrl, localPath);
-                    tasks.Add(task);
-                }
+                await client.DownloadFileTaskAsync(entry.DownloadUrl, localPath);
             }
 
-            await Task.WhenAll(tasks);
+            await UpdateProgressAsync(dte);
         }
 
+        private async Task UpdateProgressAsync(DTE dte)
+        {
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+            dte.StatusBar.Text = $"Downloaded {Interlocked.Increment(ref _currentCount)} of {EntriesCount} extensions...";
+            await TaskScheduler.Default;
+        }
+
+        private static string CreateMD5(string input)
+        {
+            try
+            {
+                using (MD5 md5 = MD5.Create())
+                {
+                    byte[] inputBytes = Encoding.ASCII.GetBytes(input);
+                    byte[] hashBytes = md5.ComputeHash(inputBytes);
+                    return BitConverter.ToString(hashBytes).Replace("-", string.Empty).ToLower();
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+
+            return null;
+        }
         public static bool HasRootSuffix(out string rootSuffix)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
