@@ -1,14 +1,16 @@
 ﻿<Window x:Class="ExtensionManager.Importer.ImportWindow"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:ExtensionManager.Importer"
-             mc:Ignorable="d" 
-             local:VsTheme.UseVsTheme="True"
-             Height="320" MaxHeight="400" Width="400" BorderBrush="DarkGray" BorderThickness="1" ShowInTaskbar="False" WindowStartupLocation="CenterOwner" SizeToContent="Height" WindowStyle="None" AllowsTransparency="True">
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:ExtensionManager.Importer"
+        mc:Ignorable="d"
+        local:VsTheme.UseVsTheme="True"
+        Height="365.254" MaxHeight="400" Width="400" BorderBrush="DarkGray" BorderThickness="1" ShowInTaskbar="False"
+        WindowStartupLocation="CenterOwner" SizeToContent="Height" WindowStyle="None" AllowsTransparency="True">
     <Grid Margin="10 10 10 10">
         <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="auto" />
@@ -16,20 +18,22 @@
 
         <Label Grid.Row="0" Name="lblMessage" Margin="0 00 0 10">
             <Label.Content>
-                <AccessText TextWrapping="Wrap" Text="Only extensions published to the Visual Studio Marketplace are shown."/>
+                <AccessText TextWrapping="Wrap"
+                            Text="Only extensions published to the Visual Studio Marketplace are shown." />
             </Label.Content>
         </Label>
-        <Border Grid.Row="1" Margin="0 0 0 20" BorderThickness="1" BorderBrush="DarkGray">
+        <CheckBox Content="Select/deselect all" Grid.Row="1" Name="chkSelectDeselectAll" Margin="0 00 0 10"
+                  Checked="chkSelectDeselectAll_CheckedChanged" Unchecked="chkSelectDeselectAll_CheckedChanged" />
+        <Border Grid.Row="2" Margin="0 0 0 20" BorderThickness="1" BorderBrush="DarkGray">
             <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Hidden">
-                <StackPanel Name="list" Orientation="Vertical" Margin="5,5,5,10"/>
+                <StackPanel Name="list" Orientation="Vertical" Margin="5,5,5,10" />
             </ScrollViewer>
         </Border>
-
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Content="Select" Name="btnOk" IsDefault="true" Click="Button_Click" Margin="0 0 0 0"/>
-            <Button Content="Cancel" IsCancel="true" Margin="10 0 0 0"/>
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="Select" Name="btnOk" IsDefault="true" Click="Button_Click" Margin="0 0 0 0" />
+            <Button Content="Cancel" IsCancel="true" Margin="10 0 0 0" />
         </StackPanel>
-        <CheckBox Name="chkInstallSystemWide" Content="Install for all users" HorizontalAlignment="Left" Grid.Row="2" VerticalAlignment="Top"/>
-
+        <CheckBox Name="chkInstallSystemWide" Content="Install for all users" HorizontalAlignment="Left" Grid.Row="3"
+                  VerticalAlignment="Top" />
     </Grid>
 </Window>
