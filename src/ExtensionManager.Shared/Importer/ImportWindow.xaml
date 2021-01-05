@@ -10,6 +10,7 @@
     <Grid Margin="10 10 10 10">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
@@ -20,19 +21,19 @@
                 <AccessText TextWrapping="Wrap" Text="Only extensions published to the Visual Studio Marketplace are shown."/>
             </Label.Content>
         </Label>
-        <Border Grid.Row="1" Margin="0 0 0 10" BorderThickness="1" BorderBrush="DarkGray">
+        <CheckBox Grid.Row="1" Name="chkSelectDeselectAll" Content="Select/deselect all" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0 0 0 10"
+                  Checked="SelectDeselectAll_Checked" Unchecked="SelectDeselectAll_Unchecked"/>
+        <Border Grid.Row="2" Margin="0 0 0 10" BorderThickness="1" BorderBrush="DarkGray">
             <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Hidden">
                 <StackPanel Name="list" Orientation="Vertical" Margin="5,5,5,10"/>
             </ScrollViewer>
         </Border>
 
-        <CheckBox Grid.Row="2" Name="chkInstallSystemWide" Content="Install for all users" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0 0 0 10"/>
+        <CheckBox Grid.Row="3" Name="chkInstallSystemWide" Content="Install for all users" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0 0 0 10"/>
 
-        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
-            <UniformGrid HorizontalAlignment="Right" Rows="1" Columns="4">
+        <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right">
+            <UniformGrid HorizontalAlignment="Right" Rows="1" Columns="2">
                 <Button Content="Select" Name="btnOk" IsDefault="true" Click="Button_Click" Margin="10 0 0 0"/>
-                <Button Content="Select All" Name="btnSelectAll" Click="SelectAllButton_Click" Margin="10 0 0 0" />
-                <Button Content="Deselect All" Name="btnDeselectAll" Click="DeselectAllButton_Click" Margin="10 0 0 0"/>
                 <Button Content="Cancel" IsCancel="true" Margin="10 0 0 0"/>
             </UniformGrid>
         </StackPanel>
