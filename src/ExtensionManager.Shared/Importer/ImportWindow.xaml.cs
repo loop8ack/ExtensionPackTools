@@ -153,12 +153,26 @@ namespace ExtensionManager.Importer
             SelectDeselectAll();
         }
 
+        /// <summary>
+        /// Called to implement the functionality of the Select/Deselect All check box.
+        /// </summary>
         private void SelectDeselectAll()
         {
-            if (!list.Children.OfType<CheckBox>().Any())
+            // If check boxes are grayed out, always clear their check boxes
+            // since they are not applicable to the task at hand.
+            if (list.Children.OfType<CheckBox>().Any(cb=>!cb.IsEnabled))
+            {
+                foreach(var cb in list.Children.OfType<CheckBox>().Where(cb=>!cb.IsEnabled))
+                    cb.IsChecked = false;
+                return;
+            }
+
+            // Only let the Select/Deselect All check box work on those check boxes
+            // that aren't grayed out.
+            if (!list.Children.OfType<CheckBox>().Any(cb=>cb.IsEnabled))
                 return;
 
-            foreach(var cb in list.Children.OfType<CheckBox>())
+            foreach(var cb in list.Children.OfType<CheckBox>().Where(cb=>cb.IsEnabled))
                 cb.IsChecked = chkSelectDeselectAll.IsChecked;
         }
     }
