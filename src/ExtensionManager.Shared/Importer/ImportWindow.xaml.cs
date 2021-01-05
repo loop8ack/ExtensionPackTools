@@ -142,6 +142,25 @@ namespace ExtensionManager.Importer
 
             return dialog;
         }
+
+        private void SelectDeselectAll_Checked(object sender, RoutedEventArgs e)
+        {
+            SelectDeselectAll();
+        }
+
+        private void SelectDeselectAll_Unchecked(object sender, RoutedEventArgs e)
+        {
+            SelectDeselectAll();
+        }
+
+        private void SelectDeselectAll()
+        {
+            if (!list.Children.OfType<CheckBox>().Any())
+                return;
+
+            foreach(var cb in list.Children.OfType<CheckBox>())
+                cb.IsChecked = chkSelectDeselectAll.IsChecked;
+        }
     }
 
     public enum Purpose
