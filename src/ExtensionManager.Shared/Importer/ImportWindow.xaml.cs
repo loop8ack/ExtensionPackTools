@@ -26,7 +26,7 @@ namespace ExtensionManager.Importer
                 lblMessage.Content = text;
             }
 
-            btnOk.Content = purpose == Purpose.Install ? "Install..." : "Select";
+            btnOk.Content = purpose == Purpose.Install ? "&Import" : "&Export";
             chkInstallSystemWide.Visibility = purpose == Purpose.Install ? Visibility.Visible : Visibility.Hidden;
         }
 
