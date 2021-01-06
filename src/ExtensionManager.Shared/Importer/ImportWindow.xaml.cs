@@ -19,15 +19,87 @@ namespace ExtensionManager.Importer
             _purpose = purpose;
             Loaded += ImportWindow_Loaded;
             InitializeComponent();
-            Title = Vsix.Name;
 
-            if (!string.IsNullOrEmpty(text))
+            // Set the OK button to have the proper verb for its text given the purpose
+            btnOk.Content = purpose == Purpose.InstallForSolution ? "&Install" : purpose == Purpose.Import ? "&Import" : "&Export";
+
+            // Show the Install System-Wide check box only if we are importing and/or
+            // loading a solution
+            chkInstallSystemWide.Visibility = purpose == Purpose.Import || purpose == Purpose.InstallForSolution 
+                ? Visibility.Visible : Visibility.Hidden;
+
+            InitializeWindowChrome();
+            InitializeWindowTitle(purpose);
+            InitializeMainInstructionText(purpose);
+            InitializeMessage(purpose, text);
+        }
+
+        private void InitializeMessage(Purpose purpose, string text)
+        {
+            switch(purpose)
             {
-                lblMessage.Content = text;
-            }
+                case Purpose.Export:
+                    lblMessage.Content = "Select the extension(s) you wish to export.  Only extensions published to the Visual Studio Marketplace are shown.";
+                    break;
 
-            btnOk.Content = purpose == Purpose.Install ? "&Import" : "&Export";
-            chkInstallSystemWide.Visibility = purpose == Purpose.Install ? Visibility.Visible : Visibility.Hidden;
+                case Purpose.Import:
+                    lblMessage.Content = "Select the extension(s) you wish to import.  Only extensions published to the Visual Studio Marketplace are shown.";
+                    break;
+
+                case Purpose.InstallForSolution:
+                    if (!string.IsNullOrWhiteSpace(text))
+                        lblMessage.Content = text;
+                    break;
+
+            }
+        }
+
+        private void InitializeMainInstructionText(Purpose purpose)
+        {
+            switch (purpose)
+            {
+                case Purpose.Export:
+                    lblMainInstruction.Content = "Export your extension(s) to a file";
+                    break;
+
+                case Purpose.Import:
+                    lblMainInstruction.Content = "Import extension(s) into Visual Studio";
+                    break;
+
+                case Purpose.InstallForSolution:
+                    lblMainInstruction.Content = "Install extension(s) required by this solution";
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Alters the title of the dialog box to ensure the correct context is provided to the user for the current action.
+        /// </summary>
+        private void InitializeWindowTitle(Purpose purpose)
+        {
+            switch(purpose)
+            {
+                case Purpose.Export:
+                    Title = "Export Extensions";
+                    break;
+
+                case Purpose.InstallForSolution:
+                    Title = Vsix.Name;
+                    break;
+
+                case Purpose.Import:
+                    Title = "Import Extensions";
+                    break;
+
+            }
+        }
+
+        /// <summary>
+        /// Alters the chrome (title bar, close/minimize/maximize buttons etc.) to correspond to a dialog box style window.
+        /// </summary>
+        private void InitializeWindowChrome()
+        {
+            this.StyleWindowAsDialogBox();
         }
 
         public List<Extension> SelectedExtension { get; private set; }
@@ -39,15 +111,14 @@ namespace ExtensionManager.Importer
             var hasCategory = false;
             IEnumerable<Extension> sortedList = _extensions;
 
-            if (_purpose == Purpose.Install)
+            if (_purpose == Purpose.Import)
             {
                 sortedList = _extensions.OrderByDescending(x => x.Selected).ThenBy(x => x.Name);
             }
 
             if (_extensions.FirstOrDefault()?.Selected == true)
             {
-                var label = new Label
-                {
+                var label = new Label {
                     Content = "Extensions",
                     Margin = new Thickness(0, 0, 0, 5),
                     FontWeight = FontWeights.Bold
@@ -58,22 +129,20 @@ namespace ExtensionManager.Importer
 
             foreach (Extension ext in sortedList)
             {
-                var cb = new CheckBox
-                {
+                var cb = new CheckBox {
                     Content = ext.Name,
                     IsChecked = ext.Selected,
                     CommandParameter = ext.ID,
                     Margin = new Thickness(10, 0, 0, 0),
                 };
 
-                if (_purpose == Purpose.Install && !ext.Selected)
+                if (_purpose == Purpose.Import && !ext.Selected)
                 {
                     if (!hasCategory)
                     {
                         hasCategory = true;
 
-                        var label = new Label
-                        {
+                        var label = new Label {
                             Content = "Already installed",
                             Margin = new Thickness(0, 10, 0, 5),
                             FontWeight = FontWeights.Bold
@@ -160,26 +229,20 @@ namespace ExtensionManager.Importer
         {
             // If check boxes are grayed out, always clear their check boxes
             // since they are not applicable to the task at hand.
-            if (list.Children.OfType<CheckBox>().Any(cb=>!cb.IsEnabled))
+            if (list.Children.OfType<CheckBox>().Any(cb => !cb.IsEnabled))
             {
-                foreach(var cb in list.Children.OfType<CheckBox>().Where(cb=>!cb.IsEnabled))
+                foreach (var cb in list.Children.OfType<CheckBox>().Where(cb => !cb.IsEnabled))
                     cb.IsChecked = false;
                 return;
             }
 
             // Only let the Select/Deselect All check box work on those check boxes
             // that aren't grayed out.
-            if (!list.Children.OfType<CheckBox>().Any(cb=>cb.IsEnabled))
+            if (!list.Children.OfType<CheckBox>().Any(cb => cb.IsEnabled))
                 return;
 
-            foreach(var cb in list.Children.OfType<CheckBox>().Where(cb=>cb.IsEnabled))
+            foreach (var cb in list.Children.OfType<CheckBox>().Where(cb => cb.IsEnabled))
                 cb.IsChecked = chkSelectDeselectAll.IsChecked;
         }
-    }
-
-    public enum Purpose
-    {
-        Install,
-        List
     }
 }

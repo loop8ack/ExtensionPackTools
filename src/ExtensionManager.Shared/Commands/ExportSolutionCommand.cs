@@ -76,7 +76,7 @@ namespace ExtensionManager
                     }
                 }
 
-                var dialog = ImportWindow.Open(extensions, Purpose.List);
+                var dialog = ImportWindow.Open(extensions, Purpose.Export);
 
                 if (dialog.DialogResult == true)
                 {
