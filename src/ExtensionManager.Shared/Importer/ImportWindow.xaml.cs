@@ -20,7 +20,7 @@ namespace ExtensionManager.Importer
             Loaded += ImportWindow_Loaded;
             InitializeComponent();
 
-            btnOk.Content = purpose == Purpose.Install ? "&Import" : "&Export";
+            btnOk.Content = purpose == Purpose.Import ? "&Import" : "&Export";
 
             if (!string.IsNullOrEmpty(text))
             {
@@ -32,7 +32,7 @@ namespace ExtensionManager.Importer
                 btnOk.Content = "&Install";
             }
 
-            chkInstallSystemWide.Visibility = purpose == Purpose.Install ? Visibility.Visible : Visibility.Hidden;
+            chkInstallSystemWide.Visibility = purpose == Purpose.Import ? Visibility.Visible : Visibility.Hidden;
 
             InitializeWindowChrome();
             InitializeWindowTitle();
@@ -64,7 +64,7 @@ namespace ExtensionManager.Importer
             var hasCategory = false;
             IEnumerable<Extension> sortedList = _extensions;
 
-            if (_purpose == Purpose.Install)
+            if (_purpose == Purpose.Import)
             {
                 sortedList = _extensions.OrderByDescending(x => x.Selected).ThenBy(x => x.Name);
             }
@@ -89,7 +89,7 @@ namespace ExtensionManager.Importer
                     Margin = new Thickness(10, 0, 0, 0),
                 };
 
-                if (_purpose == Purpose.Install && !ext.Selected)
+                if (_purpose == Purpose.Import && !ext.Selected)
                 {
                     if (!hasCategory)
                     {

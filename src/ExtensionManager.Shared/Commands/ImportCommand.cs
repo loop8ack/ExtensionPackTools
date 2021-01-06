@@ -63,7 +63,7 @@ namespace ExtensionManager
             var manifest = Manifest.FromFile(filePath);
             manifest.MarkSelected(_es.GetInstalledExtensions());
 
-            var dialog = ImportWindow.Open(manifest.Extensions, Purpose.Install);
+            var dialog = ImportWindow.Open(manifest.Extensions, Purpose.Import);
 
             if (dialog.DialogResult == true && dialog.SelectedExtension.Any())
             {
