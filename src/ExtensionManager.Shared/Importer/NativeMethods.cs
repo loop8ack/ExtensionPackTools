@@ -21,6 +21,21 @@ namespace ExtensionManager.Importer
                       WS_MAXIMIZEBOX = 0x10000,
                       WS_MINIMIZEBOX = 0x20000;
 
+        internal const int GWL_EXSTYLE = -20;
+        internal const int WS_EX_DLGMODALFRAME = 0x0001;
+        internal const int SWP_NOSIZE = 0x0001;
+        internal const int SWP_NOMOVE = 0x0002;
+        internal const int SWP_NOZORDER = 0x0004;
+        internal const int SWP_FRAMECHANGED = 0x0020;
+
+        [DllImport("user32.dll")]
+        static extern bool SetWindowPos(IntPtr hwnd, IntPtr hwndInsertAfter,
+             int x, int y, int width, int height, uint flags);
+
+        [DllImport("user32.dll")]
+        static extern IntPtr SendMessage(IntPtr hwnd, uint msg,
+            IntPtr wParam, IntPtr lParam);
+
         [DllImport("user32.dll")]
         internal extern static int GetWindowLong(IntPtr hwnd, int index);
 
@@ -59,6 +74,26 @@ namespace ExtensionManager.Importer
             var currentStyle = GetWindowLong(hwnd, GWL_STYLE);
 
             SetWindowLong(hwnd, GWL_STYLE, currentStyle & ~WS_MINIMIZEBOX);
+        }
+
+        /// <summary>
+        /// Removes the icon from the title bar of the <see cref="T:System.Windows.Window"/> referred to by the <paramref name="window"/> parameter.
+        /// </summary>
+        /// <param name="window">Reference to an instance of a <see cref="T:System.Windows.Window"/> from which the icon is to be removed.</param>
+        internal static void RemoveIcon(this Window window)
+        {
+            if (window == null) return;
+
+            // Get this window's handle
+            var hwnd = new WindowInteropHelper(window).Handle;
+
+            // Change the extended window style to not show a window icon
+            int extendedStyle = GetWindowLong(hwnd, GWL_EXSTYLE);
+            SetWindowLong(hwnd, GWL_EXSTYLE, extendedStyle | WS_EX_DLGMODALFRAME);
+
+            // Update the window's non-client area to reflect the changes
+            SetWindowPos(hwnd, IntPtr.Zero, 0, 0, 0, 0, SWP_NOMOVE |
+                  SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
         }
 
         // thanks stack overflow <https://stackoverflow.com/questions/339620/how-do-i-remove-minimize-and-maximize-from-a-resizable-window-in-wpf>
