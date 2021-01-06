@@ -4,6 +4,6 @@
     {
         InstallForSolution,
         Import,
-        List
+        Export
     }
 }
