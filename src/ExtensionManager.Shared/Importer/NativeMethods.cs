@@ -78,6 +78,16 @@ namespace ExtensionManager.Importer
             SetWindowLong(hwnd, GWL_STYLE, currentStyle | WS_DLGFRAME);
         }
 
+        // thanks stack overflow <https://stackoverflow.com/questions/339620/how-do-i-remove-minimize-and-maximize-from-a-resizable-window-in-wpf>
+        /// <summary>
+        /// Changes the border of the window to the style commonly utilized for dialog boxes.
+        /// </summary>
+        internal static void StyleWindowAsDialogBox(this Window window)
+        {
+            if (window == null) return;
+
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// Determines whether the specified window handle identifies an existing window.
