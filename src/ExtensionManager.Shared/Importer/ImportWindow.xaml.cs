@@ -34,7 +34,6 @@ namespace ExtensionManager.Importer
 
             InitializeWindowChrome();
             InitializeWindowTitle(purpose);
-
         }
 
         /// <summary>
@@ -42,7 +41,21 @@ namespace ExtensionManager.Importer
         /// </summary>
         private void InitializeWindowTitle(Purpose purpose)
         {
-            // TODO: Add code here to initialize the window title
+            switch(purpose)
+            {
+                case Purpose.Export:
+                    Title = "Export Extensions";
+                    break;
+
+                case Purpose.InstallForSolution:
+                    Title = Vsix.Name;
+                    break;
+
+                case Purpose.Import:
+                    Title = "Import Extensions";
+                    break;
+
+            }
         }
 
         /// <summary>
@@ -50,7 +63,7 @@ namespace ExtensionManager.Importer
         /// </summary>
         private void InitializeWindowChrome()
         {
-
+            // TODO: Add code here to change window chrome styles
         }
 
         public List<Extension> SelectedExtension { get; private set; }
