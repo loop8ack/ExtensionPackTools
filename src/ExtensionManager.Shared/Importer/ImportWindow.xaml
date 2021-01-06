@@ -14,7 +14,7 @@
         ShowInTaskbar="False"
         WindowStartupLocation="CenterOwner"
         SizeToContent="Height"
-        WindowStyle="None"
+
         AllowsTransparency="True">
     <Window.Resources>
         <Style x:Key="BaseLabelStyle"
