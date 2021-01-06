@@ -21,12 +21,14 @@ namespace ExtensionManager.Importer
             InitializeComponent();
             //Title = Vsix.Name;
 
+            btnOk.Content = purpose == Purpose.Install ? "&Import" : "&Export";
+
             if (!string.IsNullOrEmpty(text))
             {
                 lblMessage.Content = text;
+                btnOk.Content = "&Install";
             }
 
-            btnOk.Content = purpose == Purpose.Install ? "&Import" : "&Export";
             chkInstallSystemWide.Visibility = purpose == Purpose.Install ? Visibility.Visible : Visibility.Hidden;
         }
 
@@ -46,8 +48,7 @@ namespace ExtensionManager.Importer
 
             if (_extensions.FirstOrDefault()?.Selected == true)
             {
-                var label = new Label
-                {
+                var label = new Label {
                     Content = "Extensions",
                     Margin = new Thickness(0, 0, 0, 5),
                     FontWeight = FontWeights.Bold
@@ -58,8 +59,7 @@ namespace ExtensionManager.Importer
 
             foreach (Extension ext in sortedList)
             {
-                var cb = new CheckBox
-                {
+                var cb = new CheckBox {
                     Content = ext.Name,
                     IsChecked = ext.Selected,
                     CommandParameter = ext.ID,
@@ -72,8 +72,7 @@ namespace ExtensionManager.Importer
                     {
                         hasCategory = true;
 
-                        var label = new Label
-                        {
+                        var label = new Label {
                             Content = "Already installed",
                             Margin = new Thickness(0, 10, 0, 5),
                             FontWeight = FontWeights.Bold
@@ -160,19 +159,19 @@ namespace ExtensionManager.Importer
         {
             // If check boxes are grayed out, always clear their check boxes
             // since they are not applicable to the task at hand.
-            if (list.Children.OfType<CheckBox>().Any(cb=>!cb.IsEnabled))
+            if (list.Children.OfType<CheckBox>().Any(cb => !cb.IsEnabled))
             {
-                foreach(var cb in list.Children.OfType<CheckBox>().Where(cb=>!cb.IsEnabled))
+                foreach (var cb in list.Children.OfType<CheckBox>().Where(cb => !cb.IsEnabled))
                     cb.IsChecked = false;
                 return;
             }
 
             // Only let the Select/Deselect All check box work on those check boxes
             // that aren't grayed out.
-            if (!list.Children.OfType<CheckBox>().Any(cb=>cb.IsEnabled))
+            if (!list.Children.OfType<CheckBox>().Any(cb => cb.IsEnabled))
                 return;
 
-            foreach(var cb in list.Children.OfType<CheckBox>().Where(cb=>cb.IsEnabled))
+            foreach (var cb in list.Children.OfType<CheckBox>().Where(cb => cb.IsEnabled))
                 cb.IsChecked = chkSelectDeselectAll.IsChecked;
         }
     }
