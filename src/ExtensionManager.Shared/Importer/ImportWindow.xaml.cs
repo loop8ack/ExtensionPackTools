@@ -23,13 +23,6 @@ namespace ExtensionManager.Importer
             // Set the OK button to have the proper verb for its text given the purpose
             btnOk.Content = purpose == Purpose.InstallForSolution ? "&Install" : purpose == Purpose.Import ? "&Import" : "&Export";
 
-            if (purpose == Purpose.InstallForSolution
-                && !string.IsNullOrEmpty(text))
-            {
-                lblMainInstruction.Content = "Install required extensions";
-                lblMessage.Content = text;
-            }
-
             // Show the Install System-Wide check box only if we are importing and/or
             // loading a solution
             chkInstallSystemWide.Visibility = purpose == Purpose.Import || purpose == Purpose.InstallForSolution 
@@ -43,7 +36,22 @@ namespace ExtensionManager.Importer
 
         private void InitializeMessage(Purpose purpose, string text)
         {
-            throw new NotImplementedException();
+            switch(purpose)
+            {
+                case Purpose.Export:
+                    lblMessage.Content = "Select the extension(s) you wish to export.  Only extensions published to the Visual Studio Marketplace are shown.";
+                    break;
+
+                case Purpose.Import:
+                    lblMessage.Content = "Select the extension(s) you wish to import.  Only extensions published to the Visual Studio Marketplace are shown.";
+                    break;
+
+                case Purpose.InstallForSolution:
+                    if (!string.IsNullOrWhiteSpace(text))
+                        lblMessage.Content = text;
+                    break;
+
+            }
         }
 
         private void InitializeMainInstructionText(Purpose purpose)
