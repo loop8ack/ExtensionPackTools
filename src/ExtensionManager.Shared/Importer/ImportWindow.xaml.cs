@@ -19,7 +19,6 @@ namespace ExtensionManager.Importer
             _purpose = purpose;
             Loaded += ImportWindow_Loaded;
             InitializeComponent();
-            //Title = Vsix.Name;
 
             btnOk.Content = purpose == Purpose.Install ? "&Import" : "&Export";
 
@@ -36,6 +35,16 @@ namespace ExtensionManager.Importer
             chkInstallSystemWide.Visibility = purpose == Purpose.Install ? Visibility.Visible : Visibility.Hidden;
 
             InitializeWindowChrome();
+            InitializeWindowTitle();
+
+        }
+
+        /// <summary>
+        /// Alters the title of the dialog box to ensure the correct context is provided to the user for the current action.
+        /// </summary>
+        private void InitializeWindowTitle()
+        {
+            // TODO: Add code here to initialize the window title
         }
 
         /// <summary>
@@ -43,7 +52,7 @@ namespace ExtensionManager.Importer
         /// </summary>
         private void InitializeWindowChrome()
         {
-            
+            // TODO: Add code here to alter the window's chrome
         }
 
         public List<Extension> SelectedExtension { get; private set; }
