@@ -25,7 +25,11 @@ namespace ExtensionManager.Importer
 
             if (!string.IsNullOrEmpty(text))
             {
+                // Assume this is to instruct user to install required extensions
+                // for the solution being loaded
+                lblMainInstruction.Content = "Install required extensions";
                 lblMessage.Content = text;
+
                 btnOk.Content = "&Install";
             }
 
