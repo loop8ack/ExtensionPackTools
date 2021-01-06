@@ -19,7 +19,7 @@ namespace ExtensionManager.Importer
             _purpose = purpose;
             Loaded += ImportWindow_Loaded;
             InitializeComponent();
-            Title = Vsix.Name;
+            //Title = Vsix.Name;
 
             if (!string.IsNullOrEmpty(text))
             {
