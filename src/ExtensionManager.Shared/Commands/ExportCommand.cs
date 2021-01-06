@@ -40,7 +40,7 @@ namespace ExtensionManager
             {
                 IEnumerable<Extension> extensions = _es.GetInstalledExtensions();
 
-                var dialog = Importer.ImportWindow.Open(extensions, Importer.Purpose.List);
+                var dialog = Importer.ImportWindow.Open(extensions, Importer.Purpose.Export);
 
                 if (dialog.DialogResult == true)
                 {
