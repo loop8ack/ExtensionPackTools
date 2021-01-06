@@ -37,6 +37,12 @@ namespace ExtensionManager.Importer
 
             InitializeWindowChrome();
             InitializeWindowTitle(purpose);
+            InitializeMainInstructionText(purpose);
+        }
+
+        private void InitializeMainInstructionText(Purpose purpose)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
