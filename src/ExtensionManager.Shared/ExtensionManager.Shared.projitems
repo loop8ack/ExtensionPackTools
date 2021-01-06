@@ -18,6 +18,7 @@
       <DependentUpon>ImportWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Importer\NativeMethods.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Importer\Purpose.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Importer\VsTheme.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Extension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Manifest.cs" />

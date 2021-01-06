@@ -52,7 +52,7 @@ namespace ExtensionManager.Importer
         /// </summary>
         private void InitializeWindowChrome()
         {
-            // TODO: Add code here to alter the window's chrome
+
         }
 
         public List<Extension> SelectedExtension { get; private set; }
@@ -197,11 +197,5 @@ namespace ExtensionManager.Importer
             foreach (var cb in list.Children.OfType<CheckBox>().Where(cb => cb.IsEnabled))
                 cb.IsChecked = chkSelectDeselectAll.IsChecked;
         }
-    }
-
-    public enum Purpose
-    {
-        Install,
-        List
     }
 }
