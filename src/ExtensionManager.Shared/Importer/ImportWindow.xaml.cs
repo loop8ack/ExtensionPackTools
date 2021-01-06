@@ -34,6 +34,16 @@ namespace ExtensionManager.Importer
             }
 
             chkInstallSystemWide.Visibility = purpose == Purpose.Install ? Visibility.Visible : Visibility.Hidden;
+
+            InitializeWindowChrome();
+        }
+
+        /// <summary>
+        /// Alters the chrome (title bar, close/minimize/maximize buttons etc.) to correspond to a dialog box style window.
+        /// </summary>
+        private void InitializeWindowChrome()
+        {
+            
         }
 
         public List<Extension> SelectedExtension { get; private set; }
