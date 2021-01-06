@@ -63,7 +63,7 @@ namespace ExtensionManager.Importer
         /// </summary>
         private void InitializeWindowChrome()
         {
-            // TODO: Add code here to change window chrome styles
+            this.StyleWindowAsDialogBox();
         }
 
         public List<Extension> SelectedExtension { get; private set; }
