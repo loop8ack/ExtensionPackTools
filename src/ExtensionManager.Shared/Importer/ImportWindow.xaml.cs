@@ -30,7 +30,10 @@ namespace ExtensionManager.Importer
                 lblMessage.Content = text;
             }
 
-            chkInstallSystemWide.Visibility = purpose == Purpose.Import ? Visibility.Visible : Visibility.Hidden;
+            // Show the Install System-Wide check box only if we are importing and/or
+            // loading a solution
+            chkInstallSystemWide.Visibility = purpose == Purpose.Import || purpose == Purpose.InstallForSolution 
+                ? Visibility.Visible : Visibility.Hidden;
 
             InitializeWindowChrome();
             InitializeWindowTitle(purpose);
