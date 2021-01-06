@@ -2,7 +2,7 @@
 {
     public enum Purpose
     {
-        Install,
+        Import,
         List
     }
 }
