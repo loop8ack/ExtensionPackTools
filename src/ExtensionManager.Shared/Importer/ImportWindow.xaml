@@ -12,7 +12,7 @@
         BorderBrush="DarkGray"
         BorderThickness="1"
         ShowInTaskbar="False"
-        WindowStartupLocation="CenterOwner"
+        WindowStartupLocation="CenterScreen"
         SizeToContent="Height"
         AllowsTransparency="True">
     <Window.Resources>
