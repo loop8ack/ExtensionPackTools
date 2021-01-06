@@ -2,6 +2,7 @@
 {
     public enum Purpose
     {
+        InstallForSolution,
         Import,
         List
     }
