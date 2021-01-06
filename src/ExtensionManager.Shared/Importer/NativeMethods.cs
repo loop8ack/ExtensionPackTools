@@ -88,7 +88,7 @@ namespace ExtensionManager.Importer
             var hwnd = new WindowInteropHelper(window).Handle;
 
             // Change the extended window style to not show a window icon
-            int extendedStyle = GetWindowLong(hwnd, GWL_EXSTYLE);
+            var extendedStyle = GetWindowLong(hwnd, GWL_EXSTYLE);
             SetWindowLong(hwnd, GWL_EXSTYLE, extendedStyle | WS_EX_DLGMODALFRAME);
 
             // Update the window's non-client area to reflect the changes
@@ -121,7 +121,15 @@ namespace ExtensionManager.Importer
         {
             if (window == null) return;
 
-            throw new NotImplementedException();
+            // Remove the icon from the title bar
+            window.RemoveIcon();
+
+            // Set the border of the window to be a dialog frame
+            window.SetDialogWindowFrame();
+
+            // hide the Minimize and Maximize buttons
+            window.HideMaximizeButton();
+            window.HideMinimizeButton();
         }
 
         /// <summary>
