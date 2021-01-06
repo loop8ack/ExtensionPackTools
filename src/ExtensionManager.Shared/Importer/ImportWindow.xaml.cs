@@ -20,29 +20,27 @@ namespace ExtensionManager.Importer
             Loaded += ImportWindow_Loaded;
             InitializeComponent();
 
-            btnOk.Content = purpose == Purpose.Import ? "&Import" : "&Export";
+            // Set the OK button to have the proper verb for its text given the purpose
+            btnOk.Content = purpose == Purpose.InstallForSolution ? "&Install" : purpose == Purpose.Import ? "&Import" : "&Export";
 
-            if (!string.IsNullOrEmpty(text))
+            if (purpose == Purpose.InstallForSolution
+                && !string.IsNullOrEmpty(text))
             {
-                // Assume this is to instruct user to install required extensions
-                // for the solution being loaded
                 lblMainInstruction.Content = "Install required extensions";
                 lblMessage.Content = text;
-
-                btnOk.Content = "&Install";
             }
 
             chkInstallSystemWide.Visibility = purpose == Purpose.Import ? Visibility.Visible : Visibility.Hidden;
 
             InitializeWindowChrome();
-            InitializeWindowTitle();
+            InitializeWindowTitle(purpose);
 
         }
 
         /// <summary>
         /// Alters the title of the dialog box to ensure the correct context is provided to the user for the current action.
         /// </summary>
-        private void InitializeWindowTitle()
+        private void InitializeWindowTitle(Purpose purpose)
         {
             // TODO: Add code here to initialize the window title
         }
