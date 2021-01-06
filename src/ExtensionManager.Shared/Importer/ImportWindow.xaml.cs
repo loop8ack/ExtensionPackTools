@@ -56,7 +56,20 @@ namespace ExtensionManager.Importer
 
         private void InitializeMainInstructionText(Purpose purpose)
         {
-            throw new NotImplementedException();
+            switch (purpose)
+            {
+                case Purpose.Export:
+                    lblMainInstruction.Content = "Export your extension(s) to a file";
+                    break;
+
+                case Purpose.Import:
+                    lblMainInstruction.Content = "Import extension(s) into Visual Studio";
+                    break;
+
+                case Purpose.InstallForSolution:
+                    lblMainInstruction.Content = "Install extension(s) required by this solution";
+                    break;
+            }
         }
 
         /// <summary>
