@@ -17,6 +17,7 @@ namespace ExtensionManager.Importer
 
         // from winuser.h
         public const int GWL_STYLE = -16,
+                      WS_DLGFRAME = 0x00400000,
                       WS_MAXIMIZEBOX = 0x10000,
                       WS_MINIMIZEBOX = 0x20000;
 
@@ -40,10 +41,8 @@ namespace ExtensionManager.Importer
 
             var currentStyle = GetWindowLong(hwnd, GWL_STYLE);
 
-            SetWindowLong(hwnd, GWL_STYLE, (currentStyle & ~WS_MAXIMIZEBOX));
+            SetWindowLong(hwnd, GWL_STYLE, currentStyle & ~WS_MAXIMIZEBOX);
         }
-
-
 
         // thanks stack overflow <https://stackoverflow.com/questions/339620/how-do-i-remove-minimize-and-maximize-from-a-resizable-window-in-wpf>
         /// <summary>
@@ -59,8 +58,26 @@ namespace ExtensionManager.Importer
 
             var currentStyle = GetWindowLong(hwnd, GWL_STYLE);
 
-            SetWindowLong(hwnd, GWL_STYLE, (currentStyle & ~WS_MINIMIZEBOX));
+            SetWindowLong(hwnd, GWL_STYLE, currentStyle & ~WS_MINIMIZEBOX);
         }
+
+        // thanks stack overflow <https://stackoverflow.com/questions/339620/how-do-i-remove-minimize-and-maximize-from-a-resizable-window-in-wpf>
+        /// <summary>
+        /// Changes the border of the window to the style commonly utilized for dialog boxes.
+        /// </summary>
+        internal static void SetDialogWindowFrame(this Window window)
+        {
+            if (window == null) return;
+
+            var hwnd = new WindowInteropHelper(window).Handle;
+
+            if (!IsWindow(hwnd)) return;
+
+            var currentStyle = GetWindowLong(hwnd, GWL_STYLE);
+
+            SetWindowLong(hwnd, GWL_STYLE, currentStyle | WS_DLGFRAME);
+        }
+
 
         /// <summary>
         /// Determines whether the specified window handle identifies an existing window.
