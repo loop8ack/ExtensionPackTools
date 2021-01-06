@@ -28,9 +28,27 @@ namespace ExtensionManager.Importer
 
         // thanks stack overflow <https://stackoverflow.com/questions/339620/how-do-i-remove-minimize-and-maximize-from-a-resizable-window-in-wpf>
         /// <summary>
-        /// Removes the Minimize button from the window's title bar. This must be done since there is no Taskbar icon being displayed to which  the user might minimize the window.
+        /// Removes the Maximize button from a <see cref="T:System.Windows.Window"/>'s title bar.
         /// </summary>
-        /// <remarks>We also do this in order to style the window in a manner akin to the Visual Studio 2019 Create New Project window (for consistent look/feel).</remarks>
+        internal static void HideMaximizeButton(this Window window)
+        {
+            if (window == null) return;
+
+            var hwnd = new WindowInteropHelper(window).Handle;
+
+            if (!IsWindow(hwnd)) return;
+
+            var currentStyle = GetWindowLong(hwnd, GWL_STYLE);
+
+            SetWindowLong(hwnd, GWL_STYLE, (currentStyle & ~WS_MAXIMIZEBOX));
+        }
+
+
+
+        // thanks stack overflow <https://stackoverflow.com/questions/339620/how-do-i-remove-minimize-and-maximize-from-a-resizable-window-in-wpf>
+        /// <summary>
+        /// Removes the Maximize button from a <see cref="T:System.Windows.Window"/>'s title bar.
+        /// </summary>
         internal static void HideMinimizeButton(this Window window)
         {
             if (window == null) return;
