@@ -16,23 +16,54 @@
         SizeToContent="Height"
         WindowStyle="None"
         AllowsTransparency="True">
+    <Window.Resources>
+        <Style x:Key="BaseLabelStyle"
+               TargetType="Label">
+            <Setter Property="FontFamily"
+                    Value="Segoe UI"/>
+            <Setter Property="FontWeight"
+                    Value="SemiBold"/>
+            <Setter Property="FontSize"
+                    Value="14"/>
+        </Style>
+        <Style x:Key="BodyLabelStyle"
+               TargetType="Label"
+               BasedOn="{StaticResource BaseLabelStyle}">
+            <Setter Property="FontWeight"
+                    Value="Normal"/>
+            <Setter Property="FontSize"
+                    Value="12"/>
+        </Style>
+    </Window.Resources>
     <Grid Margin="10 10 10 10">
         <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
+
         <Label Grid.Row="0"
-               Name="lblMessage"
-               Margin="0 00 0 10">
+               Name="lblMainInstruction"
+               Margin="0 00 0 10"
+               Style="{StaticResource BaseLabelStyle}">
             <Label.Content>
                 <AccessText TextWrapping="Wrap"
-                            Text="Only extensions published to the Visual Studio Marketplace are shown."/>
+                            Text="Import extensions"/>
             </Label.Content>
         </Label>
-        <CheckBox Grid.Row="1"
+        <Label Grid.Row="1"
+               Name="lblMessage"
+               Margin="0 00 0 10"
+               Style="{StaticResource BodyLabelStyle}">
+            <Label.Content>
+                <AccessText TextWrapping="Wrap"
+                            Text="Select the extension(s) you wish to import.  Only extensions published to the Visual Studio Marketplace are shown."/>
+            </Label.Content>
+        </Label>
+        <CheckBox Grid.Row="2"
                   Name="chkSelectDeselectAll"
                   Content="Select/deselect all"
                   HorizontalAlignment="Left"
@@ -40,7 +71,7 @@
                   Margin="0 0 0 10"
                   Checked="SelectDeselectAll_Checked"
                   Unchecked="SelectDeselectAll_Unchecked"/>
-        <Border Grid.Row="2"
+        <Border Grid.Row="3"
                 Margin="0 0 0 10"
                 BorderThickness="1"
                 BorderBrush="DarkGray">
@@ -51,13 +82,13 @@
                             Margin="5,5,5,10"/>
             </ScrollViewer>
         </Border>
-        <CheckBox Grid.Row="3"
+        <CheckBox Grid.Row="4"
                   Name="chkInstallSystemWide"
                   Content="Install for all users"
                   HorizontalAlignment="Left"
                   VerticalAlignment="Top"
                   Margin="0 0 0 10"/>
-        <StackPanel Grid.Row="4"
+        <StackPanel Grid.Row="5"
                     Orientation="Horizontal"
                     HorizontalAlignment="Right">
             <UniformGrid HorizontalAlignment="Right"
