@@ -28,10 +28,18 @@ namespace ExtensionManager.Importer
             chkInstallSystemWide.Visibility = purpose == Purpose.Import || purpose == Purpose.InstallForSolution 
                 ? Visibility.Visible : Visibility.Hidden;
 
-            InitializeWindowChrome();
             InitializeWindowTitle(purpose);
             InitializeMainInstructionText(purpose);
             InitializeMessage(purpose, text);
+        }
+
+        /// <summary>Raises the <see cref="E:System.Windows.Window.SourceInitialized" /> event.</summary>
+        /// <param name="e">An <see cref="T:System.EventArgs" /> that contains the event data.</param>
+        protected override void OnSourceInitialized(EventArgs e)
+        {
+            base.OnSourceInitialized(e);
+
+            InitializeWindowChrome();
         }
 
         private void InitializeMessage(Purpose purpose, string text)
