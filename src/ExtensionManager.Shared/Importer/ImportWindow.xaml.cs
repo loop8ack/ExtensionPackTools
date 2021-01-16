@@ -21,7 +21,7 @@ namespace ExtensionManager.Importer
             InitializeComponent();
 
             // Set the OK button to have the proper verb for its text given the purpose
-            btnOk.Content = purpose == Purpose.InstallForSolution ? "&Install" : purpose == Purpose.Import ? "&Import" : "&Export";
+            btnOk.Content = purpose == Purpose.InstallForSolution ? "_Install" : purpose == Purpose.Import ? "_Import" : "_Export";
 
             // Show the Install System-Wide check box only if we are importing and/or
             // loading a solution
