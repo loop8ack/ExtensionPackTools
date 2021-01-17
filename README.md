@@ -13,7 +13,11 @@ This extension allows you to export a list of extensions and importing them back
 
 ## Export
 
-A dialog appears that lets you select which extensions you wish to export.
+The **Export Extensions** dialog box appears that lets you select which extensions you wish to export.
+
+Check the boxes for the extension(s) you wish to export, and then click **Export** to perform the operation.
+
+Click the **Select/deselect all** to toggle back and forth between selecting or deselecting all the extensions in the list.
 
 ![Export](art/export.png)
 
@@ -43,13 +47,15 @@ The output is a JSON file with an .vsext file extension looking like this:
 ```
 
 ## Import
-Clicking the import button prompts you to select a .vsext file. Doing that will present you with this dialog that lists all the extensions found in the .vsext file.
+Clicking the import button prompts you to select a `.vsext` file. Doing that will present you with the **Import Extensions** dialog that lists all the extensions found in the `.vsext` file you selected.
 
 ![Import](art/import.png)
 
 Before showing the list it will verify that the extensions exist on the Marketplace and that can take a few seconds.
 
-Clicking the **Select** button in the dialog will start the VSIX Installer in a separate process and you can follow the normal install flow from there.
+Any extensions in the import file that are already installed in Visual Studio will be grayed out.
+
+Clicking the **Import** button in the dialog will start the VSIX Installer in a separate process and you can follow the normal install flow from there.
 
 ## Manage solution extensions
 This allows you to specify which extensions needed to work on any given solution. When a developer opens the solution and doesn't have one or more of the extensions installed, they are prompted to install them.
