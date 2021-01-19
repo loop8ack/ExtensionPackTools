@@ -21,17 +21,25 @@ namespace ExtensionManager.Importer
             InitializeComponent();
 
             // Set the OK button to have the proper verb for its text given the purpose
-            btnOk.Content = purpose == Purpose.InstallForSolution ? "&Install" : purpose == Purpose.Import ? "&Import" : "&Export";
+            btnOk.Content = purpose == Purpose.InstallForSolution ? "_Install" : purpose == Purpose.Import ? "_Import" : "_Export";
 
             // Show the Install System-Wide check box only if we are importing and/or
             // loading a solution
             chkInstallSystemWide.Visibility = purpose == Purpose.Import || purpose == Purpose.InstallForSolution 
                 ? Visibility.Visible : Visibility.Hidden;
 
-            InitializeWindowChrome();
             InitializeWindowTitle(purpose);
             InitializeMainInstructionText(purpose);
             InitializeMessage(purpose, text);
+        }
+
+        /// <summary>Raises the <see cref="E:System.Windows.Window.SourceInitialized" /> event.</summary>
+        /// <param name="e">An <see cref="T:System.EventArgs" /> that contains the event data.</param>
+        protected override void OnSourceInitialized(EventArgs e)
+        {
+            base.OnSourceInitialized(e);
+
+            InitializeWindowChrome();
         }
 
         private void InitializeMessage(Purpose purpose, string text)
