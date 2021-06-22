@@ -207,14 +207,8 @@ namespace ExtensionManager.Importer
         {
             ThreadHelper.ThrowIfNotOnUIThread();
 
-            var dte = Package.GetGlobalService(typeof(EnvDTE.DTE)) as EnvDTE.DTE;
-
             var dialog = new ImportWindow(extensions, purpose, msg);
-            var hwnd = new IntPtr(dte.MainWindow.HWnd);
-
-            var window = (Window)HwndSource.FromHwnd(hwnd).RootVisual;
-
-            dialog.Owner = window;
+            dialog.Owner = Application.Current.MainWindow;
             dialog.ShowDialog();
 
             return dialog;

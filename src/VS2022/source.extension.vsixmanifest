@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="e83d71b8-8bfc-4e06-b145-b0388910c016" Version="1.1.999" Language="en-US" Publisher="Mads Kristensen" />
-        <DisplayName>Extension Manager 2017</DisplayName>
+        <Identity Id="4a196712-2c3f-4730-ad1d-e7cda4185eb3" Version="1.1.999" Language="en-US" Publisher="Mads Kristensen" />
+        <DisplayName>Extension Manager 2022</DisplayName>
         <Description xml:space="preserve">Import/export extensions as well as associate extensions with individual solutions</Description>
         <MoreInfo>https://github.com/madskristensen/ExtensionPackTools</MoreInfo>
         <License>Resources\LICENSE</License>
@@ -11,11 +11,12 @@
         <Tags>extension pack, vsix</Tags>
     </Metadata>
     <Installation AllUsers="true">
-        <!-- 15.0.27703 = VS 2017 Update 7 -->
-        <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[15.0.27703,16.0)" />
+        <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[17.0,18.0)">
+            <ProductArchitecture>amd64</ProductArchitecture>
+        </InstallationTarget>
     </Installation>
     <Prerequisites>
-        <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[15.0,)" DisplayName="Visual Studio core editor" />
+        <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[17.0,)" DisplayName="Visual Studio core editor" />
     </Prerequisites>
     <Assets>
         <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />

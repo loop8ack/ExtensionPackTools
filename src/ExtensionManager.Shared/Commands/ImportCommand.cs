@@ -44,7 +44,7 @@ namespace ExtensionManager
         private IServiceProvider ServiceProvider => _package;
 
         private int _currentCount;
-        protected int EntriesCount { get; private set; }
+        private int EntriesCount { get; set; }
 
         public static void Initialize(AsyncPackage package, OleMenuCommandService commandService, ExtensionService es)
         {
@@ -193,7 +193,7 @@ namespace ExtensionManager
                     return BitConverter.ToString(hashBytes).Replace("-", string.Empty).ToLower();
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
 
