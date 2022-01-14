@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualStudio.ExtensionManager;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace ExtensionManager
 {
