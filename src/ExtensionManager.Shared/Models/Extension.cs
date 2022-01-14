@@ -25,11 +25,6 @@ namespace ExtensionManager
             return new Extension { ID = entry.VsixID, Name = entry.Name, MoreInfoUrl = entry.MoreInfoURL, DownloadUrl = entry.DownloadUrl };
         }
 
-        public static Extension FromIExtension(IExtension entry)
-        {
-            return new Extension { ID = entry.Header.Identifier, Name = entry.Header.Name, MoreInfoUrl = entry.Header.MoreInfoUrl?.ToString()};
-        }
-
         public override bool Equals(object obj)
         {
             return !(obj is Extension other) ? false : ID == other.ID;
