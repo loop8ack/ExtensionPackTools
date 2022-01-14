@@ -26,7 +26,7 @@ namespace ExtensionManager
 
         public override bool Equals(object obj)
         {
-            return !(obj is Extension other) ? false : ID == other.ID;
+            return obj is Extension other && ID == other.ID;
         }
 
         public override string ToString()
