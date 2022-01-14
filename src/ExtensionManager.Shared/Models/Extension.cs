@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualStudio.ExtensionManager;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace ExtensionManager
 {
@@ -11,20 +10,18 @@ namespace ExtensionManager
         [JsonProperty("vsixId")]
         public string ID { get; set; }
 
-        [JsonIgnore]
+        [JsonProperty("moreInfoUrl")]
         public string MoreInfoUrl { get; set; }
+
+        [JsonProperty("downloadUrl")]
+        public string DownloadUrl { get; set; }
 
         [JsonIgnore]
         public bool Selected { get; set; }
 
         public static Extension FromGalleryExtension(GalleryEntry entry)
         {
-            return new Extension { ID = entry.VsixID, Name = entry.Name, MoreInfoUrl = entry.MoreInfoURL };
-        }
-
-        public static Extension FromIExtension(IExtension entry)
-        {
-            return new Extension { ID = entry.Header.Identifier, Name = entry.Header.Name, MoreInfoUrl = entry.Header.MoreInfoUrl?.ToString() };
+            return new Extension { ID = entry.VsixID, Name = entry.Name, MoreInfoUrl = entry.MoreInfoURL, DownloadUrl = entry.DownloadUrl };
         }
 
         public override bool Equals(object obj)
