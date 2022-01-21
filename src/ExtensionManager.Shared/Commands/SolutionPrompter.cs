@@ -25,8 +25,8 @@ namespace ExtensionManager
             }
 
             var manifest = Manifest.FromFile(fileName);
-            IEnumerable<IExtension> installed = _extService.GetInstalledExtensions();
-            manifest.MarkSelected(installed);
+            IEnumerable<IExtension> installedExtensions = _extService.GetInstalledExtensions();
+            manifest.MarkSelected(installedExtensions);
 
             if (manifest.Extensions.Any(e => e.Selected))
             {
