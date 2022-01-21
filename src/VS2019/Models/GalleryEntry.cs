@@ -1,4 +1,5 @@
 ﻿using System;
+using ExtensionManager.Core.Models.Interfaces;
 using Microsoft.VisualStudio.ExtensionManager;
 
 namespace ExtensionManager
@@ -7,7 +8,7 @@ namespace ExtensionManager
     /// Encapsulates the metadata for extensions that have been installed from the
     /// Visual Studio Marketplace.
     /// </summary>
-    public class GalleryEntry : GalleryOnlineExtension, IRepositoryEntry
+    public class GalleryEntry : GalleryOnlineExtension, IRepositoryEntry, IGalleryEntry
     {
         /// <summary>
         /// Gets or sets the name of the author of the extension.

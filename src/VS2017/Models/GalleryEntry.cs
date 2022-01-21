@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Windows.Media.Imaging;
+using ExtensionManager.Core.Models.Interfaces;
 using Microsoft.VisualStudio.ExtensionManager;
 
 namespace ExtensionManager
 {
-    public class GalleryEntry : GalleryOnlineExtension, IRepositoryEntry
+    public class GalleryEntry : GalleryOnlineExtension, IRepositoryEntry, IGalleryEntry
     {
         public override string Author { get; set; }
         public override string DefaultName { get; set; }
