@@ -24,16 +24,29 @@ namespace ExtensionManager
             };
         }
 
+        /// <summary>
+        /// Determines whether the specified object is equal to the current
+        /// object.
+        /// </summary>
+        /// <param name="obj">The object to compare with the current object.</param>
+        /// <returns>
+        /// <see langword="true" /> if the specified object  is equal to the current
+        /// object; otherwise, <see langword="false" />.
+        /// </returns>
         public override bool Equals(object obj)
         {
             return obj is Extension other && ID == other.ID;
         }
 
+        /// <summary>Returns a string that represents the current object.</summary>
+        /// <returns>A string that represents the current object.</returns>
         public override string ToString()
         {
             return Name;
         }
 
+        /// <summary>Serves as the default hash function.</summary>
+        /// <returns>A hash code for the current object.</returns>
         public override int GetHashCode()
         {
             return ID.GetHashCode();
