@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using ExtensionManager.Importer;
 using Microsoft.VisualStudio.Shell;
@@ -7,11 +8,31 @@ namespace ExtensionManager
 {
     public class SolutionPrompter
     {
-        private readonly ExtensionService _extService;
+        /// <summary>
+        /// Reference to an instance of an object that implements the
+        /// <see cref="T:ExtensionManager.IExtensionService" /> interface.
+        /// </summary>
+        private readonly IExtensionService _extensionService;
 
-        public SolutionPrompter(ExtensionService extService)
+        /// <summary>
+        /// Constructs a new instance of <see cref="T:ExtensionManager.SolutionPrompter" />
+        /// and returns a reference to it.
+        /// </summary>
+        /// <param name="extensionService">
+        /// (Required.) Reference to an instance of an object that implements the
+        /// <see cref="T:ExtensionManager.IExtensionService" /> interface.
+        /// </param>
+        /// <exception cref="T:System.ArgumentNullException">
+        /// Thrown if the required
+        /// parameter, <paramref name="extensionService" />, is passed a
+        /// <see langword="null" /> value.
+        /// </exception>
+        public SolutionPrompter(IExtensionService extensionService)
         {
-            _extService = extService;
+            _extensionService = extensionService ??
+                                throw new ArgumentNullException(
+                                    nameof(extensionService)
+                                );
         }
 
         public void Check(string fileName)
@@ -22,7 +43,8 @@ namespace ExtensionManager
 
             var manifest = Manifest.FromFile(fileName);
 
-            var installedExtensions = _extService.GetInstalledExtensions();
+            var installedExtensions =
+                _extensionService.GetInstalledExtensions();
             manifest.MarkSelected(installedExtensions);
 
             if (!manifest.Extensions.Any(e => e.Selected))
