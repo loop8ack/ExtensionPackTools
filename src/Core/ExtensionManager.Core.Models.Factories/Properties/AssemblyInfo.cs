@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("ExtensionManager.Core.Models.Factories")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("xyLOGIX, LLC")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("ExtensionManager.Core.Models.Factories")]
-[assembly: AssemblyCopyright("Copyright © xyLOGIX, LLC 2022")]
+[assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
