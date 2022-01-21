@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using ExtensionManager.Core.Models.Factories;
 using Microsoft.VisualStudio.ExtensionManager;
 using Microsoft.VisualStudio.Shell;
 using IExtension = ExtensionManager.Core.Models.Interfaces.IExtension;
@@ -48,6 +47,20 @@ namespace ExtensionManager
         {
             _manager = manager;
             _repository = repository;
+        }
+
+        /// <summary>
+        /// Constructs a new instance of <see cref="T:ExtensionManager.ExtensionService" />
+        /// and returns a reference to it.
+        /// </summary>
+        /// <param name="manager">
+        /// (Required.) Reference to an instance of an object that implements the
+        /// <see cref="T:Microsoft.VisualStudio.ExtensionManager.IVsExtensionManager" />
+        /// interface.
+        /// </param>
+        internal ExtensionService(IVsExtensionManager manager)
+        {
+            _manager = manager;
         }
 
         /// <summary>
