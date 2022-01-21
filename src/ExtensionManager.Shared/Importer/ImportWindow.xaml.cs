@@ -4,16 +4,17 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interop;
+using ExtensionManager.Core.Models.Interfaces;
 using Microsoft.VisualStudio.Shell;
 
 namespace ExtensionManager.Importer
 {
     public partial class ImportWindow : Window
     {
-        private readonly IEnumerable<Extension> _extensions;
+        private readonly IEnumerable<IExtension> _extensions;
         private readonly Purpose _purpose;
 
-        public ImportWindow(IEnumerable<Extension> extensions, Purpose purpose, string text = null)
+        public ImportWindow(IEnumerable<IExtension> extensions, Purpose purpose, string text = null)
         {
             _extensions = extensions;
             _purpose = purpose;
@@ -110,14 +111,14 @@ namespace ExtensionManager.Importer
             this.StyleWindowAsDialogBox();
         }
 
-        public List<Extension> SelectedExtension { get; private set; }
+        public List<IExtension> SelectedExtension { get; private set; }
 
         public bool InstallSystemWide { get; private set; }
 
         private void ImportWindow_Loaded(object sender, RoutedEventArgs e)
         {
             var hasCategory = false;
-            IEnumerable<Extension> sortedList = _extensions;
+            IEnumerable<IExtension> sortedList = _extensions;
 
             if (_purpose == Purpose.Import)
             {
@@ -168,7 +169,7 @@ namespace ExtensionManager.Importer
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            SelectedExtension = new List<Extension>();
+            SelectedExtension = new List<IExtension>();
 
             foreach (CheckBox cb in list.Children.OfType<CheckBox>())
             {
@@ -185,7 +186,7 @@ namespace ExtensionManager.Importer
 
         private void SelectAllButton_Click(object sender, RoutedEventArgs e)
         {
-            SelectedExtension = new List<Extension>();
+            SelectedExtension = new List<IExtension>();
 
             foreach (CheckBox cb in list.Children.OfType<CheckBox>())
             {
@@ -195,7 +196,7 @@ namespace ExtensionManager.Importer
 
         private void DeselectAllButton_Click(object sender, RoutedEventArgs e)
         {
-            SelectedExtension = new List<Extension>();
+            SelectedExtension = new List<IExtension>();
 
             foreach (CheckBox cb in list.Children.OfType<CheckBox>())
             {
@@ -203,7 +204,7 @@ namespace ExtensionManager.Importer
             }
         }
 
-        public static ImportWindow Open(IEnumerable<Extension> extensions, Purpose purpose, string msg = null)
+        public static ImportWindow Open(IEnumerable<IExtension> extensions, Purpose purpose, string msg = null)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
 

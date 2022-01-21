@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using ExtensionManager.Core.Models.Interfaces;
 using Microsoft.VisualStudio.Shell;
 
 namespace ExtensionManager
@@ -24,7 +25,7 @@ namespace ExtensionManager
             }
 
             var manifest = Manifest.FromFile(fileName);
-            IEnumerable<Extension> installed = _extService.GetInstalledExtensions();
+            IEnumerable<IExtension> installed = _extService.GetInstalledExtensions();
             manifest.MarkSelected(installed);
 
             if (manifest.Extensions.Any(e => e.Selected))

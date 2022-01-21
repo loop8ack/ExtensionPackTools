@@ -38,7 +38,7 @@ namespace ExtensionManager
 
             try
             {
-                IEnumerable<Extension> extensions = _es.GetInstalledExtensions();
+                var extensions = _es.GetInstalledExtensions();
 
                 var dialog = Importer.ImportWindow.Open(extensions, Importer.Purpose.Export);
 

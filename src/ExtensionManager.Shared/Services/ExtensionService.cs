@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using ExtensionManager.Core.Models.Factories;
 using Microsoft.VisualStudio.ExtensionManager;
 using Microsoft.VisualStudio.Shell;
+using IExtension = ExtensionManager.Core.Models.Interfaces.IExtension;
 
 namespace ExtensionManager
 {
@@ -53,18 +55,18 @@ namespace ExtensionManager
         /// Studio that were obtained from the Visual Studio Marketplace.
         /// </summary>
         /// <returns>
-        /// Collection of instances of <see cref="T:ExtensionManager.Extension" />
+        /// Collection of instances of objects that implement the <see cref="T:ExtensionManager.IExtension" />
         /// , one for each of the extensions that are installed, which are initialized with
         /// the extension metadata.
         /// <para />
         /// If no extensions obtained from the Visual Studio Marketplace are installed, or
         /// if an error occurs, then the empty collection is returned.
         /// </returns>
-        public IEnumerable<Extension> GetInstalledExtensions()
+        public IEnumerable<IExtension> GetInstalledExtensions()
         {
             ThreadHelper.ThrowIfNotOnUIThread();
 
-            var result = new List<Extension>();
+            var result = new List<IExtension>();
 
             try
             {
@@ -83,7 +85,7 @@ namespace ExtensionManager
                     );
 
                 result = marketplaceEntries
-                         .Select(Extension.FromGalleryEntry)
+                         .Select(MakeNewExtension.FromGalleryEntry)
                          .OrderBy(e => e.Name)
                          .ToList();
             }
@@ -93,7 +95,7 @@ namespace ExtensionManager
                 Debug.WriteLine(ex);
 
                 // Reinitialize the result to the empty collection
-                result = new List<Extension>();
+                result = new List<IExtension>();
             }
 
             return result;

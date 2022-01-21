@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using ExtensionManager.Core.Models.Interfaces;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -9,10 +10,10 @@ namespace ExtensionManager
 {
     public class Manifest
     {
-        public Manifest() : this(new List<Extension>())
+        public Manifest() : this(new List<IExtension>())
         { }
 
-        public Manifest(IEnumerable<Extension> entries)
+        public Manifest(IEnumerable<IExtension> entries)
         {
             Extensions = entries;
         }
@@ -30,12 +31,13 @@ namespace ExtensionManager
         public string Version { get; set; } = "1.0";
 
         [JsonProperty("extensions")]
-        public IEnumerable<Extension> Extensions { get; set; }
+        public IEnumerable<IExtension> Extensions { get; set; }
 
-        public void MarkSelected(IEnumerable<Extension> installed)
+        public void MarkSelected(IEnumerable<IExtension> installed)
         {
-            foreach (Extension ext in Extensions)
+            foreach (var extension in Extensions)
             {
+                var ext = (Extension)extension;
                 ext.Selected = !installed.Contains(ext);
             }
         }
@@ -46,6 +48,7 @@ namespace ExtensionManager
 
             return From2017Format(file) ?? FromLegacyFormat(file);
         }
+
         private static Manifest From2017Format(string json)
         {
             try
@@ -69,7 +72,7 @@ namespace ExtensionManager
 
                 IEnumerable<JObject> extensions = mandatory.Union(optional).Cast<JObject>();
 
-                var list = new List<Extension>();
+                var list = new List<IExtension>();
 
                 foreach (JObject child in extensions)
                 {
