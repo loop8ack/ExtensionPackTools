@@ -42,18 +42,6 @@ namespace ExtensionManager
         [JsonIgnore]
         public bool Selected { get; set; }
 
-        public static IExtension FromGalleryEntry(IGalleryEntry entry)
-        {
-            if (entry == null) throw new ArgumentNullException(nameof(entry));
-
-            return new Extension {
-                ID = entry.VsixID,
-                Name = entry.Name,
-                MoreInfoUrl = entry.MoreInfoURL,
-                DownloadUrl = entry.DownloadUrl
-            };
-        }
-
         /// <summary>
         /// Determines whether the specified object is equal to the current
         /// object.

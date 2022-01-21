@@ -37,5 +37,15 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\VS2017\ExtensionManager2017.csproj">
+      <Project>{4D43C293-951C-4F14-B304-C1B256B70DA6}</Project>
+      <Name>ExtensionManager2017</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ExtensionManager.Core.Models.Interfaces\ExtensionManager.Core.Models.Interfaces.csproj">
+      <Project>{7702633E-F7ED-4290-921A-1A9F8760C55A}</Project>
+      <Name>ExtensionManager.Core.Models.Interfaces</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
