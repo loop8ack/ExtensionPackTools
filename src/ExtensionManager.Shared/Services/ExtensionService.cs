@@ -1,15 +1,46 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Microsoft.VisualStudio.ExtensionManager;
 using Microsoft.VisualStudio.Shell;
 
 namespace ExtensionManager
 {
+    /// <summary>
+    /// Service to provide access to extension metadata from the Visual Studio
+    /// Marketplace.
+    /// </summary>
     public class ExtensionService
     {
+        /// <summary>
+        /// Reference to an instance of an object that implements the
+        /// <see cref="T:Microsoft.VisualStudio.ExtensionManager.IVsExtensionManager" />
+        /// interface.
+        /// </summary>
         private readonly IVsExtensionManager _manager;
+
+        /// <summary>
+        /// Reference to an instance of an object that implements the
+        /// <see cref="T:Microsoft.VisualStudio.ExtensionManager.IVsExtensionRepository" />
+        /// interface.
+        /// </summary>
         private readonly IVsExtensionRepository _repository;
 
+        /// <summary>
+        /// Constructs a new instance of <see cref="T:ExtensionManager.ExtensionService" />
+        /// and returns a reference to it.
+        /// </summary>
+        /// <param name="manager">
+        /// (Required.) Reference to an instance of an object that implements the
+        /// <see cref="T:Microsoft.VisualStudio.ExtensionManager.IVsExtensionManager" />
+        /// interface.
+        /// </param>
+        /// <param name="repository">
+        /// (Required.) Reference to an instance of an object that implements the
+        /// <see cref="T:Microsoft.VisualStudio.ExtensionManager.IVsExtensionRepository" />
+        /// interface.
+        /// </param>
         public ExtensionService(IVsExtensionManager manager,
             IVsExtensionRepository repository)
         {
@@ -17,26 +48,55 @@ namespace ExtensionManager
             _repository = repository;
         }
 
+        /// <summary>
+        /// Obtains a list of all the extensions installed in this instance of Visual
+        /// Studio that were obtained from the Visual Studio Marketplace.
+        /// </summary>
+        /// <returns>
+        /// Collection of instances of <see cref="T:ExtensionManager.Extension" />
+        /// , one for each of the extensions that are installed, which are initialized with
+        /// the extension metadata.
+        /// <para />
+        /// If no extensions obtained from the Visual Studio Marketplace are installed, or
+        /// if an error occurs, then the empty collection is returned.
+        /// </returns>
         public IEnumerable<Extension> GetInstalledExtensions()
         {
             ThreadHelper.ThrowIfNotOnUIThread();
 
-            var installed = _manager.GetInstalledExtensions()
-                                    .Where(
-                                        i => !i.Header.SystemComponent &&
-                                             !i.IsPackComponent
-                                    )
-                                    .Select(i => i.Header.Identifier)
-                                    .ToList();
+            var result = new List<Extension>();
 
-            // Filter the installed extensions to only be the ones that exist on the Marketplace
-            var marketplaceEntries =
-                _repository.GetVSGalleryExtensions<GalleryEntry>(
-                    installed, 1033, false
-                );
-            return marketplaceEntries
-                   .Select(e => Extension.FromGalleryExtension(e))
-                   .OrderBy(e => e.Name);
+            try
+            {
+                var installed = _manager.GetInstalledExtensions()
+                                        .Where(
+                                            i => !i.Header.SystemComponent &&
+                                                 !i.IsPackComponent
+                                        )
+                                        .Select(i => i.Header.Identifier)
+                                        .ToList();
+
+                // Filter the installed extensions to only be the ones that exist on the Marketplace
+                var marketplaceEntries =
+                    _repository.GetVSGalleryExtensions<GalleryEntry>(
+                        installed, 1033, false
+                    );
+
+                result = marketplaceEntries
+                         .Select(e => Extension.FromGalleryExtension(e))
+                         .OrderBy(e => e.Name)
+                         .ToList();
+            }
+            catch (Exception ex)
+            {
+                // dump all the exception info to the Output window of the debugger
+                Debug.WriteLine(ex);
+
+                // Reinitialize the result to the empty collection
+                result = new List<Extension>();
+            }
+
+            return result;
         }
     }
 }
