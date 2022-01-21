@@ -21,6 +21,7 @@ namespace ExtensionManager
             if (!File.Exists(fileName)) return;
 
             var manifest = Manifest.FromFile(fileName);
+
             var installedExtensions = _extService.GetInstalledExtensions();
             manifest.MarkSelected(installedExtensions);
 
