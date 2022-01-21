@@ -42,7 +42,7 @@ namespace ExtensionManager
         [JsonIgnore]
         public bool Selected { get; set; }
 
-        public static Extension FromGalleryEntry(IGalleryEntry entry)
+        public static IExtension FromGalleryEntry(IGalleryEntry entry)
         {
             if (entry == null) throw new ArgumentNullException(nameof(entry));
 
