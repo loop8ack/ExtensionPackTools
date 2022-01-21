@@ -50,20 +50,6 @@ namespace ExtensionManager
         }
 
         /// <summary>
-        /// Constructs a new instance of <see cref="T:ExtensionManager.ExtensionService" />
-        /// and returns a reference to it.
-        /// </summary>
-        /// <param name="manager">
-        /// (Required.) Reference to an instance of an object that implements the
-        /// <see cref="T:Microsoft.VisualStudio.ExtensionManager.IVsExtensionManager" />
-        /// interface.
-        /// </param>
-        internal ExtensionService(IVsExtensionManager manager)
-        {
-            _manager = manager;
-        }
-
-        /// <summary>
         /// Obtains a list of all the extensions installed in this instance of Visual
         /// Studio that were obtained from the Visual Studio Marketplace.
         /// </summary>
