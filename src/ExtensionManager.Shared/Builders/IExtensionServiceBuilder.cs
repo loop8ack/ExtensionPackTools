@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.ExtensionManager;
+﻿
+using Microsoft.VisualStudio.ExtensionManager;
 
 namespace ExtensionManager
 {
