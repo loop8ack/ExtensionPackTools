@@ -8,7 +8,7 @@ using Microsoft.VisualStudio.Shell;
 namespace ExtensionManager
 {
     /// <summary>
-    /// Service to provide access to extension metadata from the Visual Studio
+    /// Service that provides access to extension metadata from the Visual Studio
     /// Marketplace.
     /// </summary>
     public class ExtensionService
