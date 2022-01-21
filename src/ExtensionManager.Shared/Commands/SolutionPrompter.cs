@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
-using ExtensionManager.Core.Models.Interfaces;
+using ExtensionManager.Importer;
 using Microsoft.VisualStudio.Shell;
 
 namespace ExtensionManager
@@ -19,20 +18,19 @@ namespace ExtensionManager
         {
             ThreadHelper.ThrowIfNotOnUIThread();
 
-            if (!File.Exists(fileName))
-            {
-                return;
-            }
+            if (!File.Exists(fileName)) return;
 
             var manifest = Manifest.FromFile(fileName);
-            IEnumerable<IExtension> installedExtensions = _extService.GetInstalledExtensions();
+            var installedExtensions = _extService.GetInstalledExtensions();
             manifest.MarkSelected(installedExtensions);
 
-            if (manifest.Extensions.Any(e => e.Selected))
-            {
-                var msg = "This solution asks that you install the following extensions.";
-                Importer.ImportWindow.Open(manifest.Extensions, Importer.Purpose.InstallForSolution, msg);
-            }
+            if (!manifest.Extensions.Any(e => e.Selected))
+                return;
+
+            ImportWindow.Open(
+                manifest.Extensions, Purpose.InstallForSolution,
+                "This solution asks that you install the following extensions."
+            );
         }
     }
 }
