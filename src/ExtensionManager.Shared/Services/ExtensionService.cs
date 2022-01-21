@@ -83,7 +83,7 @@ namespace ExtensionManager
                     );
 
                 result = marketplaceEntries
-                         .Select(Extension.FromGalleryExtension)
+                         .Select(Extension.FromGalleryEntry)
                          .OrderBy(e => e.Name)
                          .ToList();
             }

@@ -14,7 +14,7 @@ namespace ExtensionManager
 
         [JsonIgnore] public bool Selected { get; set; }
 
-        public static Extension FromGalleryExtension(GalleryEntry entry)
+        public static Extension FromGalleryEntry(GalleryEntry entry)
         {
             return new Extension {
                 ID = entry.VsixID,
