@@ -1,4 +1,5 @@
-﻿using ExtensionManager.Core.Models.Interfaces;
+﻿using System;
+using ExtensionManager.Core.Models.Interfaces;
 using Newtonsoft.Json;
 
 namespace ExtensionManager
@@ -17,6 +18,8 @@ namespace ExtensionManager
 
         public static Extension FromGalleryEntry(IGalleryEntry entry)
         {
+            if (entry == null) throw new ArgumentNullException(nameof(entry));
+
             return new Extension {
                 ID = entry.VsixID,
                 Name = entry.Name,
