@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ExtensionManager
+namespace ExtensionManager.Core.Models.Interfaces
 {
     public interface IGalleryEntry
     {
