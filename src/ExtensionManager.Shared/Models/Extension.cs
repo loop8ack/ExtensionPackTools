@@ -4,16 +4,34 @@ using Newtonsoft.Json;
 
 namespace ExtensionManager
 {
+    /// <summary>
+    /// Provides information about an extension for export to a JSON-formatted file with a <c>.vsext</c> extension.
+    /// </summary>
     public class Extension
     {
+        /// <summary>
+        /// Gets or sets a string containing the URL from which the extension can be downloaded.
+        /// </summary>
         [JsonProperty("downloadUrl")] public string DownloadUrl { get; set; }
 
+        /// <summary>
+        /// Gets or sets the identifier for the extension.
+        /// </summary>
         [JsonProperty("vsixId")] public string ID { get; set; }
 
+        /// <summary>
+        /// Gets or sets the URL of the page on the Visual Studio Marketplace website for the extension.
+        /// </summary>
         [JsonProperty("moreInfoUrl")] public string MoreInfoUrl { get; set; }
 
+        /// <summary>
+        /// Gets or sets a string containing the name of the extension.
+        /// </summary>
         [JsonProperty("name")] public string Name { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether this extension is selected.
+        /// </summary>
         [JsonIgnore] public bool Selected { get; set; }
 
         public static Extension FromGalleryEntry(IGalleryEntry entry)
