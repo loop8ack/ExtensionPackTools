@@ -46,7 +46,7 @@ namespace ExtensionManager
         private int _currentCount;
         private int EntriesCount { get; set; }
 
-        public static void Initialize(AsyncPackage package, OleMenuCommandService commandService, ExtensionService es)
+        public static void Initialize(AsyncPackage package, OleMenuCommandService commandService, IExtensionService es)
         {
             Instance = new ImportCommand(package, commandService, es);
         }

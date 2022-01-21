@@ -34,7 +34,7 @@ namespace ExtensionManager
 
         private IServiceProvider ServiceProvider => _package;
 
-        public static void Initialize(Package package, OleMenuCommandService commandService, ExtensionService es)
+        public static void Initialize(Package package, OleMenuCommandService commandService, IExtensionService es)
         {
             Instance = new ExportSolutionCommand(package, commandService, es);
         }
