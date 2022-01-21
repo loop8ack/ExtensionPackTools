@@ -1,7 +1,7 @@
 ﻿using System;
 using ExtensionManager.Core.Models.Interfaces;
 
-namespace ExtensionManager.Core.Models.Factories
+namespace ExtensionManager
 {
     public static class MakeNewExtension
     {
