@@ -33,6 +33,18 @@ namespace ExtensionManager
         public override int DownloadCount { get; set; }
 
         /// <summary>
+        /// Gets or sets a string containing the URL from which this extension's
+        /// <c>.vsix</c> file can be directly downloaded.
+        /// </summary>
+        public override string DownloadUpdateUrl { get; set; }
+
+        /// <summary>
+        /// Gets or sets a string containing the URL from which this extension's
+        /// <c>.vsix</c> file can be directly downloaded.
+        /// </summary>
+        public override string DownloadUrl { get; set; }
+
+        /// <summary>
         /// Gets or sets a string containing the URL of the icon for this extension.
         /// </summary>
         public override string Icon { get; set; }
@@ -125,6 +137,12 @@ namespace ExtensionManager
         public override string VsixID { get; set; }
 
         /// <summary>
+        /// Gets or sets a string containing information on the references to this
+        /// extension.
+        /// </summary>
+        public override string VsixReferences { get; set; }
+
+        /// <summary>
         /// Gets or sets a string containing the version number of this extension.
         /// </summary>
         public override string VsixVersion { get; set; }
@@ -135,23 +153,5 @@ namespace ExtensionManager
         {
             return Name;
         }
-
-        /// <summary>
-        /// Gets or sets a string containing the URL from which this extension's
-        /// <c>.vsix</c> file can be directly downloaded.
-        /// </summary>
-        public override string DownloadUpdateUrl { get; set; }
-
-        /// <summary>
-        /// Gets or sets a string containing the URL from which this extension's
-        /// <c>.vsix</c> file can be directly downloaded.
-        /// </summary>
-        public override string DownloadUrl { get; set; }
-
-        /// <summary>
-        /// Gets or sets a string containing information on the references to this
-        /// extension.
-        /// </summary>
-        public override string VsixReferences { get; set; }
     }
 }
