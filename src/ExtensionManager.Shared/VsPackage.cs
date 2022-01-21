@@ -27,7 +27,10 @@ namespace ExtensionManager
             var manager = await GetServiceAsync(typeof(SVsExtensionManager)) as IVsExtensionManager;
             var repository = await GetServiceAsync(typeof(SVsExtensionRepository)) as IVsExtensionRepository;
 
-            var extService = new ExtensionService(manager, repository);
+            var extService = BuildNew
+                             .ExtensionService.UsingVsExtensionManager(manager)
+                             .AndVsExtensionRepository(repository);
+
             var solService = await GetServiceAsync(typeof(SVsSolution)) as IVsSolution;
 
             var isSolutionLoaded = await IsSolutionLoadedAsync(solService);
