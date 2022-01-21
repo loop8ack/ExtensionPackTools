@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using ExtensionManager.Core.Models.Interfaces;
+using Newtonsoft.Json;
 
 namespace ExtensionManager
 {
@@ -14,7 +15,7 @@ namespace ExtensionManager
 
         [JsonIgnore] public bool Selected { get; set; }
 
-        public static Extension FromGalleryEntry(GalleryEntry entry)
+        public static Extension FromGalleryEntry(IGalleryEntry entry)
         {
             return new Extension {
                 ID = entry.VsixID,
