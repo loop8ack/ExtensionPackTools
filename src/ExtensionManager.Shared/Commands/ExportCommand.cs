@@ -110,19 +110,17 @@ namespace ExtensionManager
 
                 var dialog = Importer.ImportWindow.Open(extensions, Importer.Purpose.Export);
 
-                if (dialog.DialogResult == true)
-                {
-                    if (!TryGetFilePath(out var filePath))
-                    {
-                        return;
-                    }
+                if (dialog.DialogResult != true)
+                    return;
 
-                    var manifest = new Manifest(dialog.SelectedExtension);
-                    var json = JsonConvert.SerializeObject(manifest, Formatting.Indented);
+                if (!TryGetFilePath(out var filePath))
+                    return;
 
-                    File.WriteAllText(filePath, json);
-                    VsShellUtilities.OpenDocument(ServiceProvider, filePath);
-                }
+                var manifest = new Manifest(dialog.SelectedExtension);
+                var json = JsonConvert.SerializeObject(manifest, Formatting.Indented);
+
+                File.WriteAllText(filePath, json);
+                VsShellUtilities.OpenDocument(ServiceProvider, filePath);
             }
             catch (Exception ex)
             {

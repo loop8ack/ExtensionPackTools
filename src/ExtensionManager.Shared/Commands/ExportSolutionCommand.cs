@@ -126,7 +126,7 @@ namespace ExtensionManager
             }
 
             var fileName = Path.ChangeExtension(
-                dte.Solution.FileName, ".vsext"
+                dte.Solution?.FileName, ".vsext"
             );
 
             try
@@ -134,9 +134,11 @@ namespace ExtensionManager
                 var extensions = _extensionService.GetInstalledExtensions()
                                                   .ToList();
 
+                Manifest manifest;
+
                 if (File.Exists(fileName))
                 {
-                    var manifest = Manifest.FromFile(fileName);
+                    manifest = Manifest.FromFile(fileName);
                     extensions = extensions.Union(manifest.Extensions)
                                            .ToList();
 
@@ -150,21 +152,21 @@ namespace ExtensionManager
 
                 var dialog = ImportWindow.Open(extensions, Purpose.Export);
 
-                if (dialog.DialogResult == true)
-                {
-                    var manifest = new Manifest(dialog.SelectedExtension);
-                    var json = JsonConvert.SerializeObject(
-                        manifest, Formatting.Indented
-                    );
+                if (dialog.DialogResult != true)
+                    return;
+                
+                manifest = new Manifest(dialog.SelectedExtension);
+                var json = JsonConvert.SerializeObject(
+                    manifest, Formatting.Indented
+                );
 
-                    File.WriteAllText(fileName, json);
+                File.WriteAllText(fileName, json);
 
-                    // Add the file to the solution items folder if it's new or if it's not there already.
-                    var solItems = GetOrCreateSolutionItems((DTE2)dte);
-                    solItems.ProjectItems.AddFromFile(fileName);
+                // Add the file to the solution items folder if it's new or if it's not there already.
+                var solItems = GetOrCreateSolutionItems((DTE2)dte);
+                solItems.ProjectItems.AddFromFile(fileName);
 
-                    VsShellUtilities.OpenDocument(ServiceProvider, fileName);
-                }
+                VsShellUtilities.OpenDocument(ServiceProvider, fileName);
             }
             catch (Exception ex)
             {
