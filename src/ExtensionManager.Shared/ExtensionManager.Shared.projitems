@@ -37,5 +37,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Actions\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Conditionals\" />
   </ItemGroup>
 </Project>
