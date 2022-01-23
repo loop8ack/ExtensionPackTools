@@ -76,7 +76,7 @@ namespace ExtensionManager
         {
             ThreadHelper.ThrowIfNotOnUIThread();
 
-            var result = new List<IExtension>();
+            List<IExtension> result;
 
             try
             {
