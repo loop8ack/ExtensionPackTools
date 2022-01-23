@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.ExtensionManager;
 
-namespace ExtensionManager.Shared.Helpers
+namespace ExtensionManager
 {
     /// <summary>
     /// Exposes static extension methods for objects that implement the
