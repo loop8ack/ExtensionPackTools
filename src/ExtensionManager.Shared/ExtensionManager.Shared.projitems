@@ -17,6 +17,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Commands\SolutionPrompter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Conditionals\IsExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Factories\MakeNewExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\InstalledExtensionHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Extension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\ExtensionIdentifierService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\ExtensionService.cs" />
@@ -38,6 +39,5 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Actions\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Helpers\" />
   </ItemGroup>
 </Project>
