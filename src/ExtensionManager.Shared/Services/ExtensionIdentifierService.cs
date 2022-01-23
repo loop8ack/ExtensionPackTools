@@ -46,6 +46,25 @@ namespace ExtensionManager
                        throw new ArgumentNullException(nameof(manager));
         }
 
+        /// <summary>
+        /// Attempts to obtain a collection of strings that contains the set of identifiers
+        /// for the installed extensions.
+        /// <para />
+        /// This method only searches for extensions that have been obtained from the
+        /// Visual Studio Marketplace, are not system components, and are not components of
+        /// packages.
+        /// </summary>
+        /// <returns>
+        /// Collection of strings that contains the set of identifiers for the
+        /// installed extensions.
+        /// <para />
+        /// This method only searches for extensions that have been obtained from the
+        /// Visual Studio Marketplace, are not system components, and are not components of
+        /// packages.
+        /// <para />
+        /// If the operation fails, or if no installed extensions can be found, then this
+        /// method returns the empty collection.
+        /// </returns>
         public IEnumerable<string> GetInstalledExtensionIdentifiers()
         {
             var result = Enumerable.Empty<string>();
@@ -64,11 +83,12 @@ namespace ExtensionManager
                     return result;
 
                 result = _manager.GetInstalledExtensions()
-                        .Where(
-                            i => !i.Header.SystemComponent && !i.IsPackComponent
-                        )
-                        .Select(i => i.Header.Identifier)
-                        .ToList();
+                                 .Where(
+                                     i => !i.Header.SystemComponent &&
+                                          !i.IsPackComponent
+                                 )
+                                 .Select(i => i.Header.Identifier)
+                                 .ToList();
             }
             catch (Exception ex)
             {
