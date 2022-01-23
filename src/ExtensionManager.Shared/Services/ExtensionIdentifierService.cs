@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using ExtensionManager.Shared.Helpers;
 using Microsoft.VisualStudio.ExtensionManager;
 
 namespace ExtensionManager
@@ -84,7 +85,7 @@ namespace ExtensionManager
                                  .Where(
                                      IsExtension.InstalledByTheUser
                                  )
-                                 .Select(i => i.Header.Identifier)
+                                 .Select(i => i.GetIdentiifer())
                                  .ToList();
             }
             catch (Exception ex)
