@@ -27,6 +27,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Importer\VsTheme.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Manifest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Properties\AssemblyInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\IExtensionIdentifierService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VsPackage.cs" />
   </ItemGroup>
   <ItemGroup>

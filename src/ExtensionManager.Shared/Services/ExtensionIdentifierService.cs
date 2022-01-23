@@ -7,8 +7,8 @@ using Microsoft.VisualStudio.ExtensionManager;
 namespace ExtensionManager
 {
     /// <summary>
-    /// Exposes methods to obtain information from external data sources (UI/UX, Visual
-    /// Studio, etc.)
+    /// Service to obtain the identifiers of currently-installed Visual Studio
+    /// Extensions.
     /// </summary>
     /// <remarks>
     /// This class is in charge of getting the identifiers of those extensions
@@ -16,7 +16,7 @@ namespace ExtensionManager
     /// components, and (c) is not a component of a package (<c>IsPackComponent</c> is
     /// <see langword="false" />).
     /// </remarks>
-    public class ExtensionIdentifierService
+    public class ExtensionIdentifierService : IExtensionIdentifierService
     {
         /// <summary>
         /// Reference to an instance of an object that implements the
