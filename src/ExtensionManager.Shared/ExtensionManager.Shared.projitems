@@ -17,7 +17,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Commands\SolutionPrompter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Factories\MakeNewExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Extension.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Actions\Get.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ExtensionIdentifierService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\ExtensionService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Importer\ImportWindow.xaml.cs">
       <DependentUpon>ImportWindow.xaml</DependentUpon>
