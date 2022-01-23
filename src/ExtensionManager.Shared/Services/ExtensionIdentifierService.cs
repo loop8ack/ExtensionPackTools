@@ -76,16 +76,13 @@ namespace ExtensionManager
                 // Check filtered result for having zero elements come back
                 // prior to projecting it.
                 if (!_manager.GetInstalledExtensions()
-                             .Any(
-                                 i => !i.Header.SystemComponent &&
-                                      !i.IsPackComponent
-                             ))
+                             .Any(IsExtension.InstalledByTheUser)
+                )
                     return result;
 
                 result = _manager.GetInstalledExtensions()
                                  .Where(
-                                     i => !i.Header.SystemComponent &&
-                                          !i.IsPackComponent
+                                     IsExtension.InstalledByTheUser
                                  )
                                  .Select(i => i.Header.Identifier)
                                  .ToList();
