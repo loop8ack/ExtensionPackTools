@@ -18,6 +18,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Conditionals\IsExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Factories\MakeNewExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Factories\MakeNewExtensionIdentifierService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Factories\MakeNewExtensionMetadataService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\InstalledExtensionHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Extension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\ExtensionIdentifierService.cs" />
