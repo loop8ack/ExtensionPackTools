@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IExtensionIdentifierService.cs" />
+    <Compile Include="IExtensionMetadataService.cs" />
     <Compile Include="IExtensionService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

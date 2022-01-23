@@ -14,7 +14,7 @@ namespace ExtensionManager
     /// This service only provides metadata on those extensions for whom the
     /// identifiers are provided.
     /// </remarks>
-    public class ExtensionMetadataService
+    public class ExtensionMetadataService : IExtensionMetadataService
     {
         /// <summary>
         /// Reference to an instance of an object that implements the
