@@ -134,37 +134,37 @@ namespace ExtensionManager
 
             var dialog = ImportWindow.Open(manifest.Extensions, Purpose.Import);
 
-            if (dialog.DialogResult == true && dialog.SelectedExtension.Any())
-            {
-                var installSystemWide = dialog.InstallSystemWide;
-                var toInstall = dialog.SelectedExtension.Select(ext => ext.ID)
-                                      .ToList();
+            if (dialog.DialogResult != true ||
+                !dialog.SelectedExtension.Any()) return;
 
-                var repository =
-                    ServiceProvider.GetService(typeof(SVsExtensionRepository))
-                        as IVsExtensionRepository;
-                Assumes.Present(repository);
+            var installSystemWide = dialog.InstallSystemWide;
+            var toInstall = dialog.SelectedExtension.Select(ext => ext.ID)
+                                  .ToList();
 
-                var marketplaceEntries = repository
-                                         .GetVSGalleryExtensions<GalleryEntry>(
-                                             toInstall, 1033, false
-                                         )
-                                         .Where(x => x.DownloadUrl != null);
-                var tempDir = PrepareTempDir();
+            var repository =
+                ServiceProvider.GetService(typeof(SVsExtensionRepository))
+                    as IVsExtensionRepository;
+            Assumes.Present(repository);
 
-                var dte = ServiceProvider.GetService(typeof(DTE)) as DTE;
-                Assumes.Present(dte);
+            var marketplaceEntries = repository
+                                     .GetVSGalleryExtensions<GalleryEntry>(
+                                         toInstall, 1033, false
+                                     )
+                                     .Where(x => x.DownloadUrl != null);
+            var tempDir = PrepareTempDir();
 
-                dte.StatusBar.Text = "Downloading extensions...";
+            var dte = ServiceProvider.GetService(typeof(DTE)) as DTE;
+            Assumes.Present(dte);
 
-                HasRootSuffix(out var rootSuffix);
-                ThreadHelper.JoinableTaskFactory.Run(
-                    () => DownloadExtensionsAsync(
-                        installSystemWide, marketplaceEntries, tempDir, dte,
-                        rootSuffix
-                    )
-                );
-            }
+            dte.StatusBar.Text = "Downloading extensions...";
+
+            HasRootSuffix(out var rootSuffix);
+            ThreadHelper.JoinableTaskFactory.Run(
+                () => DownloadExtensionsAsync(
+                    installSystemWide, marketplaceEntries, tempDir, dte,
+                    rootSuffix
+                )
+            );
         }
 
         private async Task DownloadExtensionsAsync(bool installSystemWide,
