@@ -42,11 +42,17 @@ namespace ExtensionManager
         /// <see cref="T:Microsoft.VisualStudio.ExtensionManager.IVsExtensionRepository" />
         /// interface.
         /// </param>
+        /// <exception cref="T:System.ArgumentNullException">
+        /// Thrown if either of the
+        /// required parameters, <paramref name="manager" />, or
+        /// <paramref name="repository" />, are passed a <see langword="null" /> value.
+        /// </exception>
         public ExtensionService(IVsExtensionManager manager,
             IVsExtensionRepository repository)
         {
             _extensionIdentifierService =
-                new ExtensionIdentifierService(manager);
+                MakeNewExtensionIdentifierService
+                    .ForVsExtensionManager(manager);
             _repository = repository;
         }
 
