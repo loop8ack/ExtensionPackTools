@@ -16,10 +16,10 @@ namespace ExtensionManager
     {
         /// <summary>
         /// Reference to an instance of an object that implements the
-        /// <see cref="T:Microsoft.VisualStudio.ExtensionManager.IVsExtensionManager" />
-        /// interface.
+        /// <see cref="T:ExtensionManager.IExtensionIdentifierService" /> interface.
         /// </summary>
-        private readonly IVsExtensionManager _manager;
+        private readonly IExtensionIdentifierService
+            _extensionIdentifierService;
 
         /// <summary>
         /// Reference to an instance of an object that implements the
@@ -45,7 +45,8 @@ namespace ExtensionManager
         public ExtensionService(IVsExtensionManager manager,
             IVsExtensionRepository repository)
         {
-            _manager = manager;
+            _extensionIdentifierService =
+                new ExtensionIdentifierService(manager);
             _repository = repository;
         }
 
@@ -73,13 +74,9 @@ namespace ExtensionManager
                 // Filter the installed extensions to only be the ones that exist on the Marketplace
 
                 result = _repository.GetVSGalleryExtensions<GalleryEntry>(
-                                        _manager.GetInstalledExtensions()
-                                                .Where(
-                                                    i => !i.Header.SystemComponent &&
-                                                         !i.IsPackComponent
-                                                )
-                                                .Select(i => i.Header.Identifier)
-                                                .ToList(), 1033, false
+                                        _extensionIdentifierService
+                                            .GetInstalledExtensionIdentifiers()
+                                            .ToList(), 1033, false
                                     )
                                     .Select(MakeNewExtension.FromGalleryEntry)
                                     .OrderBy(e => e.Name)
