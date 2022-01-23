@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using ExtensionManager.Core.Services.Interfaces;
 using ExtensionManager.Importer;
 using Microsoft.VisualStudio.Shell;
 

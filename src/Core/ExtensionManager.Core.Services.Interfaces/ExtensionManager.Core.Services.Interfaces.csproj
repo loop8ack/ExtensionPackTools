@@ -43,7 +43,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IExtensionIdentifierService.cs" />
+    <Compile Include="IExtensionService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ExtensionManager.Core.Models.Interfaces\ExtensionManager.Core.Models.Interfaces.csproj">
+      <Project>{7702633E-F7ED-4290-921A-1A9F8760C55A}</Project>
+      <Name>ExtensionManager.Core.Models.Interfaces</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,4 +1,5 @@
 ﻿
+using ExtensionManager.Core.Services.Interfaces;
 using Microsoft.VisualStudio.ExtensionManager;
 
 namespace ExtensionManager

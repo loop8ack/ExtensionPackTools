@@ -11,6 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using EnvDTE;
+using ExtensionManager.Core.Services.Interfaces;
 using ExtensionManager.Importer;
 using Microsoft;
 using Microsoft.VisualStudio;
