@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using ExtensionManager.Shared.Helpers;
 using Microsoft.VisualStudio.ExtensionManager;
 
 namespace ExtensionManager
