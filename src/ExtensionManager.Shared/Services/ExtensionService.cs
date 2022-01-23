@@ -24,10 +24,9 @@ namespace ExtensionManager
 
         /// <summary>
         /// Reference to an instance of an object that implements the
-        /// <see cref="T:Microsoft.VisualStudio.ExtensionManager.IVsExtensionRepository" />
-        /// interface.
+        /// <see cref="T:ExtensionManager.IExtensionMetadataService" /> interface.
         /// </summary>
-        private readonly IVsExtensionRepository _repository;
+        private readonly IExtensionMetadataService _extensionMetadataService;
 
         /// <summary>
         /// Constructs a new instance of <see cref="T:ExtensionManager.ExtensionService" />
@@ -54,7 +53,10 @@ namespace ExtensionManager
             _extensionIdentifierService =
                 MakeNewExtensionIdentifierService
                     .ForVsExtensionManager(manager);
-            _repository = repository;
+            _extensionMetadataService =
+                MakeNewExtensionMetadataService.ForVsExtensionRepository(
+                    repository
+                );
         }
 
         /// <summary>
@@ -80,14 +82,12 @@ namespace ExtensionManager
             {
                 // Filter the installed extensions to only be the ones that exist on the Marketplace
 
-                result = _repository.GetVSGalleryExtensions<GalleryEntry>(
-                                        _extensionIdentifierService
-                                            .GetInstalledExtensionIdentifiers()
-                                            .ToList(), 1033, false
-                                    )
-                                    .Select(MakeNewExtension.FromGalleryEntry)
-                                    .OrderBy(e => e.Name)
-                                    .ToList();
+                result = _extensionMetadataService.GetExtensionMetadata(
+                                                      _extensionIdentifierService
+                                                          .GetInstalledExtensionIdentifiers()
+                                                          .ToList()
+                                                  )
+                                                  .ToList();
             }
             catch (Exception ex)
             {
