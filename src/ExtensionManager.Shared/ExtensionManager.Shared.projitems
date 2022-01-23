@@ -21,6 +21,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\InstalledExtensionHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Extension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\ExtensionIdentifierService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ExtensionMetadataService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\ExtensionService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Importer\ImportWindow.xaml.cs">
       <DependentUpon>ImportWindow.xaml</DependentUpon>
