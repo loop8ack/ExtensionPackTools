@@ -70,24 +70,20 @@ namespace ExtensionManager
 
             try
             {
-                var installed = _manager.GetInstalledExtensions()
-                                        .Where(
-                                            i => !i.Header.SystemComponent &&
-                                                 !i.IsPackComponent
-                                        )
-                                        .Select(i => i.Header.Identifier)
-                                        .ToList();
-
                 // Filter the installed extensions to only be the ones that exist on the Marketplace
-                var marketplaceEntries =
-                    _repository.GetVSGalleryExtensions<GalleryEntry>(
-                        installed, 1033, false
-                    );
 
-                result = marketplaceEntries
-                         .Select(MakeNewExtension.FromGalleryEntry)
-                         .OrderBy(e => e.Name)
-                         .ToList();
+                result = _repository.GetVSGalleryExtensions<GalleryEntry>(
+                                        _manager.GetInstalledExtensions()
+                                                .Where(
+                                                    i => !i.Header.SystemComponent &&
+                                                         !i.IsPackComponent
+                                                )
+                                                .Select(i => i.Header.Identifier)
+                                                .ToList(), 1033, false
+                                    )
+                                    .Select(MakeNewExtension.FromGalleryEntry)
+                                    .OrderBy(e => e.Name)
+                                    .ToList();
             }
             catch (Exception ex)
             {
