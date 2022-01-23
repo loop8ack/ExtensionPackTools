@@ -57,7 +57,7 @@ namespace ExtensionManager
                                    .OrderBy(x => 1);
 
             if (!identifiers.Any())
-                return result;
+                return result;  // oops, do not have any search terms, are zero extensions installed by the user?
 
             try
             {
