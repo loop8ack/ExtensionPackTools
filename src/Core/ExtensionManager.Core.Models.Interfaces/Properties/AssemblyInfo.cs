@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("ExtensionManager.Core.Models.Interfaces")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("xyLOGIX, LLC")]
-[assembly: AssemblyProduct("ExtensionManager.Core.Models.Interfaces")]
-[assembly: AssemblyCopyright("")]
+[assembly: AssemblyCompany("Mads Kristensen")]
+[assembly: AssemblyProduct("Extension Manager")]
+[assembly: AssemblyCopyright("Mads Kristensen")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
