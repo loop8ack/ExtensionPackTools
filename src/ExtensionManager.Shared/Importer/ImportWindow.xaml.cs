@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Interop;
 using ExtensionManager.Core.Models.Interfaces;
 using Microsoft.VisualStudio.Shell;
 
@@ -173,7 +172,7 @@ namespace ExtensionManager.Importer
 
             foreach (CheckBox cb in list.Children.OfType<CheckBox>())
             {
-                if (cb.IsChecked == true && cb.IsEnabled == true)
+                if (cb.IsChecked == true && cb.IsEnabled)
                 {
                     SelectedExtension.Add(_extensions.First(ext => ext.ID == (string)cb.CommandParameter));
                 }
