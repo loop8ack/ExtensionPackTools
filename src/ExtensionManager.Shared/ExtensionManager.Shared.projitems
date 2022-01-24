@@ -10,7 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Builders\BuildNew.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Builders\IExtensionServiceBuilder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Builders\Interfaces\IExtensionServiceBuilder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands\ExportCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands\ExportSolutionCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands\ImportCommand.cs" />
@@ -38,8 +38,5 @@
     <Page Include="$(MSBuildThisFileDirectory)Importer\ImportWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Builders\Interfaces\" />
   </ItemGroup>
 </Project>
