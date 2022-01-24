@@ -11,6 +11,7 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Builders\MakeNew.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Builders\Interfaces\IExtensionServiceBuilder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Commands\CommandBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands\ExportCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands\ExportSolutionCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands\ImportCommand.cs" />
