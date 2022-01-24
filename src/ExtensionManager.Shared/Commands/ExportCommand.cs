@@ -3,6 +3,7 @@ using System.ComponentModel.Design;
 using System.IO;
 using System.Windows.Forms;
 using ExtensionManager.Core.Services.Interfaces;
+using ExtensionManager.Importer;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Newtonsoft.Json;
@@ -15,12 +16,17 @@ namespace ExtensionManager
         /// Reference to an instance of an object that implements the
         /// <see cref="T:ExtensionManager.IExtensionService" /> interface.
         /// </summary>
+        /// <remarks>
+        /// This object is responsible for providing access to information about the set of
+        /// currently-installed Visual Studio Marketplace-obtained extensions.
+        /// </remarks>
         private readonly IExtensionService _extensionService;
 
         /// <summary>
         /// Reference to an instance of an object that implements the
         /// <see cref="T:Microsoft.VisualStudio.Shell.Interop.IVsPackage" /> interface.
         /// </summary>
+        /// <remarks>This is the VSPACKAGE in which this extension command is defined.</remarks>
         private readonly IVsPackage _package;
 
         /// <summary>
@@ -61,14 +67,17 @@ namespace ExtensionManager
                                     nameof(extensionService)
                                 );
 
-            var cmdId = new CommandID(PackageGuids.guidExportPackageCmdSet, PackageIds.ExportCmd);
+            var cmdId = new CommandID(
+                PackageGuids.guidExportPackageCmdSet, PackageIds.ExportCmd
+            );
             var cmd = new MenuCommand(Execute, cmdId);
             commandService.AddCommand(cmd);
         }
 
         public static ExportCommand Instance { get; private set; }
 
-        private IServiceProvider ServiceProvider => (IServiceProvider)_package;
+        private IServiceProvider ServiceProvider
+            => (IServiceProvider)_package;
 
         /// <summary>
         /// Creates and initializes a new instance of
@@ -96,9 +105,12 @@ namespace ExtensionManager
         /// are passed a <see langword="null" /> value.
         /// </exception>
         public static void Initialize(IVsPackage package,
-            IMenuCommandService commandService, IExtensionService extensionService)
+            IMenuCommandService commandService,
+            IExtensionService extensionService)
         {
-            Instance = new ExportCommand(package, commandService, extensionService);
+            Instance = new ExportCommand(
+                package, commandService, extensionService
+            );
         }
 
         private void Execute(object sender, EventArgs e)
@@ -109,7 +121,7 @@ namespace ExtensionManager
             {
                 var extensions = _extensionService.GetInstalledExtensions();
 
-                var dialog = Importer.ImportWindow.Open(extensions, Importer.Purpose.Export);
+                var dialog = ImportWindow.Open(extensions, Purpose.Export);
 
                 if (dialog.DialogResult != true)
                     return;
@@ -118,7 +130,9 @@ namespace ExtensionManager
                     return;
 
                 var manifest = new Manifest(dialog.SelectedExtension);
-                var json = JsonConvert.SerializeObject(manifest, Formatting.Indented);
+                var json = JsonConvert.SerializeObject(
+                    manifest, Formatting.Indented
+                );
 
                 File.WriteAllText(filePath, json);
                 VsShellUtilities.OpenDocument(ServiceProvider, filePath);
@@ -126,12 +140,9 @@ namespace ExtensionManager
             catch (Exception ex)
             {
                 VsShellUtilities.ShowMessageBox(
-                    ServiceProvider,
-                    ex.Message,
-                    Vsix.Name,
-                    Microsoft.VisualStudio.Shell.Interop.OLEMSGICON.OLEMSGICON_WARNING,
-                    Microsoft.VisualStudio.Shell.Interop.OLEMSGBUTTON.OLEMSGBUTTON_OK,
-                    Microsoft.VisualStudio.Shell.Interop.OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST
+                    ServiceProvider, ex.Message, Vsix.Name,
+                    OLEMSGICON.OLEMSGICON_WARNING, OLEMSGBUTTON.OLEMSGBUTTON_OK,
+                    OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST
                 );
             }
         }
@@ -146,7 +157,7 @@ namespace ExtensionManager
                 sfd.FileName = "extensions";
                 sfd.Filter = "VSEXT File|*.vsext";
 
-                DialogResult result = sfd.ShowDialog();
+                var result = sfd.ShowDialog();
 
                 if (result == DialogResult.OK)
                 {
