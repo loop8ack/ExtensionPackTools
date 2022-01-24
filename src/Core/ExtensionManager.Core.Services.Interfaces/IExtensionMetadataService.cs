@@ -22,7 +22,7 @@ namespace ExtensionManager
         /// If an error occurs or the operation otherwise cannot be carried out, then this
         /// method returns the empty collection.
         /// </returns>
-        IOrderedEnumerable<IExtension> GetExtensionMetadata(
+        IEnumerable<IExtension> GetExtensionMetadata(
             List<string> identifiers);
     }
 }
