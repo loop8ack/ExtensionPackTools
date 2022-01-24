@@ -3,6 +3,12 @@ using ExtensionManager.Core.Models.Interfaces;
 
 namespace ExtensionManager
 {
+    /// <summary>
+    /// Defines the publicly-exposed methods and properties of a service that is
+    /// responsible for fetching metadata for installed Visual Studio extensions by
+    /// looking that metadata up using, e.g., their identifiers
+    /// .
+    /// </summary>
     public interface IExtensionMetadataService
     {
         /// <summary>
@@ -21,7 +27,6 @@ namespace ExtensionManager
         /// If an error occurs or the operation otherwise cannot be carried out, then this
         /// method returns the empty collection.
         /// </returns>
-        IEnumerable<IExtension> GetExtensionMetadata(
-            List<string> identifiers);
+        IEnumerable<IExtension> GetExtensionMetadata(List<string> identifiers);
     }
 }
