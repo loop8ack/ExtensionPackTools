@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using ExtensionManager.Core.Models.Interfaces;
 
 namespace ExtensionManager
