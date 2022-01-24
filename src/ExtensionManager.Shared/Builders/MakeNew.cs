@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.ExtensionManager;
 
 namespace ExtensionManager
 {
-    public class BuildNew : IExtensionServiceBuilder
+    public class MakeNew : IExtensionServiceBuilder
     {
         /// <summary>
         /// Reference to an instance of an object that implements the
@@ -16,12 +16,12 @@ namespace ExtensionManager
         /// <summary>
         /// Empty, static constructor to prohibit direct allocation of this class.
         /// </summary>
-        static BuildNew() { }
+        static MakeNew() { }
 
         /// <summary>
         /// Empty, protected constructor to prohibit direct allocation of this class.
         /// </summary>
-        protected BuildNew() { }
+        protected MakeNew() { }
 
         /// <summary>
         /// Gets a reference to the one and only instance of the object that implements the
@@ -29,7 +29,7 @@ namespace ExtensionManager
         /// interface.
         /// </summary>
         public static IExtensionServiceBuilder ExtensionService { get; } =
-            new BuildNew();
+            new MakeNew();
 
         /// <summary>
         /// Builds a new instance of an object that implements the

@@ -44,7 +44,7 @@ namespace ExtensionManager
 
             var isSolutionLoaded = await IsSolutionLoadedAsync(solService);
 
-            var extensionService = BuildNew
+            var extensionService = MakeNew
                                    .ExtensionService
                                    .UsingVsExtensionManager(manager)
                                    .AndVsExtensionRepository(repository);
