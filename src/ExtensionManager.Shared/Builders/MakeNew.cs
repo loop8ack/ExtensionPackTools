@@ -85,7 +85,7 @@ namespace ExtensionManager
         /// parameter, <paramref name="manager" />, is passed a <see langword="null" />
         /// value.
         /// </exception>
-        public IExtensionServiceBuilder UsingVsExtensionManager(
+        public IExtensionServiceBuilder HavingVsExtensionManager(
             IVsExtensionManager manager)
         {
             _manager = manager ??

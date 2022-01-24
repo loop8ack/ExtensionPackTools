@@ -46,7 +46,7 @@ namespace ExtensionManager
 
             var extensionService = MakeNew
                                    .ExtensionService
-                                   .UsingVsExtensionManager(manager)
+                                   .HavingVsExtensionManager(manager)
                                    .AndVsExtensionRepository(repository);
             if (isSolutionLoaded)
             {
