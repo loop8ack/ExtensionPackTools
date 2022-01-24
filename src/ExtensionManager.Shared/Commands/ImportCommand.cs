@@ -217,11 +217,15 @@ namespace ExtensionManager
             return tempDir;
         }
 
-        private void InvokeVsixInstaller(string tempDir, string rootSuffix,
+        private static void InvokeVsixInstaller(string tempDir, string rootSuffix,
             bool installSystemWide)
         {
             var process = Process.GetCurrentProcess();
+            if (!File.Exists(process.MainModule.FileName)) return;
+
             var dir = Path.GetDirectoryName(process.MainModule.FileName);
+            if (!Directory.Exists(dir)) return;
+
             var exe = Path.Combine(dir, "VSIXInstaller.exe");
             var configuration = new SetupConfiguration() as ISetupConfiguration;
             var adminSwitch = installSystemWide ? "/admin" : string.Empty;
