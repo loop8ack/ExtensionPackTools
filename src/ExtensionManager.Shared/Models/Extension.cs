@@ -1,5 +1,4 @@
-﻿using System;
-using ExtensionManager.Core.Models.Interfaces;
+﻿using ExtensionManager.Core.Models.Interfaces;
 using Newtonsoft.Json;
 
 namespace ExtensionManager
