@@ -1,4 +1,4 @@
-﻿namespace ExtensionManager.Importer
+﻿namespace ExtensionManager
 {
     public enum Purpose
     {
