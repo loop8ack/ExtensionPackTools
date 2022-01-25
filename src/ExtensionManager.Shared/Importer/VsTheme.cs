@@ -5,7 +5,7 @@ using System.Windows.Controls;
 using Microsoft.VisualStudio.PlatformUI;
 using Microsoft.VisualStudio.Shell;
 
-namespace ExtensionManager.Importer
+namespace ExtensionManager
 {
     public static class VsTheme
     {
