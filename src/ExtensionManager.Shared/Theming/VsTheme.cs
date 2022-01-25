@@ -38,7 +38,7 @@ namespace ExtensionManager
                     element is Control c)
                     _originalBackgrounds[element] = c.Background;
 
-                ((ContentControl)element).ShouldBeThemed();
+                ((ContentControl)element).ApplyTheme();
             }
             else
             {
@@ -110,7 +110,7 @@ namespace ExtensionManager
             return allResources;
         }
 
-        private static void ShouldBeThemed(this FrameworkElement frameworkElement)
+        private static void ApplyTheme(this FrameworkElement frameworkElement)
         {
             if (frameworkElement.Resources != ThemeResources)
             {
