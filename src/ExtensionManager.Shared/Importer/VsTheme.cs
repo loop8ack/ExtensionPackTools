@@ -9,12 +9,23 @@ namespace ExtensionManager
 {
     public static class VsTheme
     {
-        private static Dictionary<UIElement, bool> _isUsingVsTheme = new Dictionary<UIElement, bool>();
-        private static Dictionary<UIElement, object> _originalBackgrounds = new Dictionary<UIElement, object>();
+        private static readonly Dictionary<UIElement, bool> _isUsingVsTheme =
+            new Dictionary<UIElement, bool>();
 
-        public static DependencyProperty UseVsThemeProperty = DependencyProperty.RegisterAttached("UseVsTheme", typeof(bool), typeof(VsTheme), new PropertyMetadata(false, UseVsThemePropertyChanged));
+        private static readonly Dictionary<UIElement, object>
+            _originalBackgrounds = new Dictionary<UIElement, object>();
 
-        private static void UseVsThemePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        public static DependencyProperty UseVsThemeProperty =
+            DependencyProperty.RegisterAttached(
+                "UseVsTheme", typeof(bool), typeof(VsTheme),
+                new PropertyMetadata(false, UseVsThemePropertyChanged)
+            );
+
+        private static ResourceDictionary ThemeResources { get; } =
+            BuildThemeResources();
+
+        private static void UseVsThemePropertyChanged(DependencyObject d,
+            DependencyPropertyChangedEventArgs e)
         {
             SetUseVsTheme((UIElement)d, (bool)e.NewValue);
         }
@@ -23,10 +34,9 @@ namespace ExtensionManager
         {
             if (value)
             {
-                if (!_originalBackgrounds.ContainsKey(element) && element is Control c)
-                {
+                if (!_originalBackgrounds.ContainsKey(element) &&
+                    element is Control c)
                     _originalBackgrounds[element] = c.Background;
-                }
 
                 ((ContentControl)element).ShouldBeThemed();
             }
@@ -49,43 +59,53 @@ namespace ExtensionManager
 
             try
             {
-                var shellResources = (ResourceDictionary)Application.LoadComponent(new Uri("Microsoft.VisualStudio.Platform.WindowManagement;component/Themes/ThemedDialogDefaultStyles.xaml", UriKind.Relative));
-                var scrollStyleContainer = (ResourceDictionary)Application.LoadComponent(new Uri("Microsoft.VisualStudio.Shell.UI.Internal;component/Styles/ScrollBarStyle.xaml", UriKind.Relative));
+                var shellResources =
+                    (ResourceDictionary)Application.LoadComponent(
+                        new Uri(
+                            "Microsoft.VisualStudio.Platform.WindowManagement;component/Themes/ThemedDialogDefaultStyles.xaml",
+                            UriKind.Relative
+                        )
+                    );
+                var scrollStyleContainer =
+                    (ResourceDictionary)Application.LoadComponent(
+                        new Uri(
+                            "Microsoft.VisualStudio.Shell.UI.Internal;component/Styles/ScrollBarStyle.xaml",
+                            UriKind.Relative
+                        )
+                    );
                 allResources.MergedDictionaries.Add(shellResources);
                 allResources.MergedDictionaries.Add(scrollStyleContainer);
-                allResources[typeof(ScrollViewer)] = new Style
-                {
+                allResources[typeof(ScrollViewer)] = new Style {
                     TargetType = typeof(ScrollViewer),
-                    BasedOn = (Style)scrollStyleContainer[VsResourceKeys.ScrollViewerStyleKey]
+                    BasedOn =
+                        (Style)scrollStyleContainer[
+                            VsResourceKeys.ScrollViewerStyleKey]
                 };
 
-                allResources[typeof(TextBox)] = new Style
-                {
+                allResources[typeof(TextBox)] = new Style {
                     TargetType = typeof(TextBox),
                     BasedOn = (Style)shellResources[typeof(TextBox)],
-                    Setters =
-                    {
-                        new Setter(Control.PaddingProperty, new Thickness(2, 3, 2, 3))
+                    Setters = {
+                        new Setter(
+                            Control.PaddingProperty, new Thickness(2, 3, 2, 3)
+                        )
                     }
                 };
 
-                allResources[typeof(ComboBox)] = new Style
-                {
+                allResources[typeof(ComboBox)] = new Style {
                     TargetType = typeof(ComboBox),
                     BasedOn = (Style)shellResources[typeof(ComboBox)],
-                    Setters =
-                    {
-                        new Setter(Control.PaddingProperty, new Thickness(2, 3, 2, 3))
+                    Setters = {
+                        new Setter(
+                            Control.PaddingProperty, new Thickness(2, 3, 2, 3)
+                        )
                     }
                 };
             }
-            catch
-            { }
+            catch { }
 
             return allResources;
         }
-
-        private static ResourceDictionary ThemeResources { get; } = BuildThemeResources();
 
         private static void ShouldBeThemed(this FrameworkElement control)
         {
@@ -103,9 +123,10 @@ namespace ExtensionManager
             }
 
             if (control is Control c)
-            {
-                c.SetResourceReference(Control.BackgroundProperty, (string)EnvironmentColors.StartPageTabBackgroundBrushKey);
-            }
+                c.SetResourceReference(
+                    Control.BackgroundProperty,
+                    (string)EnvironmentColors.StartPageTabBackgroundBrushKey
+                );
         }
 
         private static void ShouldNotBeThemed(this FrameworkElement control)
@@ -113,26 +134,20 @@ namespace ExtensionManager
             if (control.Resources != null)
             {
                 if (control.Resources == ThemeResources)
-                {
                     control.Resources = new ResourceDictionary();
-                }
                 else
-                {
                     control.Resources.MergedDictionaries.Remove(ThemeResources);
-                }
             }
 
             //If we're themed now and we're something with a background property, reset it
             if (GetUseVsTheme(control) && control is Control c)
             {
-                if (_originalBackgrounds.TryGetValue(control, out var background))
-                {
+                if (_originalBackgrounds.TryGetValue(
+                        control, out var background
+                    ))
                     c.SetValue(Control.BackgroundProperty, background);
-                }
                 else
-                {
                     c.ClearValue(Control.BackgroundProperty);
-                }
             }
         }
     }
