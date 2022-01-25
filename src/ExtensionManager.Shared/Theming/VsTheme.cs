@@ -152,16 +152,15 @@ namespace ExtensionManager
             }
 
             //If we're themed now and we're something with a background property, reset it
-            if (GetUseVsTheme(frameworkElement) &&
-                frameworkElement is Control c)
-            {
-                if (_originalBackgrounds.TryGetValue(
-                        frameworkElement, out var background
-                    ))
-                    c.SetValue(Control.BackgroundProperty, background);
-                else
-                    c.ClearValue(Control.BackgroundProperty);
-            }
+            if (!GetUseVsTheme(frameworkElement) ||
+                !(frameworkElement is Control control)) return;
+
+            if (_originalBackgrounds.TryGetValue(
+                    frameworkElement, out var background
+                ))
+                control.SetValue(Control.BackgroundProperty, background);
+            else
+                control.ClearValue(Control.BackgroundProperty);
         }
     }
 }
