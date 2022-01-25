@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
 
-namespace ExtensionManager.Importer
+namespace ExtensionManager
 {
     /// <summary>
     /// Provides definitions for Win32 API methods and constants.
@@ -37,10 +37,10 @@ namespace ExtensionManager.Importer
             IntPtr wParam, IntPtr lParam);
 
         [DllImport("user32.dll")]
-        internal extern static int GetWindowLong(IntPtr hwnd, int index);
+        internal static extern int GetWindowLong(IntPtr hwnd, int index);
 
         [DllImport("user32.dll")]
-        internal extern static int SetWindowLong(IntPtr hwnd, int index, int value);
+        internal static extern int SetWindowLong(IntPtr hwnd, int index, int value);
 
         // thanks stack overflow <https://stackoverflow.com/questions/339620/how-do-i-remove-minimize-and-maximize-from-a-resizable-window-in-wpf>
         /// <summary>
