@@ -3,7 +3,6 @@ using System.ComponentModel.Design;
 using System.IO;
 using System.Windows.Forms;
 using ExtensionManager.Core.Services.Interfaces;
-using ExtensionManager.Importer;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Newtonsoft.Json;

@@ -5,7 +5,6 @@ using System.Linq;
 using EnvDTE;
 using EnvDTE80;
 using ExtensionManager.Core.Services.Interfaces;
-using ExtensionManager.Importer;
 using Microsoft;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
