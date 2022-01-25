@@ -128,21 +128,21 @@ namespace ExtensionManager
                 );
         }
 
-        private static void ShouldNotBeThemed(this FrameworkElement control)
+        private static void ShouldNotBeThemed(this FrameworkElement frameworkElement)
         {
-            if (control.Resources != null)
+            if (frameworkElement.Resources != null)
             {
-                if (control.Resources == ThemeResources)
-                    control.Resources = new ResourceDictionary();
+                if (frameworkElement.Resources == ThemeResources)
+                    frameworkElement.Resources = new ResourceDictionary();
                 else
-                    control.Resources.MergedDictionaries.Remove(ThemeResources);
+                    frameworkElement.Resources.MergedDictionaries.Remove(ThemeResources);
             }
 
             //If we're themed now and we're something with a background property, reset it
-            if (GetUseVsTheme(control) && control is Control c)
+            if (GetUseVsTheme(frameworkElement) && frameworkElement is Control c)
             {
                 if (_originalBackgrounds.TryGetValue(
-                        control, out var background
+                        frameworkElement, out var background
                     ))
                     c.SetValue(Control.BackgroundProperty, background);
                 else
