@@ -28,7 +28,10 @@ namespace ExtensionManager
         private static void UseVsThemePropertyChanged(DependencyObject d,
             DependencyPropertyChangedEventArgs e)
         {
-            SetUseVsTheme((UIElement)d, (bool)e.NewValue);
+            if (!(d is UIElement element)) return;
+            if (!(e.NewValue is bool value)) return;
+
+            SetUseVsTheme(element, value);
         }
 
         public static void SetUseVsTheme(UIElement element, bool value)
