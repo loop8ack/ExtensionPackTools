@@ -39,11 +39,11 @@ namespace ExtensionManager
                 if (!_originalBackgrounds.ContainsKey(element))
                     _originalBackgrounds[element] = control.Background;
 
-                ((ContentControl)element).ApplyTheme();
+                control.ApplyTheme();
             }
             else
             {
-                ((ContentControl)element).RemoveTheme();
+                control.RemoveTheme();
             }
 
             _isUsingVsTheme[element] = value;
