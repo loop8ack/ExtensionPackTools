@@ -114,11 +114,11 @@ namespace ExtensionManager
         {
             if (control.Resources != ThemeResources)
             {
-                var d = new ResourceDictionary();
-                d.MergedDictionaries.Add(ThemeResources);
-                d.MergedDictionaries.Add(control.Resources);
+                var resourceDictionary = new ResourceDictionary();
+                resourceDictionary.MergedDictionaries.Add(ThemeResources);
+                resourceDictionary.MergedDictionaries.Add(control.Resources);
                 control.Resources = null;
-                control.Resources = d;
+                control.Resources = resourceDictionary;
             }
 
             if (control is Control c)
