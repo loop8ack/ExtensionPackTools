@@ -42,7 +42,7 @@ namespace ExtensionManager
             }
             else
             {
-                ((ContentControl)element).ShouldNotBeThemed();
+                ((ContentControl)element).RemoveTheme();
             }
 
             _isUsingVsTheme[element] = value;
@@ -128,7 +128,7 @@ namespace ExtensionManager
                 );
         }
 
-        private static void ShouldNotBeThemed(this FrameworkElement frameworkElement)
+        private static void RemoveTheme(this FrameworkElement frameworkElement)
         {
             if (frameworkElement.Resources != null)
             {
