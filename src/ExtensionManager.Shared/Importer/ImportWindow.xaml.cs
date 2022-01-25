@@ -6,14 +6,19 @@ using System.Windows.Controls;
 using ExtensionManager.Core.Models.Interfaces;
 using Microsoft.VisualStudio.Shell;
 
-namespace ExtensionManager.Importer
+namespace ExtensionManager
 {
-    public partial class ImportWindow : Window
+    public partial class ImportWindow
     {
         private readonly IEnumerable<IExtension> _extensions;
         private readonly Purpose _purpose;
 
-        public ImportWindow(IEnumerable<IExtension> extensions, Purpose purpose, string text = null)
+        /// <summary>
+        /// Constructs a new instance of <see cref="T:ExtensionManager.ImportWindow" /> and
+        /// returns a reference to it.
+        /// </summary>
+        public ImportWindow(IEnumerable<IExtension> extensions, Purpose purpose,
+            string text = null)
         {
             _extensions = extensions;
             _purpose = purpose;
@@ -21,20 +26,34 @@ namespace ExtensionManager.Importer
             InitializeComponent();
 
             // Set the OK button to have the proper verb for its text given the purpose
-            btnOk.Content = purpose == Purpose.InstallForSolution ? "_Install" : purpose == Purpose.Import ? "_Import" : "_Export";
+            btnOk.Content = purpose == Purpose.InstallForSolution ? "_Install" :
+                purpose == Purpose.Import ? "_Import" : "_Export";
 
             // Show the Install System-Wide check box only if we are importing and/or
             // loading a solution
-            chkInstallSystemWide.Visibility = purpose == Purpose.Import || purpose == Purpose.InstallForSolution 
-                ? Visibility.Visible : Visibility.Hidden;
+            chkInstallSystemWide.Visibility =
+                purpose == Purpose.Import ||
+                purpose == Purpose.InstallForSolution
+                    ? Visibility.Visible
+                    : Visibility.Hidden;
 
             InitializeWindowTitle(purpose);
             InitializeMainInstructionText(purpose);
             InitializeMessage(purpose, text);
         }
 
-        /// <summary>Raises the <see cref="E:System.Windows.Window.SourceInitialized" /> event.</summary>
-        /// <param name="e">An <see cref="T:System.EventArgs" /> that contains the event data.</param>
+        public List<IExtension> SelectedExtension { get; private set; }
+
+        public bool InstallSystemWide { get; private set; }
+
+        /// <summary>
+        /// Raises the <see cref="E:System.Windows.Window.SourceInitialized" />
+        /// event.
+        /// </summary>
+        /// <param name="e">
+        /// An <see cref="T:System.EventArgs" /> that contains the event
+        /// data.
+        /// </param>
         protected override void OnSourceInitialized(EventArgs e)
         {
             base.OnSourceInitialized(e);
@@ -44,21 +63,22 @@ namespace ExtensionManager.Importer
 
         private void InitializeMessage(Purpose purpose, string text)
         {
-            switch(purpose)
+            switch (purpose)
             {
                 case Purpose.Export:
-                    lblMessage.Content = "Select the extension(s) you wish to export.  Only extensions published to the Visual Studio Marketplace are shown.";
+                    lblMessage.Content =
+                        "Select the extension(s) you wish to export.  Only extensions published to the Visual Studio Marketplace are shown.";
                     break;
 
                 case Purpose.Import:
-                    lblMessage.Content = "Select the extension(s) you wish to import.  Only extensions published to the Visual Studio Marketplace are shown.";
+                    lblMessage.Content =
+                        "Select the extension(s) you wish to import.  Only extensions published to the Visual Studio Marketplace are shown.";
                     break;
 
                 case Purpose.InstallForSolution:
                     if (!string.IsNullOrWhiteSpace(text))
                         lblMessage.Content = text;
                     break;
-
             }
         }
 
@@ -67,25 +87,29 @@ namespace ExtensionManager.Importer
             switch (purpose)
             {
                 case Purpose.Export:
-                    lblMainInstruction.Content = "Export your extension(s) to a file";
+                    lblMainInstruction.Content =
+                        "Export your extension(s) to a file";
                     break;
 
                 case Purpose.Import:
-                    lblMainInstruction.Content = "Import extension(s) into Visual Studio";
+                    lblMainInstruction.Content =
+                        "Import extension(s) into Visual Studio";
                     break;
 
                 case Purpose.InstallForSolution:
-                    lblMainInstruction.Content = "Install extension(s) required by this solution";
+                    lblMainInstruction.Content =
+                        "Install extension(s) required by this solution";
                     break;
             }
         }
 
         /// <summary>
-        /// Alters the title of the dialog box to ensure the correct context is provided to the user for the current action.
+        /// Alters the title of the dialog box to ensure the correct context is provided to
+        /// the user for the current action.
         /// </summary>
         private void InitializeWindowTitle(Purpose purpose)
         {
-            switch(purpose)
+            switch (purpose)
             {
                 case Purpose.Export:
                     Title = "Export Extensions";
@@ -98,33 +122,29 @@ namespace ExtensionManager.Importer
                 case Purpose.Import:
                     Title = "Import Extensions";
                     break;
-
             }
         }
 
         /// <summary>
-        /// Alters the chrome (title bar, close/minimize/maximize buttons etc.) to correspond to a dialog box style window.
+        /// Alters the chrome (title bar, close/minimize/maximize buttons etc.) to
+        /// correspond to a dialog box style window.
         /// </summary>
         private void InitializeWindowChrome()
         {
             this.StyleWindowAsDialogBox();
         }
 
-        public List<IExtension> SelectedExtension { get; private set; }
-
-        public bool InstallSystemWide { get; private set; }
-
         private void ImportWindow_Loaded(object sender, RoutedEventArgs e)
         {
             var hasCategory = false;
-            IEnumerable<IExtension> sortedList = _extensions;
+            var sortedList = _extensions;
 
             if (_purpose == Purpose.Import)
-            {
-                sortedList = _extensions.OrderByDescending(x => x.Selected).ThenBy(x => x.Name);
-            }
+                sortedList = _extensions.OrderByDescending(x => x.Selected)
+                                        .ThenBy(x => x.Name);
 
-            if (_extensions.FirstOrDefault()?.Selected == true)
+            if (_extensions.FirstOrDefault()
+                           ?.Selected == true)
             {
                 var label = new Label {
                     Content = "Extensions",
@@ -135,13 +155,13 @@ namespace ExtensionManager.Importer
                 list.Children.Add(label);
             }
 
-            foreach (Extension ext in sortedList)
+            foreach (var ext in sortedList)
             {
                 var cb = new CheckBox {
                     Content = ext.Name,
                     IsChecked = ext.Selected,
                     CommandParameter = ext.ID,
-                    Margin = new Thickness(10, 0, 0, 0),
+                    Margin = new Thickness(10, 0, 0, 0)
                 };
 
                 if (_purpose == Purpose.Import && !ext.Selected)
@@ -170,13 +190,13 @@ namespace ExtensionManager.Importer
         {
             SelectedExtension = new List<IExtension>();
 
-            foreach (CheckBox cb in list.Children.OfType<CheckBox>())
-            {
+            foreach (var cb in list.Children.OfType<CheckBox>())
                 if (cb.IsChecked == true && cb.IsEnabled)
-                {
-                    SelectedExtension.Add(_extensions.First(ext => ext.ID == (string)cb.CommandParameter));
-                }
-            }
+                    SelectedExtension.Add(
+                        _extensions.First(
+                            ext => ext.ID == (string)cb.CommandParameter
+                        )
+                    );
 
             InstallSystemWide = chkInstallSystemWide.IsChecked ?? false;
             DialogResult = true;
@@ -187,28 +207,26 @@ namespace ExtensionManager.Importer
         {
             SelectedExtension = new List<IExtension>();
 
-            foreach (CheckBox cb in list.Children.OfType<CheckBox>())
-            {
+            foreach (var cb in list.Children.OfType<CheckBox>())
                 cb.IsChecked = true;
-            }
         }
 
         private void DeselectAllButton_Click(object sender, RoutedEventArgs e)
         {
             SelectedExtension = new List<IExtension>();
 
-            foreach (CheckBox cb in list.Children.OfType<CheckBox>())
-            {
+            foreach (var cb in list.Children.OfType<CheckBox>())
                 cb.IsChecked = false;
-            }
         }
 
-        public static ImportWindow Open(IEnumerable<IExtension> extensions, Purpose purpose, string msg = null)
+        public static ImportWindow Open(IEnumerable<IExtension> extensions,
+            Purpose purpose, string msg = null)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
 
-            var dialog = new ImportWindow(extensions, purpose, msg);
-            dialog.Owner = Application.Current.MainWindow;
+            var dialog = new ImportWindow(extensions, purpose, msg) {
+                Owner = Application.Current.MainWindow
+            };
             dialog.ShowDialog();
 
             return dialog;
@@ -219,7 +237,8 @@ namespace ExtensionManager.Importer
             SelectDeselectAll();
         }
 
-        private void SelectDeselectAll_Unchecked(object sender, RoutedEventArgs e)
+        private void SelectDeselectAll_Unchecked(object sender,
+            RoutedEventArgs e)
         {
             SelectDeselectAll();
         }
@@ -231,19 +250,23 @@ namespace ExtensionManager.Importer
         {
             // If check boxes are grayed out, always clear their check boxes
             // since they are not applicable to the task at hand.
-            if (list.Children.OfType<CheckBox>().Any(cb => !cb.IsEnabled))
+            if (list.Children.OfType<CheckBox>()
+                    .Any(cb => !cb.IsEnabled))
             {
-                foreach (var cb in list.Children.OfType<CheckBox>().Where(cb => !cb.IsEnabled))
+                foreach (var cb in list.Children.OfType<CheckBox>()
+                                       .Where(cb => !cb.IsEnabled))
                     cb.IsChecked = false;
                 return;
             }
 
             // Only let the Select/Deselect All check box work on those check boxes
             // that aren't grayed out.
-            if (!list.Children.OfType<CheckBox>().Any(cb => cb.IsEnabled))
+            if (!list.Children.OfType<CheckBox>()
+                     .Any(cb => cb.IsEnabled))
                 return;
 
-            foreach (var cb in list.Children.OfType<CheckBox>().Where(cb => cb.IsEnabled))
+            foreach (var cb in list.Children.OfType<CheckBox>()
+                                   .Where(cb => cb.IsEnabled))
                 cb.IsChecked = chkSelectDeselectAll.IsChecked;
         }
     }
