@@ -110,18 +110,18 @@ namespace ExtensionManager
             return allResources;
         }
 
-        private static void ShouldBeThemed(this FrameworkElement control)
+        private static void ShouldBeThemed(this FrameworkElement frameworkElement)
         {
-            if (control.Resources != ThemeResources)
+            if (frameworkElement.Resources != ThemeResources)
             {
                 var resourceDictionary = new ResourceDictionary();
                 resourceDictionary.MergedDictionaries.Add(ThemeResources);
-                resourceDictionary.MergedDictionaries.Add(control.Resources);
-                control.Resources = null;
-                control.Resources = resourceDictionary;
+                resourceDictionary.MergedDictionaries.Add(frameworkElement.Resources);
+                frameworkElement.Resources = null;
+                frameworkElement.Resources = resourceDictionary;
             }
 
-            if (control is Control c)
+            if (frameworkElement is Control c)
                 c.SetResourceReference(
                     Control.BackgroundProperty,
                     (string)EnvironmentColors.StartPageTabBackgroundBrushKey
