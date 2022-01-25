@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using Microsoft.VisualStudio.PlatformUI;
@@ -51,6 +52,10 @@ namespace ExtensionManager
 
         public static bool GetUseVsTheme(UIElement element)
         {
+            if (element == null) return false;
+            if (!_elementsUsingTheme.Any()) return false;
+            if (!_elementsUsingTheme.ContainsKey(element)) return false;
+            
             return _elementsUsingTheme.TryGetValue(element, out var value) && value;
         }
 
