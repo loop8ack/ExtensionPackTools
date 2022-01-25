@@ -121,8 +121,8 @@ namespace ExtensionManager
                 frameworkElement.Resources = resourceDictionary;
             }
 
-            if (frameworkElement is Control c)
-                c.SetResourceReference(
+            if (frameworkElement is Control control)
+                control.SetResourceReference(
                     Control.BackgroundProperty,
                     (string)EnvironmentColors.StartPageTabBackgroundBrushKey
                 );
