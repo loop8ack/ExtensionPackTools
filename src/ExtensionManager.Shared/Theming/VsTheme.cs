@@ -9,7 +9,7 @@ namespace ExtensionManager
 {
     public static class VsTheme
     {
-        private static readonly Dictionary<UIElement, bool> _isUsingVsTheme =
+        private static readonly Dictionary<UIElement, bool> _elementsUsingTheme =
             new Dictionary<UIElement, bool>();
 
         private static readonly Dictionary<UIElement, object>
@@ -46,12 +46,12 @@ namespace ExtensionManager
                 control.RemoveTheme();
             }
 
-            _isUsingVsTheme[element] = value;
+            _elementsUsingTheme[element] = value;
         }
 
         public static bool GetUseVsTheme(UIElement element)
         {
-            return _isUsingVsTheme.TryGetValue(element, out var value) && value;
+            return _elementsUsingTheme.TryGetValue(element, out var value) && value;
         }
 
         private static ResourceDictionary BuildThemeResources()
@@ -117,7 +117,9 @@ namespace ExtensionManager
             {
                 var resourceDictionary = new ResourceDictionary();
                 resourceDictionary.MergedDictionaries.Add(ThemeResources);
-                resourceDictionary.MergedDictionaries.Add(frameworkElement.Resources);
+                resourceDictionary.MergedDictionaries.Add(
+                    frameworkElement.Resources
+                );
                 frameworkElement.Resources = null;
                 frameworkElement.Resources = resourceDictionary;
             }
@@ -136,11 +138,14 @@ namespace ExtensionManager
                 if (frameworkElement.Resources == ThemeResources)
                     frameworkElement.Resources = new ResourceDictionary();
                 else
-                    frameworkElement.Resources.MergedDictionaries.Remove(ThemeResources);
+                    frameworkElement.Resources.MergedDictionaries.Remove(
+                        ThemeResources
+                    );
             }
 
             //If we're themed now and we're something with a background property, reset it
-            if (GetUseVsTheme(frameworkElement) && frameworkElement is Control c)
+            if (GetUseVsTheme(frameworkElement) &&
+                frameworkElement is Control c)
             {
                 if (_originalBackgrounds.TryGetValue(
                         frameworkElement, out var background
