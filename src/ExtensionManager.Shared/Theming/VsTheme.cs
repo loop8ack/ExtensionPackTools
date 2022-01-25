@@ -112,11 +112,7 @@ namespace ExtensionManager
 
         private static void ShouldBeThemed(this FrameworkElement control)
         {
-            if (control.Resources == null)
-            {
-                control.Resources = ThemeResources;
-            }
-            else if (control.Resources != ThemeResources)
+            if (control.Resources != ThemeResources)
             {
                 var d = new ResourceDictionary();
                 d.MergedDictionaries.Add(ThemeResources);
