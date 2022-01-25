@@ -102,7 +102,10 @@ namespace ExtensionManager
                     }
                 };
             }
-            catch { }
+            catch
+            {
+                // ignored
+            }
 
             return allResources;
         }
