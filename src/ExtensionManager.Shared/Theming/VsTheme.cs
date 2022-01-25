@@ -32,11 +32,12 @@ namespace ExtensionManager
 
         public static void SetUseVsTheme(UIElement element, bool value)
         {
+            if (!(element is Control control)) return;
+
             if (value)
             {
-                if (!_originalBackgrounds.ContainsKey(element) &&
-                    element is Control c)
-                    _originalBackgrounds[element] = c.Background;
+                if (!_originalBackgrounds.ContainsKey(element))
+                    _originalBackgrounds[element] = control.Background;
 
                 ((ContentControl)element).ApplyTheme();
             }
