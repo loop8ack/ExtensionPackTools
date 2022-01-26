@@ -101,17 +101,17 @@ namespace ExtensionManager
 
             try
             {
-                var dialog = ImportWindow.Open(
-                    InstalledExtensions, Purpose.Export
-                );
-
-                if (dialog.DialogResult != true)
+                if (ImportWindow.Open(
+                        InstalledExtensions, Purpose.Export
+                    ).DialogResult != true)
                     return;
 
                 if (!TryGetFilePath(out var filePath))
                     return;
 
-                var manifest = new Manifest(dialog.SelectedExtension);
+                var manifest = new Manifest(ImportWindow.Open(
+                    InstalledExtensions, Purpose.Export
+                ).SelectedExtension);
                 var json = JsonConvert.SerializeObject(
                     manifest, Formatting.Indented
                 );
