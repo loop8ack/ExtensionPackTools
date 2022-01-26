@@ -17,6 +17,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Commands\ImportCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands\SolutionPrompter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Conditionals\IsExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Factories\MakeNewCommandID.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Factories\MakeNewExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Factories\MakeNewExtensionIdentifierService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Factories\MakeNewExtensionMetadataService.cs" />

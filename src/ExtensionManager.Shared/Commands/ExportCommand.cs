@@ -12,25 +12,8 @@ namespace ExtensionManager
     /// <summary>
     /// Command that the user invokes to export the list of their installed extensions.
     /// </summary>
-    internal sealed class ExportCommand
+    internal sealed class ExportCommand : CommandBase
     {
-        /// <summary>
-        /// Reference to an instance of an object that implements the
-        /// <see cref="T:ExtensionManager.IExtensionService" /> interface.
-        /// </summary>
-        /// <remarks>
-        /// This object is responsible for providing access to information about the set of
-        /// currently-installed Visual Studio Marketplace-obtained extensions.
-        /// </remarks>
-        private readonly IExtensionService _extensionService;
-
-        /// <summary>
-        /// Reference to an instance of an object that implements the
-        /// <see cref="T:Microsoft.VisualStudio.Shell.Interop.IVsPackage" /> interface.
-        /// </summary>
-        /// <remarks>This is the VSPACKAGE in which this extension command is defined.</remarks>
-        private readonly IVsPackage _package;
-
         /// <summary>
         /// Constructs a new instance of
         /// <see cref="T:ExtensionManager.ExportCommand" /> and returns a reference
@@ -57,29 +40,17 @@ namespace ExtensionManager
         /// </exception>
         private ExportCommand(IVsPackage package,
             IMenuCommandService commandService,
-            IExtensionService extensionService)
+            IExtensionService extensionService) : base(
+            package, commandService, extensionService
+        )
         {
-            if (commandService == null)
-                throw new ArgumentNullException(nameof(commandService));
-
-            _package = package ??
-                       throw new ArgumentNullException(nameof(package));
-            _extensionService = extensionService ??
-                                throw new ArgumentNullException(
-                                    nameof(extensionService)
-                                );
-
-            var cmdId = new CommandID(
-                PackageGuids.guidExportPackageCmdSet, PackageIds.ExportCmd
+            AddCommandToVisualStudioMenus(
+                Execute, PackageGuids.guidExportPackageCmdSet,
+                PackageIds.ExportCmd
             );
-            var cmd = new MenuCommand(Execute, cmdId);
-            commandService.AddCommand(cmd);
         }
 
         public static ExportCommand Instance { get; private set; }
-
-        private IServiceProvider ServiceProvider
-            => (IServiceProvider)_package;
 
         /// <summary>
         /// Creates and initializes a new instance of
@@ -115,15 +86,24 @@ namespace ExtensionManager
             );
         }
 
-        private void Execute(object sender, EventArgs e)
+        /// <summary>
+        /// Supplies code that is to be executed when the user chooses this command from
+        /// menus or toolbars.
+        /// </summary>
+        /// <param name="sender">Reference to the sender of the event.</param>
+        /// <param name="e">
+        /// A <see cref="T:System.EventArgs" /> that contains the event
+        /// data.
+        /// </param>
+        public override void Execute(object sender, EventArgs e)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
 
             try
             {
-                var extensions = _extensionService.GetInstalledExtensions();
-
-                var dialog = ImportWindow.Open(extensions, Purpose.Export);
+                var dialog = ImportWindow.Open(
+                    InstalledExtensions, Purpose.Export
+                );
 
                 if (dialog.DialogResult != true)
                     return;
@@ -147,28 +127,6 @@ namespace ExtensionManager
                     OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST
                 );
             }
-        }
-
-        public static bool TryGetFilePath(out string filePath)
-        {
-            filePath = null;
-
-            using (var sfd = new SaveFileDialog())
-            {
-                sfd.DefaultExt = ".vsext";
-                sfd.FileName = "extensions";
-                sfd.Filter = "VSEXT File|*.vsext";
-
-                var result = sfd.ShowDialog();
-
-                if (result == DialogResult.OK)
-                {
-                    filePath = sfd.FileName;
-                    return true;
-                }
-            }
-
-            return false;
         }
     }
 }
