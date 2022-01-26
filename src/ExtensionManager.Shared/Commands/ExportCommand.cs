@@ -122,7 +122,8 @@ namespace ExtensionManager
             catch (Exception ex)
             {
                 VsShellUtilities.ShowMessageBox(
-                    ServiceProvider, ex.Message, Vsix.Name,
+                    ServiceProvider,
+                    $"{ex.Message}\n\nTry running the Export Extensions operation again.", Vsix.Name,
                     OLEMSGICON.OLEMSGICON_WARNING, OLEMSGBUTTON.OLEMSGBUTTON_OK,
                     OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST
                 );
