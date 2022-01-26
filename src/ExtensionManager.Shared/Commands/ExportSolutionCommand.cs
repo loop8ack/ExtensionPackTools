@@ -202,13 +202,13 @@ namespace ExtensionManager
                                   }
                               );
 
-            if (solItems == null)
-            {
-                var sol2 = (Solution2)dte.Solution;
-                solItems = sol2.AddSolutionFolder("Solution Items");
-                dte.StatusBar.Text =
-                    $"Created Solution Items project for solution {dte.Solution.FullName}";
-            }
+            if (solItems != null) 
+                return solItems;
+
+            var sol2 = (Solution2)dte.Solution;
+            solItems = sol2.AddSolutionFolder("Solution Items");
+            dte.StatusBar.Text =
+                $"Created Solution Items project for solution {dte.Solution.FullName}";
 
             return solItems;
         }
