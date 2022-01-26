@@ -9,6 +9,9 @@ using Newtonsoft.Json;
 
 namespace ExtensionManager
 {
+    /// <summary>
+    /// Command that the user invokes to export the list of their installed extensions.
+    /// </summary>
     internal sealed class ExportCommand
     {
         /// <summary>
