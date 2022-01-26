@@ -234,14 +234,12 @@ namespace ExtensionManager
 
                 var result = sfd.ShowDialog();
 
-                if (result == DialogResult.OK)
-                {
-                    filePath = sfd.FileName;
-                    return true;
-                }
-            }
+                if (result != DialogResult.OK) 
+                    return false;
 
-            return false;
+                filePath = sfd.FileName;
+                return true;
+            }
         }
     }
 }
