@@ -116,11 +116,9 @@ namespace ExtensionManager
             Assumes.Present(dte);
 
             if (dte == null)
-            {
                 ShowMessageBox(
                     "We could not connect to Visual Studio.\n\nSave your work, and then try the operation again.\n\nIf this error recurs, please seek support."
                 );
-            }
 
             if (string.IsNullOrEmpty(dte.Solution?.FileName))
             {
@@ -199,17 +197,19 @@ namespace ExtensionManager
             ThreadHelper.ThrowIfNotOnUIThread();
 
             var solutionItemsFolder = dte.Solution.Projects.Cast<Project>()
-                              .FirstOrDefault(
-                                  p =>
-                                  {
-                                      ThreadHelper.ThrowIfNotOnUIThread();
-                                      return p.Name == "Solution Items" ||
-                                             p.Kind == Constants
-                                                 .vsProjectItemKindSolutionItems;
-                                  }
-                              );
+                                         .FirstOrDefault(
+                                             p =>
+                                             {
+                                                 ThreadHelper
+                                                     .ThrowIfNotOnUIThread();
+                                                 return p.Name ==
+                                                     "Solution Items" ||
+                                                     p.Kind == Constants
+                                                         .vsProjectItemKindSolutionItems;
+                                             }
+                                         );
 
-            if (solutionItemsFolder != null) 
+            if (solutionItemsFolder != null)
                 return solutionItemsFolder;
 
             var solution2 = (Solution2)dte.Solution;
