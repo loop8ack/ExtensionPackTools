@@ -148,6 +148,9 @@ namespace ExtensionManager
                 var extensions = _extensionService.GetInstalledExtensions()
                                                   .ToList();
 
+                foreach (var ext in extensions) 
+                    ext.Selected = false;
+
                 // TODO: Wrap the code that reads extensions in from a manifest file in its own service class.
                 
 
@@ -161,10 +164,6 @@ namespace ExtensionManager
 
                     foreach (var ext in extensions)
                         ext.Selected = manifest.Extensions.Contains(ext);
-                }
-                else
-                {
-                    foreach (var ext in extensions) ext.Selected = false;
                 }
 
                 var dialog = ImportWindow.Open(extensions, Purpose.Export);
