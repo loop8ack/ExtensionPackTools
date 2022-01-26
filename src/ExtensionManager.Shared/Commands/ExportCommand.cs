@@ -100,21 +100,21 @@ namespace ExtensionManager
 
             try
             {
-                if (ImportWindow.Open(InstalledExtensions, Purpose.Export)
-                                .DialogResult != true)
+                var dialog = ImportWindow.Open(
+                    InstalledExtensions, Purpose.Export
+                );
+
+                if (dialog.DialogResult != true)
                     return;
 
                 if (!TryGetFilePath(out var filePath))
                     return;
 
                 File.WriteAllText(
-                    filePath, JsonConvert.SerializeObject(
-                        new Manifest(
-                            ImportWindow.Open(
-                                            InstalledExtensions, Purpose.Export
-                                        )
-                                        .SelectedExtension
-                        ), Formatting.Indented
+                    filePath,
+                    JsonConvert.SerializeObject(
+                        new Manifest(dialog.SelectedExtension),
+                        Formatting.Indented
                     )
                 );
                 VsShellUtilities.OpenDocument(ServiceProvider, filePath);
