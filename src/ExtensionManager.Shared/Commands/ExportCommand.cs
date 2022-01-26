@@ -2,6 +2,7 @@
 using System.ComponentModel.Design;
 using System.IO;
 using ExtensionManager.Core.Services.Interfaces;
+using ExtensionManager.Shared.Actions;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Newtonsoft.Json;
@@ -107,17 +108,19 @@ namespace ExtensionManager
                 if (dialog.DialogResult != true)
                     return;
 
-                if (!TryGetFilePath(out var filePath))
+                var exportFilePath = Get.ExportFilePath();
+                if (string.IsNullOrWhiteSpace(exportFilePath))
                     return;
 
                 File.WriteAllText(
-                    filePath,
+                    exportFilePath,
                     JsonConvert.SerializeObject(
                         new Manifest(dialog.SelectedExtensions),
                         Formatting.Indented
                     )
                 );
-                VsShellUtilities.OpenDocument(ServiceProvider, filePath);
+
+                VsShellUtilities.OpenDocument(ServiceProvider, exportFilePath);
             }
             catch (Exception ex)
             {

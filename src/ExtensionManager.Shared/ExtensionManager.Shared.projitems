@@ -9,6 +9,7 @@
     <Import_RootNamespace>ExtensionManager.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Actions\Get.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Builders\MakeNew.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Builders\Interfaces\IExtensionServiceBuilder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands\CommandBase.cs" />
@@ -41,7 +42,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Actions\" />
     <Folder Include="$(MSBuildThisFileDirectory)Theming\" />
   </ItemGroup>
 </Project>

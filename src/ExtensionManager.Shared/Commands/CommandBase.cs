@@ -221,25 +221,5 @@ namespace ExtensionManager
         /// data.
         /// </param>
         public abstract void Execute(object sender, EventArgs e);
-
-        protected static bool TryGetFilePath(out string filePath)
-        {
-            filePath = null;
-
-            using (var sfd = new SaveFileDialog())
-            {
-                sfd.DefaultExt = ".vsext";
-                sfd.FileName = "extensions";
-                sfd.Filter = "VSEXT File|*.vsext";
-
-                var result = sfd.ShowDialog();
-
-                if (result != DialogResult.OK) 
-                    return false;
-
-                filePath = sfd.FileName;
-                return true;
-            }
-        }
     }
 }
