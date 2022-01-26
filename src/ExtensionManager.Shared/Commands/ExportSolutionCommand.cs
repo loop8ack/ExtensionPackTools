@@ -118,7 +118,7 @@ namespace ExtensionManager
             if (string.IsNullOrEmpty(dte.Solution?.FileName))
             {
                 ShowMessageBox(
-                    "The solution must be saved in order to manage solution extensions."
+                    "We can't export the list of extensions that this solution requires.\n\nIf you've created a new solution, choose the File Save All menu item, and then try this operation again."
                 );
                 return;
             }
