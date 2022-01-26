@@ -134,6 +134,17 @@ namespace ExtensionManager
 
             try
             {
+                /*
+                 * OKAY, so before we show the user a prompt to select which extensions
+                 * they want to export, we first need to determine the value set of the
+                 * extensions to choose from.
+                 *
+                 * This will be the union set of the extensions that are currently
+                 * installed in this running instance of Visual Studio, taken together
+                 * with whatever extensions may already be listed in a file, e.g., already
+                 * sitting in the Solution Items that may have previously been exported.
+                 */
+
                 var extensions = _extensionService.GetInstalledExtensions()
                                                   .ToList();
 
