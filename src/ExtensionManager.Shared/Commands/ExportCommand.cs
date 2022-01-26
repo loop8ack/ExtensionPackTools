@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Design;
 using System.IO;
-using System.Windows.Forms;
 using ExtensionManager.Core.Services.Interfaces;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
@@ -101,22 +100,23 @@ namespace ExtensionManager
 
             try
             {
-                if (ImportWindow.Open(
-                        InstalledExtensions, Purpose.Export
-                    ).DialogResult != true)
+                if (ImportWindow.Open(InstalledExtensions, Purpose.Export)
+                                .DialogResult != true)
                     return;
 
                 if (!TryGetFilePath(out var filePath))
                     return;
 
-                var manifest = new Manifest(ImportWindow.Open(
-                    InstalledExtensions, Purpose.Export
-                ).SelectedExtension);
-                var json = JsonConvert.SerializeObject(
-                    manifest, Formatting.Indented
+                File.WriteAllText(
+                    filePath, JsonConvert.SerializeObject(
+                        new Manifest(
+                            ImportWindow.Open(
+                                            InstalledExtensions, Purpose.Export
+                                        )
+                                        .SelectedExtension
+                        ), Formatting.Indented
+                    )
                 );
-
-                File.WriteAllText(filePath, json);
                 VsShellUtilities.OpenDocument(ServiceProvider, filePath);
             }
             catch (Exception ex)
