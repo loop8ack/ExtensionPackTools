@@ -13,20 +13,13 @@ using Constants = EnvDTE.Constants;
 
 namespace ExtensionManager
 {
-    internal sealed class ExportSolutionCommand
+    /// <summary>
+    /// Exposes methods to execute a command that allows the user to export the list of
+    /// extension(s) that are required to be installed in Visual Studio in order to
+    /// successfully build a given solution.
+    /// </summary>
+    internal sealed class ExportSolutionCommand : CommandBase
     {
-        /// <summary>
-        /// Reference to an instance of an object that implements the
-        /// <see cref="T:ExtensionManager.IExtensionService" /> interface.
-        /// </summary>
-        private readonly IExtensionService _extensionService;
-
-        /// <summary>
-        /// Reference to an instance of an object that implements the
-        /// <see cref="T:Microsoft.VisualStudio.Shell.Interop.IVsPackage" /> interface.
-        /// </summary>
-        private readonly IVsPackage _package;
-
         /// <summary>
         /// Constructs a new instance of
         /// <see cref="T:ExtensionManager.ExportSolutionCommand" /> and returns a reference
@@ -53,31 +46,24 @@ namespace ExtensionManager
         /// </exception>
         private ExportSolutionCommand(IVsPackage package,
             IMenuCommandService commandService,
-            IExtensionService extensionService)
+            IExtensionService extensionService) : base(
+            package, commandService, extensionService
+        )
         {
-            if (commandService == null)
-                throw new ArgumentNullException(nameof(commandService));
+            /*
+             * Call the base class to perform the initialization
+             * because similar steps are necessary for all
+             * commands.
+             */
 
-            _package = package ??
-                       throw new ArgumentNullException(nameof(package));
-            _extensionService = extensionService ??
-                                throw new ArgumentNullException(
-                                    nameof(extensionService)
-                                );
-
-            var cmdId = new CommandID(
-                PackageGuids.guidExportPackageCmdSet,
-                PackageIds.ExportSolutionCmd
+            AddCommandToVisualStudioMenus(
+                Execute, PackageGuids.guidExportPackageCmdSet,
+                PackageIds.ExportSolutionCmd,
+                /* supported = */ false
             );
-            var cmd = new MenuCommand(Execute, cmdId) { Supported = false };
-
-            commandService.AddCommand(cmd);
         }
 
         public static ExportSolutionCommand Instance { get; private set; }
-
-        private IServiceProvider ServiceProvider
-            => (IServiceProvider)_package;
 
         /// <summary>
         /// Creates and initializes a new instance of
@@ -105,12 +91,24 @@ namespace ExtensionManager
         /// are passed a <see langword="null" /> value.
         /// </exception>
         public static void Initialize(IVsPackage package,
-            IMenuCommandService commandService, IExtensionService extensionService)
+            IMenuCommandService commandService,
+            IExtensionService extensionService)
         {
-            Instance = new ExportSolutionCommand(package, commandService, extensionService);
+            Instance = new ExportSolutionCommand(
+                package, commandService, extensionService
+            );
         }
 
-        private void Execute(object sender, EventArgs e)
+        /// <summary>
+        /// Supplies code that is to be executed when the user chooses this command from
+        /// menus or toolbars.
+        /// </summary>
+        /// <param name="sender">Reference to the sender of the event.</param>
+        /// <param name="e">
+        /// A <see cref="T:System.EventArgs" /> that contains the event
+        /// data.
+        /// </param>
+        public override void Execute(object sender, EventArgs e)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
 
@@ -142,19 +140,19 @@ namespace ExtensionManager
                     extensions = extensions.Union(manifest.Extensions)
                                            .ToList();
 
-                    foreach (Extension ext in extensions)
+                    foreach (var ext in extensions)
                         ext.Selected = manifest.Extensions.Contains(ext);
                 }
                 else
                 {
-                    foreach (Extension ext in extensions) ext.Selected = false;
+                    foreach (var ext in extensions) ext.Selected = false;
                 }
 
                 var dialog = ImportWindow.Open(extensions, Purpose.Export);
 
                 if (dialog.DialogResult != true)
                     return;
-                
+
                 manifest = new Manifest(dialog.SelectedExtensions);
                 var json = JsonConvert.SerializeObject(
                     manifest, Formatting.Indented
