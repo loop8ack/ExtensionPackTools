@@ -44,6 +44,12 @@ namespace ExtensionManager
             package, commandService, extensionService
         )
         {
+            /*
+             * Call the base class to perform the initialization
+             * because similar steps are necessary for all 
+             * commands.
+             */
+
             AddCommandToVisualStudioMenus(
                 Execute, PackageGuids.guidExportPackageCmdSet,
                 PackageIds.ExportCmd
