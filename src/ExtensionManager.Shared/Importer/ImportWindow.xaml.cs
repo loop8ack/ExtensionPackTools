@@ -42,7 +42,7 @@ namespace ExtensionManager
             InitializeMessage(purpose, text);
         }
 
-        public List<IExtension> SelectedExtensions { get; private set; }
+        public IList<IExtension> SelectedExtensions { get; private set; }
 
         public bool InstallSystemWide { get; private set; }
 
