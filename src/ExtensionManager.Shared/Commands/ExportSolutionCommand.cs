@@ -155,7 +155,7 @@ namespace ExtensionManager
                 if (dialog.DialogResult != true)
                     return;
                 
-                manifest = new Manifest(dialog.SelectedExtension);
+                manifest = new Manifest(dialog.SelectedExtensions);
                 var json = JsonConvert.SerializeObject(
                     manifest, Formatting.Indented
                 );

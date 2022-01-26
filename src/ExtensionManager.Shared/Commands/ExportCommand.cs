@@ -113,7 +113,7 @@ namespace ExtensionManager
                 File.WriteAllText(
                     filePath,
                     JsonConvert.SerializeObject(
-                        new Manifest(dialog.SelectedExtension),
+                        new Manifest(dialog.SelectedExtensions),
                         Formatting.Indented
                     )
                 );

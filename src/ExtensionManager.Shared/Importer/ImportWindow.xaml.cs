@@ -42,7 +42,7 @@ namespace ExtensionManager
             InitializeMessage(purpose, text);
         }
 
-        public List<IExtension> SelectedExtension { get; private set; }
+        public List<IExtension> SelectedExtensions { get; private set; }
 
         public bool InstallSystemWide { get; private set; }
 
@@ -188,11 +188,11 @@ namespace ExtensionManager
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            SelectedExtension = new List<IExtension>();
+            SelectedExtensions = new List<IExtension>();
 
             foreach (var cb in list.Children.OfType<CheckBox>())
                 if (cb.IsChecked == true && cb.IsEnabled)
-                    SelectedExtension.Add(
+                    SelectedExtensions.Add(
                         _extensions.First(
                             ext => ext.ID == (string)cb.CommandParameter
                         )
@@ -205,7 +205,7 @@ namespace ExtensionManager
 
         private void SelectAllButton_Click(object sender, RoutedEventArgs e)
         {
-            SelectedExtension = new List<IExtension>();
+            SelectedExtensions = new List<IExtension>();
 
             foreach (var cb in list.Children.OfType<CheckBox>())
                 cb.IsChecked = true;
@@ -213,7 +213,7 @@ namespace ExtensionManager
 
         private void DeselectAllButton_Click(object sender, RoutedEventArgs e)
         {
-            SelectedExtension = new List<IExtension>();
+            SelectedExtensions = new List<IExtension>();
 
             foreach (var cb in list.Children.OfType<CheckBox>())
                 cb.IsChecked = false;

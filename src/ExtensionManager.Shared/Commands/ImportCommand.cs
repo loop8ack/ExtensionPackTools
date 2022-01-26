@@ -135,10 +135,10 @@ namespace ExtensionManager
             var dialog = ImportWindow.Open(manifest.Extensions, Purpose.Import);
 
             if (dialog.DialogResult != true ||
-                !dialog.SelectedExtension.Any()) return;
+                !dialog.SelectedExtensions.Any()) return;
 
             var installSystemWide = dialog.InstallSystemWide;
-            var toInstall = dialog.SelectedExtension.Select(ext => ext.ID)
+            var toInstall = dialog.SelectedExtensions.Select(ext => ext.ID)
                                   .ToList();
 
             var repository =
