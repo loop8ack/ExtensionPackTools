@@ -41,6 +41,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Actions\" />
     <Folder Include="$(MSBuildThisFileDirectory)Theming\" />
   </ItemGroup>
 </Project>
