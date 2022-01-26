@@ -148,22 +148,20 @@ namespace ExtensionManager
                 var extensions = _extensionService.GetInstalledExtensions()
                                                   .ToList();
 
-                foreach (var ext in extensions) 
+                foreach (var ext in extensions)
                     ext.Selected = false;
 
                 // TODO: Wrap the code that reads extensions in from a manifest file in its own service class.
-                
-
-                Manifest manifest;
 
                 if (File.Exists(fileName))
                 {
-                    manifest = Manifest.FromFile(fileName);
-                    extensions = extensions.Union(manifest.Extensions)
+                    var existingManifest = Manifest.FromFile(fileName);
+                    extensions = extensions.Union(existingManifest.Extensions)
                                            .ToList();
 
                     foreach (var ext in extensions)
-                        ext.Selected = manifest.Extensions.Contains(ext);
+                        ext.Selected =
+                            existingManifest.Extensions.Contains(ext);
                 }
 
                 var dialog = ImportWindow.Open(extensions, Purpose.Export);
@@ -171,9 +169,9 @@ namespace ExtensionManager
                 if (dialog.DialogResult != true)
                     return;
 
-                manifest = new Manifest(dialog.SelectedExtensions);
+                var newManifest = new Manifest(dialog.SelectedExtensions);
                 var json = JsonConvert.SerializeObject(
-                    manifest, Formatting.Indented
+                    newManifest, Formatting.Indented
                 );
 
                 File.WriteAllText(fileName, json);
