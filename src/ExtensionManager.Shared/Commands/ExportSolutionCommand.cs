@@ -161,8 +161,8 @@ namespace ExtensionManager
                 File.WriteAllText(fileName, json);
 
                 // Add the file to the solution items folder if it's new or if it's not there already.
-                var solItems = GetOrCreateSolutionItems((DTE2)dte);
-                solItems.ProjectItems.AddFromFile(fileName);
+                var solutionItemsFolder = GetOrCreateSolutionItems((DTE2)dte);
+                solutionItemsFolder.ProjectItems.AddFromFile(fileName);
 
                 VsShellUtilities.OpenDocument(ServiceProvider, fileName);
             }
@@ -191,7 +191,7 @@ namespace ExtensionManager
         {
             ThreadHelper.ThrowIfNotOnUIThread();
 
-            var solItems = dte.Solution.Projects.Cast<Project>()
+            var solutionItemsFolder = dte.Solution.Projects.Cast<Project>()
                               .FirstOrDefault(
                                   p =>
                                   {
@@ -202,15 +202,15 @@ namespace ExtensionManager
                                   }
                               );
 
-            if (solItems != null) 
-                return solItems;
+            if (solutionItemsFolder != null) 
+                return solutionItemsFolder;
 
-            var sol2 = (Solution2)dte.Solution;
-            solItems = sol2.AddSolutionFolder("Solution Items");
+            var solution2 = (Solution2)dte.Solution;
+            solutionItemsFolder = solution2.AddSolutionFolder("Solution Items");
             dte.StatusBar.Text =
                 $"Created Solution Items project for solution {dte.Solution.FullName}";
 
-            return solItems;
+            return solutionItemsFolder;
         }
     }
 }
