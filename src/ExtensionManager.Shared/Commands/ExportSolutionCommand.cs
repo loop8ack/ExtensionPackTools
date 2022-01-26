@@ -115,6 +115,13 @@ namespace ExtensionManager
             var dte = ServiceProvider.GetService(typeof(DTE)) as DTE;
             Assumes.Present(dte);
 
+            if (dte == null)
+            {
+                ShowMessageBox(
+                    "We could not connect to Visual Studio.\n\nSave your work, and then try the operation again.\n\nIf this error recurs, please seek support."
+                );
+            }
+
             if (string.IsNullOrEmpty(dte.Solution?.FileName))
             {
                 ShowMessageBox(
