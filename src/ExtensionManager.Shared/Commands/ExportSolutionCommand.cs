@@ -152,6 +152,7 @@ namespace ExtensionManager
                     ext.Selected = false;
 
                 // TODO: Wrap the code that reads extensions in from a manifest file in its own service class.
+                // The idea is, we want to have a fluent, easy-to-understand body for the Execute method, with clean code.
 
                 if (File.Exists(fileName))
                 {
