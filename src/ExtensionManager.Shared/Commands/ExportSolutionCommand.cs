@@ -148,6 +148,9 @@ namespace ExtensionManager
                 var extensions = _extensionService.GetInstalledExtensions()
                                                   .ToList();
 
+                // TODO: Wrap the code that reads extensions in from a manifest file in its own service class.
+                
+
                 Manifest manifest;
 
                 if (File.Exists(fileName))
