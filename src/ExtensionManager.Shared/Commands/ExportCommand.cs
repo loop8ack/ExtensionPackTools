@@ -123,7 +123,7 @@ namespace ExtensionManager
             {
                 VsShellUtilities.ShowMessageBox(
                     ServiceProvider,
-                    $"{ex.Message}\n\nTry running the Export Extensions operation again.", Vsix.Name,
+                    $"{ex.Message}\n\nTry running the Export Extensions operation again.\n\nBe sure you have write privileges in the folder to which you are saving the export.", Vsix.Name,
                     OLEMSGICON.OLEMSGICON_WARNING, OLEMSGBUTTON.OLEMSGBUTTON_OK,
                     OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST
                 );
