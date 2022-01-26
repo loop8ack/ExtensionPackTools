@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
-using System.Windows.Forms;
 using ExtensionManager.Core.Models.Interfaces;
 using ExtensionManager.Core.Services.Interfaces;
 using Microsoft.VisualStudio.Shell.Interop;
@@ -122,6 +121,13 @@ namespace ExtensionManager
         /// <para />
         /// Must be one or greater.
         /// </param>
+        /// <param name="supported">
+        /// (Optional.) <see langword="true" /> by default.
+        /// <para />
+        /// Set to <see langword="false" /> in order to let Visual Studio know that this
+        /// command is not supported (reserved for those commands that are still under
+        /// development).
+        /// </param>
         /// <exception cref="T:System.ArgumentNullException">
         /// Thrown if the required
         /// parameter, <paramref name="handler" />, is passed a <see langword="null" />
@@ -132,11 +138,11 @@ namespace ExtensionManager
         /// <paramref name="commandID" /> is zero or negative.
         /// </exception>
         protected void AddCommandToVisualStudioMenus(EventHandler handler,
-            Guid menuGroupGuid, int commandID)
+            Guid menuGroupGuid, int commandID, bool supported = true)
         {
             _commandService?.AddCommand(
                 CreateMenuCommandFor(
-                    handler, CreateCommandIDFor(menuGroupGuid, commandID)
+                    handler, CreateCommandIDFor(menuGroupGuid, commandID), supported
                 )
             );
         }
@@ -199,6 +205,13 @@ namespace ExtensionManager
         /// initialized with the
         /// <see cref="M:ExtensionManager.CommandBase.CreateCommandIDFor" /> method.
         /// </param>
+        /// <param name="supported">
+        /// (Optional.) <see langword="true" /> by default.
+        /// <para />
+        /// Set to <see langword="false" /> in order to let Visual Studio know that this
+        /// command is not supported (reserved for those commands that are still under
+        /// development).
+        /// </param>
         /// <returns>
         /// Reference to an instance of
         /// <see cref="T:System.ComponentModel.Design.MenuCommand" />, initialized with the
@@ -209,14 +222,14 @@ namespace ExtensionManager
         /// <paramref name="commandID" />, are passed a <see langword="null" /> value.
         /// </exception>
         protected static MenuCommand CreateMenuCommandFor(EventHandler handler,
-            CommandID commandID)
+            CommandID commandID, bool supported = true)
         {
             if (handler == null)
                 throw new ArgumentNullException(nameof(handler));
             if (commandID == null)
                 throw new ArgumentNullException(nameof(commandID));
 
-            return new MenuCommand(handler, commandID);
+            return new MenuCommand(handler, commandID) { Supported = supported };
         }
 
         /// <summary>
