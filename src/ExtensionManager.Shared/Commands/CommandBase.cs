@@ -62,6 +62,14 @@ namespace ExtensionManager
             IMenuCommandService commandService,
             IExtensionService extensionService)
         {
+            /*
+             * The job of this protected constructor is merely to
+             * initialize the fields for injected dependencies.
+             *
+             * Since the same initialization is required for all
+             * commands, this was pushed up to this level.
+             */
+
             _package = package ??
                        throw new ArgumentNullException(nameof(package));
             _commandService = commandService ??
