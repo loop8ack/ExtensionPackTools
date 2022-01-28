@@ -140,9 +140,14 @@ namespace ExtensionManager
         protected void AddCommandToVisualStudioMenus(EventHandler handler,
             Guid menuGroupGuid, int commandID, bool supported = true)
         {
+            if (handler == null) return;
+            if (Guid.Empty == menuGroupGuid) return;
+            if (commandID <= 0) return;
+
             _commandService?.AddCommand(
                 CreateMenuCommandFor(
-                    handler, CreateCommandIDFor(menuGroupGuid, commandID), supported
+                    handler, CreateCommandIDFor(menuGroupGuid, commandID),
+                    supported
                 )
             );
         }
@@ -229,7 +234,9 @@ namespace ExtensionManager
             if (commandID == null)
                 throw new ArgumentNullException(nameof(commandID));
 
-            return new MenuCommand(handler, commandID) { Supported = supported };
+            return new MenuCommand(handler, commandID) {
+                Supported = supported
+            };
         }
 
         /// <summary>
