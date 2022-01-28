@@ -197,7 +197,7 @@ namespace ExtensionManager
         {
             VsShellUtilities.ShowMessageBox(
                 ServiceProvider, message, Vsix.Name,
-                OLEMSGICON.OLEMSGICON_WARNING, OLEMSGBUTTON.OLEMSGBUTTON_OK,
+                OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK,
                 OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST
             );
         }
