@@ -11,6 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using EnvDTE;
+using ExtensionManager.Core.Models.Interfaces;
 using ExtensionManager.Core.Services.Interfaces;
 using Microsoft;
 using Microsoft.VisualStudio;
@@ -24,20 +25,9 @@ using Task = System.Threading.Tasks.Task;
 
 namespace ExtensionManager
 {
-    internal sealed class ImportCommand
+    internal sealed class ImportCommand : CommandBase
+
     {
-        /// <summary>
-        /// Reference to an instance of an object that implements the
-        /// <see cref="T:ExtensionManager.IExtensionService" /> interface.
-        /// </summary>
-        private readonly IExtensionService _extensionService;
-
-        /// <summary>
-        /// Reference to an instance of an object that implements the
-        /// <see cref="T:Microsoft.VisualStudio.Shell.Interop.IVsPackage" /> interface.
-        /// </summary>
-        private readonly IVsPackage _package;
-
         private int _currentCount;
 
         /// <summary>
@@ -66,29 +56,24 @@ namespace ExtensionManager
         /// </exception>
         private ImportCommand(IVsPackage package,
             IMenuCommandService commandService,
-            IExtensionService extensionService)
+            IExtensionService extensionService) : base(
+            package, commandService, extensionService
+        )
         {
-            if (commandService == null)
-                throw new ArgumentNullException(nameof(commandService));
+            /*
+             * Call the base class to perform the initialization
+             * because similar steps are necessary for all
+             * commands.
+             */
 
-            _package = package ??
-                       throw new ArgumentNullException(nameof(package));
-            _extensionService = extensionService ??
-                                throw new ArgumentNullException(
-                                    nameof(extensionService)
-                                );
-
-            var cmdId = new CommandID(
-                PackageGuids.guidExportPackageCmdSet, PackageIds.ImportCmd
+            AddCommandToVisualStudioMenus(
+                Execute, PackageGuids.guidExportPackageCmdSet,
+                PackageIds.ImportCmd,
+                /* supported = */ false
             );
-            var cmd = new MenuCommand(Execute, cmdId);
-            commandService.AddCommand(cmd);
         }
 
         public static ImportCommand Instance { get; private set; }
-
-        private IServiceProvider ServiceProvider
-            => (IServiceProvider)_package;
 
         private int EntriesCount { get; set; }
 
@@ -118,12 +103,24 @@ namespace ExtensionManager
         /// are passed a <see langword="null" /> value.
         /// </exception>
         public static void Initialize(IVsPackage package,
-            IMenuCommandService commandService, IExtensionService extensionService)
+            IMenuCommandService commandService,
+            IExtensionService extensionService)
         {
-            Instance = new ImportCommand(package, commandService, extensionService);
+            Instance = new ImportCommand(
+                package, commandService, extensionService
+            );
         }
 
-        private void Execute(object sender, EventArgs e)
+        /// <summary>
+        /// Supplies code that is to be executed when the user chooses this command from
+        /// menus or toolbars.
+        /// </summary>
+        /// <param name="sender">Reference to the sender of the event.</param>
+        /// <param name="e">
+        /// A <see cref="T:System.EventArgs" /> that contains the event
+        /// data.
+        /// </param>
+        public override void Execute(object sender, EventArgs e)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
 
@@ -142,8 +139,9 @@ namespace ExtensionManager
                                   .ToList();
 
             var repository =
-                ServiceProvider.GetService(typeof(SVsExtensionRepository))
-                    as IVsExtensionRepository;
+                ServiceProvider.GetService(typeof(SVsExtensionRepository)) as
+                    IVsExtensionRepository;
+            if (repository == null) return;
             Assumes.Present(repository);
 
             var marketplaceEntries = repository
@@ -210,14 +208,24 @@ namespace ExtensionManager
                 Path.GetTempPath(), nameof(ExtensionManager)
             );
 
-            if (Directory.Exists(tempDir)) Directory.Delete(tempDir, true);
+            try
+            {
+                if (Directory.Exists(tempDir))
+                    Directory.Delete(tempDir, true);
 
-            Directory.CreateDirectory(tempDir);
+                if (!Directory.Exists(tempDir))
+                    Directory.CreateDirectory(tempDir);
+            }
+            catch
+            {
+                // ignored
+            }
+
             return tempDir;
         }
 
-        private static void InvokeVsixInstaller(string tempDir, string rootSuffix,
-            bool installSystemWide)
+        private static void InvokeVsixInstaller(string tempDir,
+            string rootSuffix, bool installSystemWide)
         {
             var process = Process.GetCurrentProcess();
             if (!File.Exists(process.MainModule.FileName)) return;
@@ -230,7 +238,7 @@ namespace ExtensionManager
             var adminSwitch = installSystemWide ? "/admin" : string.Empty;
             var instance = configuration.GetInstanceForCurrentProcess();
             var vsixFiles = Directory.EnumerateFiles(tempDir, "*.vsix")
-                                     .Select(f => Path.GetFileName(f));
+                                     .Select(Path.GetFileName);
 
             var start = new ProcessStartInfo {
                 FileName = exe,
@@ -240,13 +248,18 @@ namespace ExtensionManager
                 UseShellExecute = false
             };
 
+            /*
+             * Are we being asked to install this into the Visual Studio
+             * Experimental Instance?  If so, then ensure that this occurs by
+             * using the /rootSuffix switch of the VSIX installer.
+             */
             if (!string.IsNullOrEmpty(rootSuffix))
                 start.Arguments += $" /rootSuffix:{rootSuffix}";
 
             Process.Start(start);
         }
 
-        private Task DownloadExtensionAsync(IEnumerable<GalleryEntry> entries,
+        private Task DownloadExtensionAsync(IEnumerable<IGalleryEntry> entries,
             string dir, DTE dte)
         {
             return Task.WhenAll(
@@ -259,18 +272,31 @@ namespace ExtensionManager
             );
         }
 
-        private async Task DownloadExtensionFileAsync(GalleryEntry entry,
+        private async Task DownloadExtensionFileAsync(IGalleryEntry entry,
             string dir, DTE dte)
         {
+            if (entry == null) return;
+            if (string.IsNullOrWhiteSpace(dir)) return;
+
+            if (!Directory.Exists(dir))
+                Directory.CreateDirectory(dir);
+
             var localPath = Path.Combine(
-                dir, CreateMD5(entry.DownloadUrl) + ".vsix"
+                dir, GetMD5HashOf(entry.DownloadUrl) + ".vsix"
             );
 
-            using (var client = new WebClient())
+            try
             {
-                await client.DownloadFileTaskAsync(
-                    entry.DownloadUrl, localPath
-                );
+                using (var client = new WebClient())
+                {
+                    await client.DownloadFileTaskAsync(
+                        entry.DownloadUrl, localPath
+                    );
+                }
+            }
+            catch
+            {
+                return;
             }
 
             await UpdateProgressAsync(dte);
@@ -284,21 +310,31 @@ namespace ExtensionManager
             await TaskScheduler.Default;
         }
 
-        private static string CreateMD5(string input)
+        private static string GetMD5HashOf(string input)
         {
+            var result = Guid.NewGuid()
+                             .ToString("N");
             try
             {
                 using (var md5 = MD5.Create())
                 {
-                    var inputBytes = Encoding.ASCII.GetBytes(input);
-                    var hashBytes = md5.ComputeHash(inputBytes);
-                    return BitConverter.ToString(hashBytes)
+                    result = BitConverter.ToString(
+                                           md5.ComputeHash(
+                                               Encoding.ASCII.GetBytes(input)
+                                           )
+                                       )
                                        .Replace("-", string.Empty)
                                        .ToLower();
                 }
             }
-            catch (Exception) { }
+            catch (Exception)
+            {
+                // ignored
 
+                result = Guid.NewGuid()
+                             .ToString("N");
+            }
+            
             return null;
         }
 
@@ -306,19 +342,30 @@ namespace ExtensionManager
         {
             ThreadHelper.ThrowIfNotOnUIThread();
 
-            rootSuffix = null;
+            var result = false;
 
-            if (Microsoft.VisualStudio.Shell.ServiceProvider.GlobalProvider
-                         .GetService(typeof(SVsAppCommandLine)) is
-                IVsAppCommandLine appCommandLine)
+            rootSuffix = string.Empty;
+
+            try
+            {
+                if (!(Microsoft.VisualStudio.Shell.ServiceProvider.GlobalProvider
+                               .GetService(typeof(SVsAppCommandLine)) is
+                        IVsAppCommandLine appCommandLine)) return false;
                 if (ErrorHandler.Succeeded(
                         appCommandLine.GetOption(
                             "rootsuffix", out var hasRootSuffix, out rootSuffix
                         )
                     ))
-                    return hasRootSuffix != 0;
+                    result = hasRootSuffix != 0;
+            }
+            catch (Exception ex)
+            {
+                result = false;
 
-            return false;
+                rootSuffix = string.Empty;
+            }
+
+            return result;
         }
     }
 }
