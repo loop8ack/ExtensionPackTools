@@ -138,10 +138,8 @@ namespace ExtensionManager
             var toInstall = dialog.SelectedExtensions.Select(ext => ext.ID)
                                   .ToList();
 
-            var repository =
-                ServiceProvider.GetService(typeof(SVsExtensionRepository)) as
-                    IVsExtensionRepository;
-            if (repository == null) return;
+            if (!(ServiceProvider.GetService(typeof(SVsExtensionRepository)) is
+                    IVsExtensionRepository repository)) return;
             Assumes.Present(repository);
 
             var marketplaceEntries = repository
@@ -334,12 +332,12 @@ namespace ExtensionManager
                 using (var md5 = MD5.Create())
                 {
                     result = BitConverter.ToString(
-                                           md5.ComputeHash(
-                                               Encoding.ASCII.GetBytes(input)
-                                           )
-                                       )
-                                       .Replace("-", string.Empty)
-                                       .ToLower();
+                                             md5.ComputeHash(
+                                                 Encoding.ASCII.GetBytes(input)
+                                             )
+                                         )
+                                         .Replace("-", string.Empty)
+                                         .ToLower();
                 }
             }
             catch (Exception)
@@ -349,7 +347,7 @@ namespace ExtensionManager
                 result = Guid.NewGuid()
                              .ToString("N");
             }
-            
+
             return result;
         }
 
@@ -369,7 +367,8 @@ namespace ExtensionManager
 
             try
             {
-                if (!(Microsoft.VisualStudio.Shell.ServiceProvider.GlobalProvider
+                if (!(Microsoft.VisualStudio.Shell.ServiceProvider
+                               .GlobalProvider
                                .GetService(typeof(SVsAppCommandLine)) is
                         IVsAppCommandLine appCommandLine)) return false;
                 if (ErrorHandler.Succeeded(
