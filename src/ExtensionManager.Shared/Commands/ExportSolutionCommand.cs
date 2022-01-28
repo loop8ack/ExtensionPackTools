@@ -94,6 +94,10 @@ namespace ExtensionManager
             IMenuCommandService commandService,
             IExtensionService extensionService)
         {
+            if (package == null) return;
+            if (commandService == null) return;
+            if (extensionService == null) return;
+
             Instance = new ExportSolutionCommand(
                 package, commandService, extensionService
             );
