@@ -7,10 +7,24 @@ using Microsoft.VisualStudio.Shell.Interop;
 
 namespace ExtensionManager
 {
+    public interface IExtensionManagerCommand
+    {
+        /// <summary>
+        /// Supplies code that is to be executed when the user chooses this command from
+        /// menus or toolbars.
+        /// </summary>
+        /// <param name="sender">Reference to the sender of the event.</param>
+        /// <param name="e">
+        /// A <see cref="T:System.EventArgs" /> that contains the event
+        /// data.
+        /// </param>
+        void Execute(object sender, EventArgs e);
+    }
+
     /// <summary>
     /// Defines the common events, methods, properties, and behaviors for all Commands.
     /// </summary>
-    public abstract class CommandBase
+    public abstract class CommandBase : IExtensionManagerCommand
     {
         /// <summary>
         /// Reference to an instance of an object that implements the

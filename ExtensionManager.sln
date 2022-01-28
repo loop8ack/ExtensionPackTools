@@ -22,6 +22,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtensionManager.Core.Model
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtensionManager.Core.Services.Interfaces", "src\Core\ExtensionManager.Core.Services.Interfaces\ExtensionManager.Core.Services.Interfaces.csproj", "{19CE7230-E7AC-4943-8DD7-85E5A458DF7C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtensionManager.Core.Commands.Interfaces", "src\Core\ExtensionManager.Core.Commands.Interfaces\ExtensionManager.Core.Commands.Interfaces.csproj", "{6C0D0457-9585-470B-B989-197801DCBB02}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		src\ExtensionManager.Shared\ExtensionManager.Shared.projitems*{2ab1d114-bf6f-4093-85bb-cd64886604de}*SharedItemsImports = 13
@@ -76,6 +78,14 @@ Global
 		{19CE7230-E7AC-4943-8DD7-85E5A458DF7C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{19CE7230-E7AC-4943-8DD7-85E5A458DF7C}.Release|x86.ActiveCfg = Release|Any CPU
 		{19CE7230-E7AC-4943-8DD7-85E5A458DF7C}.Release|x86.Build.0 = Release|Any CPU
+		{6C0D0457-9585-470B-B989-197801DCBB02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C0D0457-9585-470B-B989-197801DCBB02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C0D0457-9585-470B-B989-197801DCBB02}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6C0D0457-9585-470B-B989-197801DCBB02}.Debug|x86.Build.0 = Debug|Any CPU
+		{6C0D0457-9585-470B-B989-197801DCBB02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C0D0457-9585-470B-B989-197801DCBB02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C0D0457-9585-470B-B989-197801DCBB02}.Release|x86.ActiveCfg = Release|Any CPU
+		{6C0D0457-9585-470B-B989-197801DCBB02}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
