@@ -124,9 +124,9 @@ namespace ExtensionManager
         /// <param name="supported">
         /// (Optional.) <see langword="true" /> by default.
         /// <para />
-        /// Set to <see langword="false" /> in order to let Visual Studio know that this
-        /// command is not supported (reserved for those commands that are still under
-        /// development).
+        /// Set to <see langword="false" /> in order to delegate the visibility of the
+        /// command to the rules contained in the <c>.vsct</c> file's
+        /// <c>VisibilityConstraints</c> section.
         /// </param>
         /// <exception cref="T:System.ArgumentNullException">
         /// Thrown if the required
@@ -213,9 +213,9 @@ namespace ExtensionManager
         /// <param name="supported">
         /// (Optional.) <see langword="true" /> by default.
         /// <para />
-        /// Set to <see langword="false" /> in order to let Visual Studio know that this
-        /// command is not supported (reserved for those commands that are still under
-        /// development).
+        /// Set to <see langword="false" /> in order to delegate the visibility of the
+        /// command to the rules contained in the <c>.vsct</c> file's
+        /// <c>VisibilityConstraints</c> section.
         /// </param>
         /// <returns>
         /// Reference to an instance of
