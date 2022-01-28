@@ -314,6 +314,21 @@ namespace ExtensionManager
         {
             var result = Guid.NewGuid()
                              .ToString("N");
+
+            /*
+             * MD5.Create can potentially throw a
+             * TargetInvocationException.
+             *
+             * Therefore, it behooves us to wrap this code in a
+             * try/catch block.  Since, at the end of the day, the
+             * MD5 hash of a given string is unique, we substitute
+             * a GUID without braces or hyphens as the output of this
+             * method in the event that MD5.Create throws an exception.
+             *
+             * This way, callers of this method are guaranteed a unique
+             * name for the file download.
+             */
+
             try
             {
                 using (var md5 = MD5.Create())
