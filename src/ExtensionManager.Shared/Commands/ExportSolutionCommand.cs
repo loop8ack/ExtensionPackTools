@@ -119,16 +119,11 @@ namespace ExtensionManager
             var dte = ServiceProvider.GetService(typeof(DTE)) as DTE;
             Assumes.Present(dte);
 
-            if (dte == null)
-                ShowMessageBox(
-                    "We could not connect to Visual Studio.\n\nSave your work, and then try the operation again.\n\nIf this error recurs, please seek support."
-                );
+            if (dte == null) return;
 
             if (string.IsNullOrEmpty(dte.Solution?.FileName))
             {
-                ShowMessageBox(
-                    "We can't export the list of extensions that this solution requires.\n\nIf you've created a new solution, choose the File Save All menu item, and then try this operation again."
-                );
+                ShowMessageBox("The solution must be saved in order to manage solution extensions.");
                 return;
             }
 
