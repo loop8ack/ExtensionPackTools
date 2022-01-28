@@ -193,8 +193,23 @@ namespace ExtensionManager
             }
         }
 
+        /// <summary>
+        /// Shows a message box inside Visual Studio with a Stop icon..
+        /// </summary>
+        /// <param name="message">
+        /// (Required.) String containing the message to be
+        /// displayed.
+        /// </param>
+        /// <remarks>
+        /// This method is used to show error messages to the user.
+        /// <para />
+        /// If the argument of the <paramref name="message" /> parameter is blank, then the
+        /// method does nothing.
+        /// </remarks>
         private void ShowMessageBox(string message)
         {
+            if (string.IsNullOrWhiteSpace(message)) return;
+
             VsShellUtilities.ShowMessageBox(
                 ServiceProvider, message, Vsix.Name,
                 OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK,
