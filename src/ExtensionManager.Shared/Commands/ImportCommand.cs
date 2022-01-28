@@ -335,7 +335,7 @@ namespace ExtensionManager
                              .ToString("N");
             }
             
-            return null;
+            return result;
         }
 
         public static bool HasRootSuffix(out string rootSuffix)
