@@ -346,6 +346,12 @@ namespace ExtensionManager
 
             rootSuffix = string.Empty;
 
+            /*
+             * We wrap the code below in an exception handling block
+             * because we are calling upon external code, that is not
+             * guaranteed to never throw exceptions.
+             */
+
             try
             {
                 if (!(Microsoft.VisualStudio.Shell.ServiceProvider.GlobalProvider
