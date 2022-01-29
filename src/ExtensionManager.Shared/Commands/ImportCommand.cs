@@ -278,7 +278,7 @@ namespace ExtensionManager
             var processStartInfo = new ProcessStartInfo {
                 FileName = vsixInstallerPath,
                 Arguments =
-                    $"{string.Join(" ", vsixFiles)} /instanceIds:{instanceId} {(installSystemWide ? "/admin" : string.Empty)}",
+                    $"{string.Join(" ", vsixFiles)} /instanceIds:{instanceId} {Get.AdminSwitch(installSystemWide)}",
                 WorkingDirectory = folder,
                 UseShellExecute = false
             };
@@ -293,6 +293,8 @@ namespace ExtensionManager
 
             Process.Start(processStartInfo);
         }
+
+        
 
         private Task DownloadExtensionAsync(IEnumerable<IGalleryEntry> entries,
             string dir, DTE dte)
