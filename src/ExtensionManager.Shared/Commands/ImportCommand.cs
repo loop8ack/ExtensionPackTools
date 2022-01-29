@@ -79,6 +79,11 @@ namespace ExtensionManager
         /// </summary>
         private int CurrentCount { get; set; }
 
+        /// <summary>
+        /// Gets a reference to the sole instance of the
+        /// <see cref="T:ExtensionManager.ImportCommand" /> object that is being used to
+        /// implement the functionality of importing extensions.
+        /// </summary>
         public static ImportCommand Instance { get; private set; }
 
         /// <summary>
