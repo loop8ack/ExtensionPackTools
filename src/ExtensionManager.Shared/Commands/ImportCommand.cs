@@ -167,8 +167,10 @@ namespace ExtensionManager
             var tempDir = Get.DefaultTempFolderPath;
             if (!Replace.Folder(tempDir)) return;
 
-            var dte = ServiceProvider.GetService(typeof(DTE)) as DTE;
+            if (!(ServiceProvider.GetService(typeof(DTE)) is DTE dte)) 
+                return;
             Assumes.Present(dte);
+            
 
             dte.StatusBar.Text = "Downloading extensions...";
 
