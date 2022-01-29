@@ -25,6 +25,9 @@ using Task = System.Threading.Tasks.Task;
 
 namespace ExtensionManager
 {
+    /// <summary>
+    /// Provides functionality for the <c>Import Extensions...</c> command on the menu.
+    /// </summary>
     internal sealed class ImportCommand : CommandBase
 
     {
