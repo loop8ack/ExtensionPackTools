@@ -138,7 +138,8 @@ namespace ExtensionManager
         {
             ThreadHelper.ThrowIfNotOnUIThread();
 
-            if (!TryGetFilePath(out var filePath)) return;
+            var filePath = Get.ImportFilePath();
+            if (string.IsNullOrWhiteSpace(filePath)) return;
 
             var manifest = Manifest.FromFile(filePath);
             manifest.MarkSelected(_extensionService.GetInstalledExtensions());
@@ -190,44 +191,6 @@ namespace ExtensionManager
             dte.StatusBar.Text =
                 "Extensions downloaded. Starting VSIX Installer...";
             InvokeVsixInstaller(tempDir, rootSuffix, installSystemWide);
-        }
-
-        /// <summary>
-        /// Prompts the user for the fully-qualified pathname of the file from which to
-        /// import extensions.
-        /// </summary>
-        /// <param name="filePath">
-        /// (Required.) Reference to a
-        /// <see cref="T:System.String" /> variable that will receive the pathname chosen
-        /// by the user (assuming that the user clicked the <strong>OK</strong> button in
-        /// the dialog).
-        /// </param>
-        /// <returns>
-        /// <see langword="true" /> if the user clicked <strong>OK</strong> or
-        /// <strong>Open</strong> in the dialog box that is shown by this method;
-        /// <see langword="false" /> if the user canceled the operation.
-        /// </returns>
-        public static bool TryGetFilePath(out string filePath)
-        {
-            filePath = null;
-
-            using (var sfd = new OpenFileDialog())
-            {
-                sfd.DefaultExt = ".vsext";
-                sfd.FileName = "extensions";
-                sfd.Filter =
-                    "Visual Studio Extension List File (*.vsext)|*.vsext|All Files (*.*)|*.*";
-
-                var result = sfd.ShowDialog();
-
-                if (result == DialogResult.OK)
-                {
-                    filePath = sfd.FileName;
-                    return true;
-                }
-            }
-
-            return false;
         }
 
         private static string PrepareTempDir()
