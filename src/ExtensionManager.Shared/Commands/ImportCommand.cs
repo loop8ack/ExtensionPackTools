@@ -246,9 +246,8 @@ namespace ExtensionManager
             );
             if (string.IsNullOrWhiteSpace(vsixInstallerPath)) return;
 
-            var configuration = new SetupConfiguration() as ISetupConfiguration;
             var adminSwitch = installSystemWide ? "/admin" : string.Empty;
-            var instance = configuration.GetInstanceForCurrentProcess();
+            var instance = Get.TheSetupConfiguration().GetInstanceForCurrentProcess();
             var vsixFiles = Directory.EnumerateFiles(tempDir, "*.vsix")
                                      .Select(Path.GetFileName);
 
