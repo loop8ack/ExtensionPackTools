@@ -9,6 +9,7 @@
     <Import_RootNamespace>ExtensionManager.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Actions\Create.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Actions\Get.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Builders\MakeNew.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Builders\Interfaces\IExtensionServiceBuilder.cs" />

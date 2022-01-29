@@ -181,10 +181,35 @@ namespace ExtensionManager
             );
         }
 
+        /// <summary>
+        /// Called to carry out the download operation for the extensions that the user wants to import.
+        /// </summary>
+        /// <param name="installSystemWide">(Required.) A <see cref="T:System.Boolean"/> value that specifies whether or not to install extensions for all the users on the machine.<para/>Set to <see langword="true" /> to install for all users; <see langword="false" /> otherwise.</param>
+        /// <param name="marketplaceEntries">(Required.) Collection of instances of objects that implement the <see cref="T:ExtensionManager.Core.Models.Interfaces.IGalleryEntry"/> interface, each of which contains the information necessary to obtain the extension's <c>.vsix</c> file from the Visual Studio Marketplace.<para/>This collection should contain more than zero elements.</param>
+        /// <param name="tempDir">(Required.) String containing the fully-qualified pathname of a folder on the disk into which extensions will be downloaded.<para/>The folder is created if it does not already exist.</param>
+        /// <param name="dte">(Required.) </param>
+        /// <param name="rootSuffix"></param>
+        /// <returns></returns>
         private async Task DownloadExtensionsAsync(bool installSystemWide,
-            IEnumerable<GalleryEntry> marketplaceEntries, string tempDir,
+            IEnumerable<IGalleryEntry> marketplaceEntries, string tempDir,
             DTE dte, string rootSuffix)
         {
+            // If a blank string is passed for the argument of the
+            // tempDir parameter, then specify, as a default, a folder
+            // in the Temp directory that is named after a GUID.
+            if (string.IsNullOrWhiteSpace(tempDir))
+                tempDir = Path.Combine(
+                    Path.GetTempPath(), Guid.NewGuid()
+                                            .ToString("B")
+                                            .ToUpperInvariant()
+                );
+
+            // We do not have sufficient access privileges (perhaps?)
+            // to create the temporary folder.  If this is the case, then 
+            // give up.
+            if (!Create.Folder(tempDir)) return;
+
+
             ServicePointManager.DefaultConnectionLimit = 100;
             EntriesCount = marketplaceEntries.Count();
             _currentCount = 0;  // downloaded zero extensions so far
