@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
+using Microsoft.VisualStudio.Setup.Configuration;
 
 namespace ExtensionManager
 {
@@ -18,6 +19,21 @@ namespace ExtensionManager
         public static readonly string DefaultTempFolderPath = Path.Combine(
             Path.GetTempPath(), nameof(ExtensionManager)
         );
+
+        /// <summary>
+        /// Gets a reference to an instance of an object that implements the
+        /// <see cref="T:Microsoft.VisualStudio.Setup.Configuration.ISetupConfiguration" />
+        /// for the currently-running Visual Studio instance.
+        /// </summary>
+        /// <returns>
+        /// Reference to an instance of an object that implements the
+        /// <see cref="T:Microsoft.VisualStudio.Setup.Configuration.ISetupConfiguration" />
+        /// interface.
+        /// </returns>
+        public static ISetupConfiguration TheSetupConfiguration()
+        {
+            return new SetupConfiguration();
+        }
 
         /// <summary>
         /// Gets the path to <c>VSIXInstaller.exe</c>, assuming that it lies in the same
