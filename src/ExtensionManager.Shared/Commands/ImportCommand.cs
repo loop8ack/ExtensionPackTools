@@ -9,7 +9,6 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using EnvDTE;
 using ExtensionManager.Core.Models.Interfaces;
 using ExtensionManager.Core.Services.Interfaces;
@@ -31,6 +30,15 @@ namespace ExtensionManager
     internal sealed class ImportCommand : CommandBase
 
     {
+        /// <summary>
+        /// Counter of how many extensions have been download thus far.
+        /// </summary>
+        /// <remarks>
+        /// This should be left as a field, not a property, since we need to pass
+        /// it by reference.
+        /// </remarks>
+        private int _currentCount;
+
         /// <summary>
         /// Constructs a new instance of
         /// <see cref="T:ExtensionManager.ImportCommand" /> and returns a reference
@@ -73,11 +81,6 @@ namespace ExtensionManager
                 /* supported = */ false
             );
         }
-
-        /// <summary>
-        /// Gets or sets the count of how many extensions have been download thus far.
-        /// </summary>
-        private int CurrentCount { get; set; }
 
         /// <summary>
         /// Gets a reference to the sole instance of the
@@ -313,7 +316,7 @@ namespace ExtensionManager
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
             dte.StatusBar.Text =
-                $"Downloaded {Interlocked.Increment(ref CurrentCount)} of {EntriesCount} extensions...";
+                $"Downloaded {Interlocked.Increment(ref _currentCount)} of {EntriesCount} extensions...";
             await TaskScheduler.Default;
         }
 
