@@ -36,11 +36,12 @@ namespace ExtensionManager
         /// <paramref name="pathname" />.
         /// <para />
         /// If the specified folder does not contain any <c>.vsix</c> files, then the empty
-        /// collection is returned.<para/>If an I/O or operating system error occurs during
+        /// collection is returned.
+        /// <para />
+        /// If an I/O or operating system error occurs during
         /// the operation, the empty collection is also returned.
         /// </returns>
-        public static IList<string> ListOfVSIXFilenamesInFolder(
-            string pathname)
+        public static IList<string> ListOfVSIXFilenamesInFolder(string pathname)
         {
             var result = new List<string>();
 
@@ -62,6 +63,32 @@ namespace ExtensionManager
         }
 
         /// <summary>
+        /// For the <c>VSIXInstaller.exe</c> <c>/instanceids</c> switch, gets the Instance
+        /// ID of the currently-running Visual Studio process.
+        /// </summary>
+        /// <returns>
+        /// String containing the value to use for the <c>/instanceids</c> switch,
+        /// or blank if an error occurred in fetching the value.
+        /// </returns>
+        public static string VisualStudioInstanceId()
+        {
+            string result;
+
+            try
+            {
+                result = TheSetupConfiguration()
+                         .GetInstanceForCurrentProcess()
+                         .GetInstanceId();
+            }
+            catch
+            {
+                result = string.Empty;
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// Gets a reference to an instance of an object that implements the
         /// <see cref="T:Microsoft.VisualStudio.Setup.Configuration.ISetupConfiguration" />
         /// for the currently-running Visual Studio instance.
@@ -71,7 +98,7 @@ namespace ExtensionManager
         /// <see cref="T:Microsoft.VisualStudio.Setup.Configuration.ISetupConfiguration" />
         /// interface.
         /// </returns>
-        public static ISetupConfiguration TheSetupConfiguration()
+        private static ISetupConfiguration TheSetupConfiguration()
         {
             return new SetupConfiguration();
         }
