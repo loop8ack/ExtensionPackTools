@@ -294,8 +294,6 @@ namespace ExtensionManager
             Process.Start(processStartInfo);
         }
 
-        
-
         private Task DownloadExtensionAsync(IEnumerable<IGalleryEntry> entries,
             string dir, DTE dte)
         {
