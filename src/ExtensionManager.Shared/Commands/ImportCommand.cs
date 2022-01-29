@@ -32,11 +32,6 @@ namespace ExtensionManager
 
     {
         /// <summary>
-        /// Count of extensions that have been download thus far.
-        /// </summary>
-        private int _currentCount;
-
-        /// <summary>
         /// Constructs a new instance of
         /// <see cref="T:ExtensionManager.ImportCommand" /> and returns a reference
         /// to it.
@@ -78,6 +73,11 @@ namespace ExtensionManager
                 /* supported = */ false
             );
         }
+
+        /// <summary>
+        /// Gets or sets the count of how many extensions have been download thus far.
+        /// </summary>
+        private int CurrentCount { get; set; }
 
         public static ImportCommand Instance { get; private set; }
 
@@ -175,7 +175,7 @@ namespace ExtensionManager
         {
             ServicePointManager.DefaultConnectionLimit = 100;
             EntriesCount = marketplaceEntries.Count();
-            _currentCount = 0;
+            CurrentCount = 0;
             await DownloadExtensionAsync(marketplaceEntries, tempDir, dte);
 
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
@@ -326,7 +326,7 @@ namespace ExtensionManager
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
             dte.StatusBar.Text =
-                $"Downloaded {Interlocked.Increment(ref _currentCount)} of {EntriesCount} extensions...";
+                $"Downloaded {Interlocked.Increment(ref CurrentCount)} of {EntriesCount} extensions...";
             await TaskScheduler.Default;
         }
 
@@ -402,10 +402,10 @@ namespace ExtensionManager
             }
             catch
             {
-                // If we are here, then something went wrong with the 
+                // If we are here, then something went wrong with the
                 // interop connection.  Since we aren't able to gather
                 // any information that is of use, return a default
-                // result of false, and a empty string for the 
+                // result of false, and a empty string for the
                 // rootSuffix reference.
                 result = false;
 
