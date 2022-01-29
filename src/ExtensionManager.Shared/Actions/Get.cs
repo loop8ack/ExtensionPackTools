@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using Microsoft.VisualStudio.Setup.Configuration;
 
@@ -19,6 +21,45 @@ namespace ExtensionManager
         public static readonly string DefaultTempFolderPath = Path.Combine(
             Path.GetTempPath(), nameof(ExtensionManager)
         );
+
+        /// <summary>
+        /// Attempts to list the file names of all the files in the folder having the
+        /// specified <paramref name="pathname" /> having an extension of <c>.vsix</c>.
+        /// </summary>
+        /// <param name="pathname">
+        /// (Required.) String containing the fully-qualified
+        /// pathname of the folder to be searched.
+        /// </param>
+        /// <returns>
+        /// Collection of strings, each one containing the filename of a
+        /// <c>.vsix</c> file in the folder having the specified
+        /// <paramref name="pathname" />.
+        /// <para />
+        /// If the specified folder does not contain any <c>.vsix</c> files, then the empty
+        /// collection is returned.<para/>If an I/O or operating system error occurs during
+        /// the operation, the empty collection is also returned.
+        /// </returns>
+        public static IList<string> ListOfVSIXFilenamesInFolder(
+            string pathname)
+        {
+            var result = new List<string>();
+
+            try
+            {
+                if (!Directory.EnumerateFiles(pathname, "*.vsix")
+                              .Any()) return result;
+
+                result = Directory.EnumerateFiles(pathname, "*.vsix")
+                                  .Select(Path.GetFileName)
+                                  .ToList();
+            }
+            catch
+            {
+                result = new List<string>();
+            }
+
+            return result;
+        }
 
         /// <summary>
         /// Gets a reference to an instance of an object that implements the
