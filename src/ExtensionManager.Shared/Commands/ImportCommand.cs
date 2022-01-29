@@ -378,7 +378,7 @@ namespace ExtensionManager
                     ))
                     result = hasRootSuffix != 0;
             }
-            catch (Exception ex)
+            catch
             {
                 result = false;
 
