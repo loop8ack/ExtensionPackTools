@@ -10,6 +10,14 @@ namespace ExtensionManager
     public static class Get
     {
         /// <summary>
+        /// Gets a <see cref="T:System.String" /> that contains a default pathname of the
+        /// temporary folder to use for downloads.
+        /// </summary>
+        /// <returns></returns>
+        public static readonly string DefaultTempFolderPath
+            = Path.Combine(Path.GetTempPath(), nameof(ExtensionManager));
+
+        /// <summary>
         /// Prompts the interactive user, with a Save As dialog box, to determine to which
         /// pathname the user would like the export saved.
         /// </summary>

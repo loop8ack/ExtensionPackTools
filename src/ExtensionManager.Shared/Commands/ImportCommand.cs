@@ -165,7 +165,8 @@ namespace ExtensionManager
                                          toInstall, 1033, false
                                      )
                                      .Where(x => x.DownloadUrl != null);
-            var tempDir = PrepareTempDir();
+            var tempDir = Get.DefaultTempFolderPath;
+            if (!Replace.Folder(tempDir)) return;
 
             var dte = ServiceProvider.GetService(typeof(DTE)) as DTE;
             Assumes.Present(dte);
@@ -198,16 +199,12 @@ namespace ExtensionManager
             // tempDir parameter, then specify, as a default, a folder
             // in the Temp directory that is named after a GUID.
             if (string.IsNullOrWhiteSpace(tempDir))
-                tempDir = Path.Combine(
-                    Path.GetTempPath(), Guid.NewGuid()
-                                            .ToString("B")
-                                            .ToUpperInvariant()
-                );
+                tempDir = Get.DefaultTempFolderPath;
 
-            // We do not have sufficient access privileges (perhaps?)
-            // to create the temporary folder.  If this is the case, then 
-            // give up.
-            if (!Create.Folder(tempDir)) return;
+            /* astrohart - I know we did this in the caller of this method, but
+               what if the code changes in the future?  This way, we can be 100% sure
+               the download folder exists.*/
+            if (!Replace.Folder(tempDir)) return;
 
 
             ServicePointManager.DefaultConnectionLimit = 100;
@@ -219,28 +216,6 @@ namespace ExtensionManager
             dte.StatusBar.Text =
                 "Extensions downloaded. Starting VSIX Installer...";
             InvokeVsixInstaller(tempDir, rootSuffix, installSystemWide);
-        }
-
-        private static string PrepareTempDir()
-        {
-            var tempDir = Path.Combine(
-                Path.GetTempPath(), nameof(ExtensionManager)
-            );
-
-            try
-            {
-                if (Directory.Exists(tempDir))
-                    Directory.Delete(tempDir, true);
-
-                if (!Directory.Exists(tempDir))
-                    Directory.CreateDirectory(tempDir);
-            }
-            catch
-            {
-                // ignored
-            }
-
-            return tempDir;
         }
 
         private static void InvokeVsixInstaller(string tempDir,
