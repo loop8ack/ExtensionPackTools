@@ -27,7 +27,7 @@ namespace ExtensionManager
         /// <remarks>
         /// This method replaces the sequence of calling the
         /// <see cref="M:System.IO.Directory.Delete" /> and
-        /// <see cref="M:System.IO.Directory.CreateDirectory" /> method with a more
+        /// <see cref="M:System.IO.Directory.CreateDirectory" /> methods with a more
         /// robust/fault-tolerant implementation.
         /// <para />
         /// You just never know when an
@@ -42,8 +42,9 @@ namespace ExtensionManager
 
             try
             {
-                result = Remove.Folder(pathname) && Create.Folder(pathname) &&
-                         Directory.Exists(pathname);
+                result = Remove.Folder(pathname) 
+                         && Create.Folder(pathname) 
+                         && Directory.Exists(pathname);
             }
             catch
             {
