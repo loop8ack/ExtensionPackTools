@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 
@@ -14,8 +15,56 @@ namespace ExtensionManager
         /// temporary folder to use for downloads.
         /// </summary>
         /// <returns></returns>
-        public static readonly string DefaultTempFolderPath
-            = Path.Combine(Path.GetTempPath(), nameof(ExtensionManager));
+        public static readonly string DefaultTempFolderPath = Path.Combine(
+            Path.GetTempPath(), nameof(ExtensionManager)
+        );
+
+        /// <summary>
+        /// Gets the path to <c>VSIXInstaller.exe</c>, assuming that it lies in the same
+        /// folder as does the main module of the specified <paramref name="process" />.
+        /// </summary>
+        /// <param name="process">
+        /// (Required.) Reference to an instance of
+        /// <see cref="T:System.Diagnostics.Process" /> that represents the
+        /// currently-running process.
+        /// </param>
+        /// <returns>
+        /// If the <c>VSIXInstaller.exe</c> file cannot be located at the assumed
+        /// path, then the empty string is returned.
+        /// <para />
+        /// Otherwise, the fully-qualified pathname of the <c>VSIXInstaller.exe</c> file is
+        /// returned.
+        /// </returns>
+        public static string VSIXInstallerPath(Process process)
+        {
+            var result = string.Empty;
+
+            if (process == null) return result;
+
+            try
+            {
+                var mainModuleFileName = process.MainModule?.FileName;
+                if (!File.Exists(mainModuleFileName)) return result;
+
+                var mainModuleFolder =
+                    Path.GetDirectoryName(mainModuleFileName);
+                if (string.IsNullOrWhiteSpace(mainModuleFolder))
+                    return result;
+
+                result = Directory.Exists(mainModuleFolder)
+                    ? Path.Combine(mainModuleFolder, "VSIXInstaller.exe")
+                    : string.Empty;
+
+                if (!File.Exists(result))
+                    return string.Empty;
+            }
+            catch
+            {
+                result = string.Empty;
+            }
+
+            return result;
+        }
 
         /// <summary>
         /// Prompts the interactive user, with a Save As dialog box, to determine to which
