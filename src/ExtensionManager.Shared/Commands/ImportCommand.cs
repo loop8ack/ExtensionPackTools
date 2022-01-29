@@ -31,6 +31,9 @@ namespace ExtensionManager
     internal sealed class ImportCommand : CommandBase
 
     {
+        /// <summary>
+        /// Count of extensions that have been download thus far.
+        /// </summary>
         private int _currentCount;
 
         /// <summary>
@@ -263,6 +266,22 @@ namespace ExtensionManager
         private Task DownloadExtensionAsync(IEnumerable<IGalleryEntry> entries,
             string dir, DTE dte)
         {
+            /*
+             * astrohart - This method has problems.  It is not fault-tolerant.
+             *
+             * First off, the operation of downloading an extension is not
+             * guaranteed to be error-free. An I/O error could
+             * be thrown by the local OS, the remote server could hiccup, or
+             * any number of other things.
+             *
+             * Best to create a new ExtensionDownloadService or something similar,
+             * have it await each individual downloading task, and then catch exceptions
+             * that are thrown by that operation, so then we can skip extensions
+             * that error out during their download, and still get the rest.
+             *
+             * This is an action item.
+             */
+
             return Task.WhenAll(
                 entries.Select(
                            entry => Task.Run(

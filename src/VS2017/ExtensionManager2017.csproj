@@ -118,6 +118,10 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Core\ExtensionManager.Core.Commands.Interfaces\ExtensionManager.Core.Commands.Interfaces.csproj">
+      <Project>{6c0d0457-9585-470b-b989-197801dcbb02}</Project>
+      <Name>ExtensionManager.Core.Commands.Interfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Core\ExtensionManager.Core.Models.Interfaces\ExtensionManager.Core.Models.Interfaces.csproj">
       <Project>{7702633E-F7ED-4290-921A-1A9F8760C55A}</Project>
       <Name>ExtensionManager.Core.Models.Interfaces</Name>
