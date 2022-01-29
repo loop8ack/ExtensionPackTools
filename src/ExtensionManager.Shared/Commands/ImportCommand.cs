@@ -205,8 +205,7 @@ namespace ExtensionManager
                what if the code changes in the future?  This way, we can be 100% sure
                the download folder exists.*/
             if (!Replace.Folder(tempDir)) return;
-
-
+            
             ServicePointManager.DefaultConnectionLimit = 100;
             EntriesCount = marketplaceEntries.Count();
             _currentCount = 0;  // downloaded zero extensions so far
