@@ -15,7 +15,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Commands\CommandBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands\ExportCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands\ExportSolutionCommand.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Commands\IExtensionManagerCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands\ImportCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands\SolutionPrompter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Conditionals\IsExtension.cs" />
