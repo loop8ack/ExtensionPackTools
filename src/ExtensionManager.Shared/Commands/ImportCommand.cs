@@ -264,12 +264,18 @@ namespace ExtensionManager
              * be thrown by the local OS, the remote server could hiccup, or
              * any number of other things.
              *
+             * I know that WhenAll starts all the tasks in the list at the same
+             * time, but I want to be 100% sure that the all the rests of the tasks
+             * execute even if one or more of them error out; we want to just
+             * skip that one, and then continue with the others.
+             *
              * Best to create a new ExtensionDownloadService or something similar,
              * have it await each individual downloading task, and then catch exceptions
              * that are thrown by that operation, so then we can skip extensions
              * that error out during their download, and still get the rest.
              *
-             * This is an action item.
+             * This is an action item.  So that I do not break any existing
+             * functionality, I am leaving it for now.
              */
 
             return Task.WhenAll(
