@@ -15,7 +15,6 @@ using ExtensionManager.Core.Services.Interfaces;
 using Microsoft;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.ExtensionManager;
-using Microsoft.VisualStudio.Setup.Configuration;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.Threading;
@@ -238,7 +237,30 @@ namespace ExtensionManager
             InvokeVsixInstaller(tempDir, rootSuffix, installSystemWide);
         }
 
-        private static void InvokeVsixInstaller(string tempDir,
+        /// <summary>
+        /// Runs the VSIX installer on the extensions whose <c>.vsix</c> files are present
+        /// (if any) in the specified <paramref name="folder" />.
+        /// </summary>
+        /// <param name="folder">
+        /// (Required.) String containing the fully-qualified pathname
+        /// of the folder to be searched for <c>.vsix</c> files.
+        /// </param>
+        /// <param name="rootSuffix">
+        /// (Required.) Value that, if non-blank, means we are
+        /// installing extensions into the Visual Studio Experimental Instance.
+        /// </param>
+        /// <param name="installSystemWide">
+        /// (Required.) A <see cref="T:System.Boolean" />
+        /// value that is set to <see langword="true" /> in order to install extensions for
+        /// all users; <see langword="false" /> otherwise.
+        /// </param>
+        /// <remarks>
+        /// This method tries as hard as it can to set up the installation process
+        /// for a successful run.
+        /// <para />
+        /// If something fails along the way, then this method gives up.
+        /// </remarks>
+        private static void InvokeVsixInstaller(string folder,
             string rootSuffix, bool installSystemWide)
         {
             var vsixInstallerPath = Get.VSIXInstallerPath(
@@ -246,18 +268,18 @@ namespace ExtensionManager
             );
             if (string.IsNullOrWhiteSpace(vsixInstallerPath)) return;
 
-            var adminSwitch = installSystemWide ? "/admin" : string.Empty;
-            var instance = Get.TheSetupConfiguration().GetInstanceForCurrentProcess();
-            
-            var vsixFiles = Get.ListOfVSIXFilenamesInFolder(tempDir);
+            var vsixFiles = Get.ListOfVSIXFilenamesInFolder(folder);
             if (!vsixFiles.Any())
                 return; // nothing to install
+
+            var instanceId = Get.VisualStudioInstanceId();
+            if (string.IsNullOrWhiteSpace(instanceId)) return;
 
             var processStartInfo = new ProcessStartInfo {
                 FileName = vsixInstallerPath,
                 Arguments =
-                    $"{string.Join(" ", vsixFiles)} /instanceIds:{instance.GetInstanceId()} {adminSwitch}",
-                WorkingDirectory = tempDir,
+                    $"{string.Join(" ", vsixFiles)} /instanceIds:{instanceId} {(installSystemWide ? "/admin" : string.Empty)}",
+                WorkingDirectory = folder,
                 UseShellExecute = false
             };
 
