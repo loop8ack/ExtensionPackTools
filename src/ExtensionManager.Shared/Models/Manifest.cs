@@ -44,6 +44,14 @@ namespace ExtensionManager
 
         public static Manifest FromFile(string filePath)
         {
+            /*
+             * Really should handle potential I/O exceptions here.
+             *
+             * As well as check that the file whose pathname is
+             * specified in the filePath argument really exists
+             * on the disk in the first place.
+             */
+
             var file = File.ReadAllText(filePath);
 
             return From2017Format(file) ?? FromLegacyFormat(file);
