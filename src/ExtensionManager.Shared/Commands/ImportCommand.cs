@@ -380,6 +380,11 @@ namespace ExtensionManager
             }
             catch
             {
+                // If we are here, then something went wrong with the 
+                // interop connection.  Since we aren't able to gather
+                // any information that is of use, return a default
+                // result of false, and a empty string for the 
+                // rootSuffix reference.
                 result = false;
 
                 rootSuffix = string.Empty;
