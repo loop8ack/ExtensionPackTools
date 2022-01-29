@@ -253,7 +253,7 @@ namespace ExtensionManager
             if (!vsixFiles.Any())
                 return; // nothing to install
 
-            var start = new ProcessStartInfo {
+            var processStartInfo = new ProcessStartInfo {
                 FileName = vsixInstallerPath,
                 Arguments =
                     $"{string.Join(" ", vsixFiles)} /instanceIds:{instance.GetInstanceId()} {adminSwitch}",
@@ -267,9 +267,9 @@ namespace ExtensionManager
              * using the /rootSuffix switch of the VSIX installer.
              */
             if (!string.IsNullOrEmpty(rootSuffix))
-                start.Arguments += $" /rootSuffix:{rootSuffix}";
+                processStartInfo.Arguments += $" /rootSuffix:{rootSuffix}";
 
-            Process.Start(start);
+            Process.Start(processStartInfo);
         }
 
         private Task DownloadExtensionAsync(IEnumerable<IGalleryEntry> entries,
