@@ -187,7 +187,7 @@ namespace ExtensionManager
         {
             ServicePointManager.DefaultConnectionLimit = 100;
             EntriesCount = marketplaceEntries.Count();
-            CurrentCount = 0;
+            _currentCount = 0;  // downloaded zero extensions so far
             await DownloadExtensionAsync(marketplaceEntries, tempDir, dte);
 
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
