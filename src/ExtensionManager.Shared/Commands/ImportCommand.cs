@@ -248,8 +248,10 @@ namespace ExtensionManager
 
             var adminSwitch = installSystemWide ? "/admin" : string.Empty;
             var instance = Get.TheSetupConfiguration().GetInstanceForCurrentProcess();
-            var vsixFiles = Directory.EnumerateFiles(tempDir, "*.vsix")
-                                     .Select(Path.GetFileName);
+            
+            var vsixFiles = Get.ListOfVSIXFilenamesInFolder(tempDir);
+            if (!vsixFiles.Any())
+                return; // nothing to install
 
             var start = new ProcessStartInfo {
                 FileName = vsixInstallerPath,
