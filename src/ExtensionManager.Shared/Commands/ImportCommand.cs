@@ -192,6 +192,11 @@ namespace ExtensionManager
             InvokeVsixInstaller(tempDir, rootSuffix, installSystemWide);
         }
 
+        /// <summary>
+        /// Prompts the user for the fully-qualified pathname of the file from which to import extensions.
+        /// </summary>
+        /// <param name="filePath">(Required.) Reference to a <see cref="T:System.String"/> variable that will receive the pathname chosen by the user (assuming that the user clicked the <strong>OK</strong> button in the dialog).</param>
+        /// <returns><see langword="true" /> if the user clicked <strong>OK</strong> or <strong>Open</strong> in the dialog box that is shown by this method; <see langword="false" /> if the user canceled the operation.</returns>
         public static bool TryGetFilePath(out string filePath)
         {
             filePath = null;
@@ -200,7 +205,8 @@ namespace ExtensionManager
             {
                 sfd.DefaultExt = ".vsext";
                 sfd.FileName = "extensions";
-                sfd.Filter = "VSEXT File|*.vsext";
+                sfd.Filter =
+                    "Visual Studio Extension List File (*.vsext)|*.vsext|All Files (*.*)|*.*";
 
                 var result = sfd.ShowDialog();
 
