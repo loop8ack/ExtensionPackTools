@@ -81,6 +81,9 @@ namespace ExtensionManager
 
         public static ImportCommand Instance { get; private set; }
 
+        /// <summary>
+        /// Gets or sets the total count of how many extensions need to be downloaded.
+        /// </summary>
         private int EntriesCount { get; set; }
 
         /// <summary>
