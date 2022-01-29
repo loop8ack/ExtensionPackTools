@@ -183,11 +183,32 @@ namespace ExtensionManager
         }
 
         /// <summary>
-        /// Called to carry out the download operation for the extensions that the user wants to import.
+        /// Called to carry out the download operation for the extensions that the user
+        /// wants to import.
         /// </summary>
-        /// <param name="installSystemWide">(Required.) A <see cref="T:System.Boolean"/> value that specifies whether or not to install extensions for all the users on the machine.<para/>Set to <see langword="true" /> to install for all users; <see langword="false" /> otherwise.</param>
-        /// <param name="marketplaceEntries">(Required.) Collection of instances of objects that implement the <see cref="T:ExtensionManager.Core.Models.Interfaces.IGalleryEntry"/> interface, each of which contains the information necessary to obtain the extension's <c>.vsix</c> file from the Visual Studio Marketplace.<para/>This collection should contain more than zero elements.</param>
-        /// <param name="tempDir">(Required.) String containing the fully-qualified pathname of a folder on the disk into which extensions will be downloaded.<para/>The folder is created if it does not already exist.</param>
+        /// <param name="installSystemWide">
+        /// (Required.) A <see cref="T:System.Boolean" />
+        /// value that specifies whether or not to install extensions for all the users on
+        /// the machine.
+        /// <para />
+        /// Set to <see langword="true" /> to install for all users;
+        /// <see langword="false" /> otherwise.
+        /// </param>
+        /// <param name="marketplaceEntries">
+        /// (Required.) Collection of instances of objects
+        /// that implement the
+        /// <see cref="T:ExtensionManager.Core.Models.Interfaces.IGalleryEntry" />
+        /// interface, each of which contains the information necessary to obtain the
+        /// extension's <c>.vsix</c> file from the Visual Studio Marketplace.
+        /// <para />
+        /// This collection should contain more than zero elements.
+        /// </param>
+        /// <param name="tempDir">
+        /// (Required.) String containing the fully-qualified
+        /// pathname of a folder on the disk into which extensions will be downloaded.
+        /// <para />
+        /// The folder is created if it does not already exist.
+        /// </param>
         /// <param name="dte">(Required.) </param>
         /// <param name="rootSuffix"></param>
         /// <returns></returns>
@@ -205,10 +226,10 @@ namespace ExtensionManager
                what if the code changes in the future?  This way, we can be 100% sure
                the download folder exists.*/
             if (!Replace.Folder(tempDir)) return;
-            
+
             ServicePointManager.DefaultConnectionLimit = 100;
             EntriesCount = marketplaceEntries.Count();
-            _currentCount = 0;  // downloaded zero extensions so far
+            _currentCount = 0; // downloaded zero extensions so far
             await DownloadExtensionAsync(marketplaceEntries, tempDir, dte);
 
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
@@ -220,13 +241,11 @@ namespace ExtensionManager
         private static void InvokeVsixInstaller(string tempDir,
             string rootSuffix, bool installSystemWide)
         {
-            var process = Process.GetCurrentProcess();
-            if (!File.Exists(process.MainModule.FileName)) return;
+            var vsixInstallerPath = Get.VSIXInstallerPath(
+                Process.GetCurrentProcess()
+            );
+            if (string.IsNullOrWhiteSpace(vsixInstallerPath)) return;
 
-            var dir = Path.GetDirectoryName(process.MainModule.FileName);
-            if (!Directory.Exists(dir)) return;
-
-            var exe = Path.Combine(dir, "VSIXInstaller.exe");
             var configuration = new SetupConfiguration() as ISetupConfiguration;
             var adminSwitch = installSystemWide ? "/admin" : string.Empty;
             var instance = configuration.GetInstanceForCurrentProcess();
@@ -234,7 +253,7 @@ namespace ExtensionManager
                                      .Select(Path.GetFileName);
 
             var start = new ProcessStartInfo {
-                FileName = exe,
+                FileName = vsixInstallerPath,
                 Arguments =
                     $"{string.Join(" ", vsixFiles)} /instanceIds:{instance.GetInstanceId()} {adminSwitch}",
                 WorkingDirectory = tempDir,

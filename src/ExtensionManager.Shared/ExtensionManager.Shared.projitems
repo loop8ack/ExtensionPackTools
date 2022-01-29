@@ -10,7 +10,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Actions\Create.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Actions\Remove.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Actions\Get.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Actions\Replace.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Builders\MakeNew.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Builders\Interfaces\IExtensionServiceBuilder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands\CommandBase.cs" />
