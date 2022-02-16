@@ -29,17 +29,22 @@ namespace ExtensionManager
         /// (Required.) Reference to an instance of an object that implements the
         /// <see cref="T:ExtensionManager.IExtensionService" /> interface.
         /// </param>
-        /// null
+        /// <param name="commandLineService">
+        /// (Required.) Reference to an instance of an object that implements the
+        /// <see cref="T:ExtensionManager.IVsAppCommandLineService" /> interface.
+        /// </param>
         /// <exception cref="T:System.ArgumentNullException">
         /// Thrown if the any of the
         /// required parameters, <paramref name="package" />,
-        /// <paramref name="commandService" />, or <paramref name="extensionService" />,
+        /// <paramref name="commandService" />, <paramref name="extensionService" />, or
+        /// <paramref name="commandLineService" />,
         /// are passed a <see langword="null" /> value.
         /// </exception>
         private ExportCommand(IVsPackage package,
             IMenuCommandService commandService,
-            IExtensionService extensionService) : base(
-            package, commandService, extensionService
+            IExtensionService extensionService,
+            IVsAppCommandLineService commandLineService) : base(
+            package, commandService, extensionService, commandLineService
         )
         {
             /*
@@ -74,19 +79,29 @@ namespace ExtensionManager
         /// (Required.) Reference to an instance of an object that implements the
         /// <see cref="T:ExtensionManager.IExtensionService" /> interface.
         /// </param>
-        /// null
+        /// <param name="commandLineService">
+        /// (Required.) Reference to an instance of an object that implements the
+        /// <see cref="T:ExtensionManager.IVsAppCommandLineService" /> interface.
+        /// </param>
         /// <exception cref="T:System.ArgumentNullException">
         /// Thrown if the any of the
         /// required parameters, <paramref name="package" />,
-        /// <paramref name="commandService" />, or <paramref name="extensionService" />,
+        /// <paramref name="commandService" />, <paramref name="extensionService" />, or
+        /// <paramref name="commandLineService" />,
         /// are passed a <see langword="null" /> value.
         /// </exception>
         public static void Initialize(IVsPackage package,
             IMenuCommandService commandService,
-            IExtensionService extensionService)
+            IExtensionService extensionService,
+            IVsAppCommandLineService commandLineService)
         {
+            if (package == null) return;
+            if (commandService == null) return;
+            if (extensionService == null) return;
+            if (commandLineService == null) return;
+
             Instance = new ExportCommand(
-                package, commandService, extensionService
+                package, commandService, extensionService, commandLineService
             );
         }
 

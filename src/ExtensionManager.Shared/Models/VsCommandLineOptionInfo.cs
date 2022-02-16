@@ -17,7 +17,7 @@ namespace ExtensionManager
         /// <see cref="T:Microsoft.VisualStudio.Shell.Interop.IVsAppCommandLine" />
         /// interface.
         /// </summary>
-        private readonly IVsAppCommandLine _vsAppCommandLine;
+        private IVsAppCommandLine _vsAppCommandLine;
 
         /// <summary>
         /// Constructs a new instance of
@@ -55,6 +55,28 @@ namespace ExtensionManager
         }
 
         /// <summary>
+        /// Constructs a new instance of
+        /// <see cref="T:ExtensionManager.VsCommandLineOptionInfo" /> and returns a
+        /// reference to it.
+        /// </summary>
+        /// <remarks>
+        /// This object's properties are set to their default values by this
+        /// constructor.
+        /// </remarks>
+        public VsCommandLineOptionInfo()
+        {
+            Clear();
+        }
+
+        /// <summary>
+        /// Gets a value that tells whether this object is uninitialized.
+        /// </summary>
+        public bool IsEmpty
+            => string.IsNullOrWhiteSpace(Name) &&
+               string.IsNullOrWhiteSpace(Value) && IsProvided == false &&
+               _vsAppCommandLine == null;
+
+        /// <summary>
         /// Gets or sets a string containing the name (case-insensitive) of the
         /// command-line option to search for.
         /// </summary>
@@ -69,6 +91,16 @@ namespace ExtensionManager
         /// Gets the string value passed as an argument to the option, if any.
         /// </summary>
         public string Value { get; private set; }
+
+        /// <summary>
+        /// Resets the values of this object's properties to their defaults.
+        /// </summary>
+        public void Clear()
+        {
+            _vsAppCommandLine = null;
+            Name = Value = string.Empty;
+            IsProvided = false;
+        }
 
         /// <summary>
         /// Attempts to gather the info for a particular command-line option.
@@ -94,6 +126,8 @@ namespace ExtensionManager
             {
                 // dump all the exception info to the log
                 Debug.WriteLine(ex);
+
+                Clear(); // reset all property values
             }
         }
     }

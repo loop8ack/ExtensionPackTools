@@ -53,17 +53,22 @@ namespace ExtensionManager
         /// (Required.) Reference to an instance of an object that implements the
         /// <see cref="T:ExtensionManager.IExtensionService" /> interface.
         /// </param>
-        /// null
+        /// <param name="commandLineService">
+        /// (Required.) Reference to an instance of an object that implements the
+        /// <see cref="T:ExtensionManager.IVsAppCommandLineService" /> interface.
+        /// </param>
         /// <exception cref="T:System.ArgumentNullException">
         /// Thrown if the any of the
         /// required parameters, <paramref name="package" />,
-        /// <paramref name="commandService" />, or <paramref name="extensionService" />,
+        /// <paramref name="commandService" />, <paramref name="extensionService" />, or
+        /// <paramref name="commandLineService" />,
         /// are passed a <see langword="null" /> value.
         /// </exception>
         private ImportCommand(IVsPackage package,
             IMenuCommandService commandService,
-            IExtensionService extensionService) : base(
-            package, commandService, extensionService
+            IExtensionService extensionService,
+            IVsAppCommandLineService commandLineService) : base(
+            package, commandService, extensionService, commandLineService
         )
         {
             /*
@@ -109,19 +114,24 @@ namespace ExtensionManager
         /// (Required.) Reference to an instance of an object that implements the
         /// <see cref="T:ExtensionManager.IExtensionService" /> interface.
         /// </param>
-        /// null
+        /// <param name="commandLineService">
+        /// (Required.) Reference to an instance of an object that implements the
+        /// <see cref="T:ExtensionManager.IVsAppCommandLineService" /> interface.
+        /// </param>
         /// <exception cref="T:System.ArgumentNullException">
         /// Thrown if the any of the
         /// required parameters, <paramref name="package" />,
-        /// <paramref name="commandService" />, or <paramref name="extensionService" />,
+        /// <paramref name="commandService" />, <paramref name="extensionService" />, or
+        /// <paramref name="commandLineService" />,
         /// are passed a <see langword="null" /> value.
         /// </exception>
         public static void Initialize(IVsPackage package,
             IMenuCommandService commandService,
-            IExtensionService extensionService)
+            IExtensionService extensionService,
+            IVsAppCommandLineService commandLineService)
         {
             Instance = new ImportCommand(
-                package, commandService, extensionService
+                package, commandService, extensionService, commandLineService
             );
         }
 
@@ -410,13 +420,15 @@ namespace ExtensionManager
             return result;
         }
 
-        public static bool HasRootSuffix(out string rootSuffix)
+        public bool HasRootSuffix(out string rootSuffix)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
 
             var result = false;
 
             rootSuffix = string.Empty;
+
+            if (_vsAppCommandLineService == null) return result;
 
             /*
              * We wrap the code below in an exception handling block
@@ -426,16 +438,11 @@ namespace ExtensionManager
 
             try
             {
-                if (!(Microsoft.VisualStudio.Shell.ServiceProvider
-                               .GlobalProvider
-                               .GetService(typeof(SVsAppCommandLine)) is
-                        IVsAppCommandLine appCommandLine)) return false;
-                if (ErrorHandler.Succeeded(
-                        appCommandLine.GetOption(
-                            "rootsuffix", out var hasRootSuffix, out rootSuffix
-                        )
-                    ))
-                    result = hasRootSuffix != 0;
+                var option = _vsAppCommandLineService.GetOption("rootsuffix");
+                if (option == null || option.IsEmpty) return result;
+
+                result = option.IsProvided;
+                rootSuffix = option.Value;
             }
             catch
             {

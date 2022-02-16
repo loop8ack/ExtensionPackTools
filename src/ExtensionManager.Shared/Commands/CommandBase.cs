@@ -14,7 +14,7 @@ namespace ExtensionManager
         /// Reference to an instance of an object that implements the
         /// <see cref="T:System.ComponentModel.Design.IMenuCommandService" /> interface.
         /// </summary>
-        private readonly IMenuCommandService _commandService;
+        protected readonly IMenuCommandService _commandService;
 
         /// <summary>
         /// Reference to an instance of an object that implements the
@@ -34,6 +34,17 @@ namespace ExtensionManager
         protected readonly IVsPackage _package;
 
         /// <summary>
+        /// Reference to an instance of an object that implements the
+        /// <see cref="T:ExtensionManager.IVsAppCommandLineService" /> interface.
+        /// </summary>
+        /// <remarks>
+        /// This object provides functionality by which we can examine the
+        /// command-line arguments passed to the currently-running instance of Visual
+        /// Studio in which this extension is executing.
+        /// </remarks>
+        protected readonly IVsAppCommandLineService _vsAppCommandLineService;
+
+        /// <summary>
         /// Initializes a new instance of an object that inherits from this class.
         /// </summary>
         /// <param name="package">
@@ -48,16 +59,21 @@ namespace ExtensionManager
         /// (Required.) Reference to an instance of an object that implements the
         /// <see cref="T:ExtensionManager.IExtensionService" /> interface.
         /// </param>
-        /// null
+        /// <param name="commandLineService">
+        /// (Required.) Reference to an instance of an object that implements the
+        /// <see cref="T:ExtensionManager.IVsAppCommandLineService" /> interface.
+        /// </param>
         /// <exception cref="T:System.ArgumentNullException">
         /// Thrown if the any of the
         /// required parameters, <paramref name="package" />,
-        /// <paramref name="commandService" />, or <paramref name="extensionService" />,
+        /// <paramref name="commandService" />, <paramref name="extensionService" />, or
+        /// <paramref name="commandLineService" />,
         /// are passed a <see langword="null" /> value.
         /// </exception>
         protected CommandBase(IVsPackage package,
             IMenuCommandService commandService,
-            IExtensionService extensionService)
+            IExtensionService extensionService,
+            IVsAppCommandLineService commandLineService)
         {
             /*
              * The job of this protected constructor is merely to
@@ -77,6 +93,10 @@ namespace ExtensionManager
                                 throw new ArgumentNullException(
                                     nameof(extensionService)
                                 );
+            _vsAppCommandLineService = commandLineService ??
+                                       throw new ArgumentNullException(
+                                           nameof(commandLineService)
+                                       );
         }
 
         /// <summary>
@@ -98,6 +118,17 @@ namespace ExtensionManager
         /// </remarks>
         protected IEnumerable<IExtension> InstalledExtensions
             => _extensionService.GetInstalledExtensions();
+
+        /// <summary>
+        /// Supplies code that is to be executed when the user chooses this command from
+        /// menus or toolbars.
+        /// </summary>
+        /// <param name="sender">Reference to the sender of the event.</param>
+        /// <param name="e">
+        /// A <see cref="T:System.EventArgs" /> that contains the event
+        /// data.
+        /// </param>
+        public abstract void Execute(object sender, EventArgs e);
 
         /// <summary>
         /// Adds the menu command with the specified <paramref name="handler" />,
@@ -236,16 +267,5 @@ namespace ExtensionManager
                 Supported = supported
             };
         }
-
-        /// <summary>
-        /// Supplies code that is to be executed when the user chooses this command from
-        /// menus or toolbars.
-        /// </summary>
-        /// <param name="sender">Reference to the sender of the event.</param>
-        /// <param name="e">
-        /// A <see cref="T:System.EventArgs" /> that contains the event
-        /// data.
-        /// </param>
-        public abstract void Execute(object sender, EventArgs e);
     }
 }

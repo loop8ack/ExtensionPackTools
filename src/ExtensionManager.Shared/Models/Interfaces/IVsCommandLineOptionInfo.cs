@@ -22,5 +22,15 @@
         /// Gets the string value passed as an argument to the option, if any.
         /// </summary>
         string Value { get; }
+
+        /// <summary>
+        /// Gets a value that tells whether this object is uninitialized.
+        /// </summary>
+        bool IsEmpty { get; }
+
+        /// <summary>
+        /// Resets the values of this object's properties to their defaults.
+        /// </summary>
+        void Clear();
     }
 }

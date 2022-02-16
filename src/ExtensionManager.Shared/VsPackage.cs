@@ -41,12 +41,21 @@ namespace ExtensionManager
             var solService =
                 await GetServiceAsync(typeof(SVsSolution)) as IVsSolution;
 
+            var commandLine =
+                await GetServiceAsync(typeof(SVsAppCommandLine)) as
+                    IVsAppCommandLine;
+
             var isSolutionLoaded = await IsSolutionLoadedAsync(solService);
 
             var extensionService = MakeNew
                                    .ExtensionService
                                    .HavingVsExtensionManager(manager)
                                    .AndVsExtensionRepository(repository);
+            var commandLineService =
+                MakeNew.VsAppCommandLineService.HavingVsAppCommandLine(
+                    commandLine
+                );
+
             if (isSolutionLoaded)
             {
                 JoinableTaskFactory.RunAsync(
@@ -72,13 +81,13 @@ namespace ExtensionManager
                 OleMenuCommandService commandService)
             {
                 ExportCommand.Initialize(
-                    this, commandService, extensionService
+                    this, commandService, extensionService, commandLineService
                 );
                 ExportSolutionCommand.Initialize(
-                    this, commandService, extensionService
+                    this, commandService, extensionService, commandLineService
                 );
                 ImportCommand.Initialize(
-                    this, commandService, extensionService
+                    this, commandService, extensionService, commandLineService
                 );
             }
         }
