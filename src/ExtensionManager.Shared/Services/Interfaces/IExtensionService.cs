@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using ExtensionManager.Core.Models.Interfaces;
 
-namespace ExtensionManager.Core.Services.Interfaces
+namespace ExtensionManager
 {
     /// <summary>
     /// Defines the publicly-exposed methods and properties of an object that allows

@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using ExtensionManager.Core.Services.Interfaces;
 using Microsoft.VisualStudio.ExtensionManager;
 using Microsoft.VisualStudio.Shell;
-using IExtension = ExtensionManager.Core.Models.Interfaces.IExtension;
 
 namespace ExtensionManager
 {

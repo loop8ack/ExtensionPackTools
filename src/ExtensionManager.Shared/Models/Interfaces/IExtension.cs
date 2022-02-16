@@ -1,4 +1,4 @@
-﻿namespace ExtensionManager.Core.Models.Interfaces
+﻿namespace ExtensionManager
 {
     /// <summary>
     /// Defines the publicly-exposed methods and properties of a POCO that encapsulates

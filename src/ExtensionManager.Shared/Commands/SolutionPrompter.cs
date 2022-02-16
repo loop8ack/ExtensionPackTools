@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using ExtensionManager.Core.Services.Interfaces;
 using Microsoft.VisualStudio.Shell;
 
 namespace ExtensionManager

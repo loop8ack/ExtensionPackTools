@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows.Media.Imaging;
-using ExtensionManager.Core.Models.Interfaces;
+
 using Microsoft.VisualStudio.ExtensionManager;
 
 namespace ExtensionManager

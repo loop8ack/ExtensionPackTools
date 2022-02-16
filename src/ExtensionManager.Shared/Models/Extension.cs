@@ -1,4 +1,4 @@
-﻿using ExtensionManager.Core.Models.Interfaces;
+﻿
 using Newtonsoft.Json;
 
 namespace ExtensionManager

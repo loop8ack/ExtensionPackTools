@@ -19,6 +19,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Commands\ExportCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands\ExportSolutionCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands\ImportCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Commands\Interfaces\IExtensionManagerCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands\SolutionPrompter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Conditionals\IsExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Factories\MakeNewExtension.cs" />
@@ -26,6 +27,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Factories\MakeNewExtensionMetadataService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\InstalledExtensionHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Extension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Interfaces\IExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Interfaces\IGalleryEntry.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\ExtensionIdentifierService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\ExtensionMetadataService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\ExtensionService.cs" />
@@ -34,6 +37,9 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Importer\NativeMethods.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Importer\Purpose.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\Interfaces\IExtensionIdentifierService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\Interfaces\IExtensionMetadataService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\Interfaces\IExtensionService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Theming\VsTheme.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Manifest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Properties\AssemblyInfo.cs" />

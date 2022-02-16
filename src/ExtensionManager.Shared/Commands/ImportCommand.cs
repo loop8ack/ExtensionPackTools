@@ -10,8 +10,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using EnvDTE;
-using ExtensionManager.Core.Models.Interfaces;
-using ExtensionManager.Core.Services.Interfaces;
 using Microsoft;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.ExtensionManager;

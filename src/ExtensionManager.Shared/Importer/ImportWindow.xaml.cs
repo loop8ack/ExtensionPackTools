@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using ExtensionManager.Core.Models.Interfaces;
+
 using Microsoft.VisualStudio.Shell;
 
 namespace ExtensionManager

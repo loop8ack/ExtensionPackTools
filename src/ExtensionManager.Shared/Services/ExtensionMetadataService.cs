@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Microsoft.VisualStudio.ExtensionManager;
-using IExtension = ExtensionManager.Core.Models.Interfaces.IExtension;
 
 namespace ExtensionManager
 {
@@ -51,7 +50,7 @@ namespace ExtensionManager
         /// method returns the empty collection.
         /// </returns>
         public IEnumerable<IExtension> GetExtensionMetadata(
-            List<string> identifiers)
+            IList<string> identifiers)
         {
             var result = Enumerable.Empty<IExtension>()
                                    .OrderBy(x => 1);
@@ -63,7 +62,7 @@ namespace ExtensionManager
             {
                 result = _repository
                          .GetVSGalleryExtensions<GalleryEntry>(
-                             identifiers, 1033, false
+                             (List<string>)identifiers, 1033, false
                          )
                          .Select(MakeNewExtension.FromGalleryEntry)
                          .OrderBy(e => e.Name);

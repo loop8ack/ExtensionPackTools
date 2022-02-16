@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using ExtensionManager.Core.Models.Interfaces;
 
 namespace ExtensionManager
 {
@@ -27,6 +26,6 @@ namespace ExtensionManager
         /// If an error occurs or the operation otherwise cannot be carried out, then this
         /// method returns the empty collection.
         /// </returns>
-        IEnumerable<IExtension> GetExtensionMetadata(List<string> identifiers);
+        IEnumerable<IExtension> GetExtensionMetadata(IList<string> identifiers);
     }
 }

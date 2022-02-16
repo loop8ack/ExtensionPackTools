@@ -1,5 +1,5 @@
 ﻿using System;
-using ExtensionManager.Core.Models.Interfaces;
+
 using Microsoft.VisualStudio.ExtensionManager;
 
 namespace ExtensionManager

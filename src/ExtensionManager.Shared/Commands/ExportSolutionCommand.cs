@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using EnvDTE;
 using EnvDTE80;
-using ExtensionManager.Core.Services.Interfaces;
 using Microsoft;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;

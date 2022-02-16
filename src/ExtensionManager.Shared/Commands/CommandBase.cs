@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
-using ExtensionManager.Core.Models.Interfaces;
-using ExtensionManager.Core.Services.Interfaces;
 using Microsoft.VisualStudio.Shell.Interop;
 
 namespace ExtensionManager
