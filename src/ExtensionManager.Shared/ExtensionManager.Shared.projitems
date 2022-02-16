@@ -40,6 +40,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\Interfaces\IExtensionIdentifierService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Interfaces\IExtensionMetadataService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Interfaces\IExtensionService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\Interfaces\IVsAppCommandLineService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Theming\VsTheme.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Manifest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Properties\AssemblyInfo.cs" />
