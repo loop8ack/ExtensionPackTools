@@ -29,6 +29,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\Extension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Interfaces\IExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Interfaces\IGalleryEntry.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Interfaces\IVsCommandLineOptionInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\VsCommandLineOptionInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\ExtensionIdentifierService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\ExtensionMetadataService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\ExtensionService.cs" />
@@ -41,7 +43,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\Interfaces\IExtensionMetadataService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Interfaces\IExtensionService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Interfaces\IVsAppCommandLineService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\Interfaces\VsAppCommandLineService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\VsAppCommandLineService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Theming\VsTheme.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Manifest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Properties\AssemblyInfo.cs" />
