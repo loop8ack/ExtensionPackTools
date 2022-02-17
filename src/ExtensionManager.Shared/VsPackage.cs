@@ -150,6 +150,9 @@ namespace ExtensionManager
             IExtensionService extensionService,
             CancellationToken cancellationToken)
         {
+            if (solService == null) return;
+            if (extensionService == null) return;
+
             if (cancellationToken.IsCancellationRequested) return;
 
             await JoinableTaskFactory.SwitchToMainThreadAsync();
