@@ -135,7 +135,7 @@ namespace ExtensionManager
         {
             if (solService == null) return false;
 
-                await JoinableTaskFactory.SwitchToMainThreadAsync();
+            await JoinableTaskFactory.SwitchToMainThreadAsync();
 
             ErrorHandler.ThrowOnFailure(
                 solService.GetProperty(
@@ -146,6 +146,34 @@ namespace ExtensionManager
             return value is bool isSolOpen && isSolOpen;
         }
 
+        /// <summary>
+        /// In the event that we are processing a solution that has a <c>.vsext</c> file
+        /// riding alongside it, then we should prompt the user to install required
+        /// extensions upon the opening of the solution.
+        /// <para />
+        /// This method first checks whether this is the case, and, if so, then carries
+        /// these actions out.
+        /// </summary>
+        /// <param name="solService">
+        /// (Required.) Reference to an instance of an object that
+        /// implements the
+        /// <see cref="T:Microsoft.VisualStudio.Shell.Interop.IVsSolution" /> interface.
+        /// </param>
+        /// <param name="extensionService">
+        /// (Required.) Reference to an instance of an
+        /// object that implements the <see cref="T:ExtensionManager.IExtensionService" />
+        /// interface.
+        /// </param>
+        /// <param name="cancellationToken">
+        /// (Optional.) A
+        /// <see cref="T:System.Threading.CancellationToken" /> that makes this operation
+        /// cancellable.
+        /// </param>
+        /// <remarks>
+        /// If the arguments of either of the <paramref name="solService" /> or
+        /// <paramref name="extensionService" /> parameters are <see langword="null" />,
+        /// then this method does nothing.
+        /// </remarks>
         private async Task HandleOpenSolutionAsync(IVsSolution solService,
             IExtensionService extensionService,
             CancellationToken cancellationToken)
