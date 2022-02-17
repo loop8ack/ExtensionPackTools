@@ -131,8 +131,29 @@ namespace ExtensionManager
             );
         }
 
+        /// <summary>
+        /// Determines whether a Solution (<c>.sln</c> file) is currently open in the IDE.
+        /// </summary>
+        /// <param name="solService">
+        /// (Required.) Reference to an instance of an object that
+        /// implements the
+        /// <see cref="T:Microsoft.VisualStudio.Shell.Interop.IVsSolution" /> interface.
+        /// </param>
+        /// <returns>
+        /// If the argument of the <paramref name="solService" /> parameter is
+        /// <see langword="null" />, then this method returns <see langword="false" />, and
+        /// does nothing else.
+        /// <para />
+        /// Otherwise, the method returns <see langword="true" /> if a Solution is
+        /// currently loaded in the IDE; <see langword="false" /> otherwise.
+        /// </returns>
         private async Task<bool> IsSolutionLoadedAsync(IVsSolution solService)
         {
+            /*
+             * If the solService is null, we have no way of determining whether a
+             * Solution is currently loaded in the IDE; so just return a default
+             * value of false.
+             */
             if (solService == null) return false;
 
             await JoinableTaskFactory.SwitchToMainThreadAsync();
