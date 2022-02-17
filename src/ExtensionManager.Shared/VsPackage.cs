@@ -52,7 +52,7 @@ namespace ExtensionManager
                                    .HavingVsExtensionManager(manager)
                                    .AndVsExtensionRepository(repository);
             var commandLineService =
-                MakeNew.CommandLineService.HavingVsAppCommandLine(
+                MakeNew.CommandLineService.HavingCommandLine(
                     commandLine
                 );
 

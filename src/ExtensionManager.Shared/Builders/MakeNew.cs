@@ -129,7 +129,7 @@ namespace ExtensionManager
         /// parameter, <paramref name="commandLine" />, is passed a <see langword="null" />
         /// value.
         /// </exception>
-        public ICommandLineService HavingVsAppCommandLine(
+        public ICommandLineService HavingCommandLine(
             IVsAppCommandLine commandLine)
         {
             if (commandLine == null)
