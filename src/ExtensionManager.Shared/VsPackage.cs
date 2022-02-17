@@ -67,7 +67,6 @@ namespace ExtensionManager
                                    .FileAndForget(
                                        $"{nameof(ExtensionManager)}/{nameof(HandleOpenSolutionAsync)}"
                                    );
-                ;
             }
 
             // Listen for subsequent solution events
