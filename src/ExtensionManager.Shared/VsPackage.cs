@@ -52,12 +52,9 @@ namespace ExtensionManager
                                    .HavingVsExtensionManager(manager)
                                    .AndVsExtensionRepository(repository);
             var commandLineService =
-                MakeNew.CommandLineService.HavingCommandLine(
-                    commandLine
-                );
+                MakeNew.CommandLineService.HavingCommandLine(commandLine);
 
             if (isSolutionLoaded)
-            {
                 JoinableTaskFactory.RunAsync(
                                        () => HandleOpenSolutionAsync(
                                            solService, extensionService,
@@ -67,7 +64,6 @@ namespace ExtensionManager
                                    .FileAndForget(
                                        $"{nameof(ExtensionManager)}/{nameof(HandleOpenSolutionAsync)}"
                                    );
-            }
 
             // Listen for subsequent solution events
             SolutionEvents.OnAfterOpenSolution += (s, e)
@@ -76,19 +72,63 @@ namespace ExtensionManager
                     )
                     .ConfigureAwait(false);
 
-            if (await GetServiceAsync(typeof(IMenuCommandService)) is
-                OleMenuCommandService commandService)
-            {
-                ExportCommand.Initialize(
-                    this, commandService, extensionService, commandLineService
-                );
-                ExportSolutionCommand.Initialize(
-                    this, commandService, extensionService, commandLineService
-                );
-                ImportCommand.Initialize(
-                    this, commandService, extensionService, commandLineService
-                );
-            }
+            if (!(await GetServiceAsync(typeof(OleMenuCommandService)) is
+                    IMenuCommandService commandService)) return;
+
+            InitializeCommands(
+                commandService, extensionService, commandLineService
+            );
+        }
+
+        /// <summary>
+        /// Initializes the <c>*Command</c> classes.
+        /// </summary>
+        /// <param name="commandService">
+        /// (Required.) Reference to an instance of an object
+        /// that implements the
+        /// <see cref="T:System.ComponentModel.Design.IMenuCommandService" /> interface.
+        /// </param>
+        /// <param name="extensionService">
+        /// (Required.) Reference to an instance of an
+        /// object that implements the <see cref="T:ExtensionManager.IExtensionService" />
+        /// interface.
+        /// </param>
+        /// <param name="commandLineService">
+        /// (Required.) Reference to an instance of an
+        /// object that implements the
+        /// <see cref="T:ExtensionManager.ICommandLineService" /> interface.
+        /// </param>
+        /// <remarks>
+        /// If any one of the <paramref name="commandService" />,
+        /// <paramref name="extensionService" />, or <paramref name="commandLineService" />
+        /// parameters is passed <see langword="null" /> as its argument, then this method
+        /// does nothing.
+        /// </remarks>
+        private void InitializeCommands(IMenuCommandService commandService,
+            IExtensionService extensionService,
+            ICommandLineService commandLineService)
+        {
+            /*
+             * If the corresponding *service parameter is a null reference,
+             * we must have failed to retrieve it in the VsPackage constructor.
+             *
+             * In this event, if any one of the parameters is null, it's useless to
+             * proceed further.
+             */
+
+            if (commandService == null) return;
+            if (extensionService == null) return;
+            if (commandLineService == null) return;
+
+            ExportCommand.Initialize(
+                this, commandService, extensionService, commandLineService
+            );
+            ExportSolutionCommand.Initialize(
+                this, commandService, extensionService, commandLineService
+            );
+            ImportCommand.Initialize(
+                this, commandService, extensionService, commandLineService
+            );
         }
 
         private async Task<bool> IsSolutionLoadedAsync(IVsSolution solService)
