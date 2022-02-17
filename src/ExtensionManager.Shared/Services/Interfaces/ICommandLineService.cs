@@ -5,7 +5,7 @@
     /// command-line options passed to the Visual Studio Shell in which this extension
     /// is installed.
     /// </summary>
-    public interface IVsAppCommandLineService
+    public interface ICommandLineService
     {
         /// <summary>
         /// Gets the data about a particular Visual Studio command-line option having the

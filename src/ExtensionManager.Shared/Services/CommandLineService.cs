@@ -8,7 +8,7 @@ namespace ExtensionManager
     /// Object that accesses the Microsoft.VisualStudio.Shell.Interop.IVsAppCommandLine
     /// service in a robust and fault-tolerant manner.
     /// </summary>
-    public class VsAppCommandLineService : IVsAppCommandLineService
+    public class CommandLineService : ICommandLineService
     {
         /// <summary>
         /// Reference to an instance of an object that implements the
@@ -32,7 +32,7 @@ namespace ExtensionManager
         /// parameter, <paramref name="vsAppCommandLine" />, is passed a
         /// <see langword="null" /> value.
         /// </exception>
-        public VsAppCommandLineService(IVsAppCommandLine vsAppCommandLine)
+        public CommandLineService(IVsAppCommandLine vsAppCommandLine)
         {
             _vsAppCommandLine = vsAppCommandLine ??
                                 throw new ArgumentNullException(

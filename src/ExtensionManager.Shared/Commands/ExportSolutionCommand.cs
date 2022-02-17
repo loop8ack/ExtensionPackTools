@@ -38,7 +38,7 @@ namespace ExtensionManager
         /// </param>
         /// <param name="commandLineService">
         /// (Required.) Reference to an instance of an object that implements the
-        /// <see cref="T:ExtensionManager.IVsAppCommandLineService" /> interface.
+        /// <see cref="T:ExtensionManager.ICommandLineService" /> interface.
         /// </param>
         /// <exception cref="T:System.ArgumentNullException">
         /// Thrown if the any of the
@@ -50,7 +50,7 @@ namespace ExtensionManager
         private ExportSolutionCommand(IVsPackage package,
             IMenuCommandService commandService,
             IExtensionService extensionService,
-            IVsAppCommandLineService commandLineService) : base(
+            ICommandLineService commandLineService) : base(
             package, commandService, extensionService, commandLineService
         )
         {
@@ -89,7 +89,7 @@ namespace ExtensionManager
         /// </param>
         /// <param name="commandLineService">
         /// (Required.) Reference to an instance of an object that implements the
-        /// <see cref="T:ExtensionManager.IVsAppCommandLineService" /> interface.
+        /// <see cref="T:ExtensionManager.ICommandLineService" /> interface.
         /// </param>
         /// <exception cref="T:System.ArgumentNullException">
         /// Thrown if the any of the
@@ -101,7 +101,7 @@ namespace ExtensionManager
         public static void Initialize(IVsPackage package,
             IMenuCommandService commandService,
             IExtensionService extensionService,
-            IVsAppCommandLineService commandLineService)
+            ICommandLineService commandLineService)
         {
             if (package == null) return;
             if (commandService == null) return;

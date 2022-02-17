@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.Shell.Interop;
 namespace ExtensionManager
 {
     public class MakeNew : IExtensionServiceBuilder,
-        IVsAppCommandLineServiceBuilder
+        ICommandLineServiceBuilder
     {
         /// <summary>
         /// Reference to an instance of an object that implements the
@@ -25,17 +25,27 @@ namespace ExtensionManager
         protected MakeNew() { }
 
         /// <summary>
+        /// This actually "news up" the Singleton instance.  The other static properties of
+        /// this class' type (nay, its interfaces) simply refer to this property.
+        /// </summary>
+        private static MakeNew Instance { get; } = new MakeNew();
+
+        /// <summary>
         /// Gets a reference to the one and only instance of the object that implements the
         /// <see cref="T:ExtensionManager.Shared.Builders.IExtensionServiceBuilder" />
         /// interface.
         /// </summary>
         public static IExtensionServiceBuilder ExtensionService { get; } =
-            new MakeNew();
+            Instance;
 
-        public static IVsAppCommandLineServiceBuilder VsAppCommandLineService
+        /// <summary>
+        /// Gets a reference to the one and only instance of the object that implements the
+        /// <see cref="T:ExtensionManager.ICommandLineServiceBuilder" /> interface.
+        /// </summary>
+        public static ICommandLineServiceBuilder CommandLineService
         {
             get;
-        } = new MakeNew();
+        } = Instance;
 
         /// <summary>
         /// Builds a new instance of an object that implements the
@@ -101,7 +111,7 @@ namespace ExtensionManager
 
         /// <summary>
         /// Manufactures a new instance of an object that implements the
-        /// <see cref="T:ExtensionManager.IVsAppCommandLineService" /> interface and which
+        /// <see cref="T:ExtensionManager.ICommandLineService" /> interface and which
         /// depends on the specified <paramref name="commandLine" />.
         /// </summary>
         /// <param name="commandLine">
@@ -112,20 +122,20 @@ namespace ExtensionManager
         /// </param>
         /// <returns>
         /// Reference to an instance of an object that implements the
-        /// <see cref="T:ExtensionManager.IVsAppCommandLineService" /> interface.
+        /// <see cref="T:ExtensionManager.ICommandLineService" /> interface.
         /// </returns>
         /// <exception cref="T:System.ArgumentNullException">
         /// Thrown if the required
         /// parameter, <paramref name="commandLine" />, is passed a <see langword="null" />
         /// value.
         /// </exception>
-        public IVsAppCommandLineService HavingVsAppCommandLine(
+        public ICommandLineService HavingVsAppCommandLine(
             IVsAppCommandLine commandLine)
         {
             if (commandLine == null)
                 throw new ArgumentNullException(nameof(commandLine));
 
-            return new VsAppCommandLineService(commandLine);
+            return new CommandLineService(commandLine);
         }
     }
 }

@@ -4,14 +4,14 @@ namespace ExtensionManager
 {
     /// <summary>
     /// Builds instances of objects that implement the
-    /// <see cref="T:ExtensionManager.IVsAppCommandLineService" /> interface having
+    /// <see cref="T:ExtensionManager.ICommandLineService" /> interface having
     /// their dependencies properly initialized.
     /// </summary>
-    public interface IVsAppCommandLineServiceBuilder
+    public interface ICommandLineServiceBuilder
     {
         /// <summary>
         /// Manufactures a new instance of an object that implements the
-        /// <see cref="T:ExtensionManager.IVsAppCommandLineService" /> interface and which
+        /// <see cref="T:ExtensionManager.ICommandLineService" /> interface and which
         /// depends on the specified <paramref name="commandLine" />.
         /// </summary>
         /// <param name="commandLine">
@@ -22,14 +22,14 @@ namespace ExtensionManager
         /// </param>
         /// <returns>
         /// Reference to an instance of an object that implements the
-        /// <see cref="T:ExtensionManager.IVsAppCommandLineService" /> interface.
+        /// <see cref="T:ExtensionManager.ICommandLineService" /> interface.
         /// </returns>
         /// <exception cref="T:System.ArgumentNullException">
         /// Thrown if the required
         /// parameter, <paramref name="commandLine" />, is passed a <see langword="null" />
         /// value.
         /// </exception>
-        IVsAppCommandLineService HavingVsAppCommandLine(
+        ICommandLineService HavingVsAppCommandLine(
             IVsAppCommandLine commandLine);
     }
 }

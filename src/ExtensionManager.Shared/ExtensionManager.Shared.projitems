@@ -13,7 +13,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Actions\Remove.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Actions\Get.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Actions\Replace.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Builders\Interfaces\IVsAppCommandLineServiceBuilder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Builders\Interfaces\ICommandLineServiceBuilder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Builders\MakeNew.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Builders\Interfaces\IExtensionServiceBuilder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands\CommandBase.cs" />
@@ -43,8 +43,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\Interfaces\IExtensionIdentifierService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Interfaces\IExtensionMetadataService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Interfaces\IExtensionService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\Interfaces\IVsAppCommandLineService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\VsAppCommandLineService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\Interfaces\ICommandLineService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\CommandLineService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Theming\VsTheme.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Manifest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Properties\AssemblyInfo.cs" />

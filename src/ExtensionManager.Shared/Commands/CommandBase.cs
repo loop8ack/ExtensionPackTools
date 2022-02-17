@@ -35,14 +35,14 @@ namespace ExtensionManager
 
         /// <summary>
         /// Reference to an instance of an object that implements the
-        /// <see cref="T:ExtensionManager.IVsAppCommandLineService" /> interface.
+        /// <see cref="T:ExtensionManager.ICommandLineService" /> interface.
         /// </summary>
         /// <remarks>
         /// This object provides functionality by which we can examine the
         /// command-line arguments passed to the currently-running instance of Visual
         /// Studio in which this extension is executing.
         /// </remarks>
-        protected readonly IVsAppCommandLineService _vsAppCommandLineService;
+        protected readonly ICommandLineService _commandLineService;
 
         /// <summary>
         /// Initializes a new instance of an object that inherits from this class.
@@ -61,7 +61,7 @@ namespace ExtensionManager
         /// </param>
         /// <param name="commandLineService">
         /// (Required.) Reference to an instance of an object that implements the
-        /// <see cref="T:ExtensionManager.IVsAppCommandLineService" /> interface.
+        /// <see cref="T:ExtensionManager.ICommandLineService" /> interface.
         /// </param>
         /// <exception cref="T:System.ArgumentNullException">
         /// Thrown if the any of the
@@ -73,7 +73,7 @@ namespace ExtensionManager
         protected CommandBase(IVsPackage package,
             IMenuCommandService commandService,
             IExtensionService extensionService,
-            IVsAppCommandLineService commandLineService)
+            ICommandLineService commandLineService)
         {
             /*
              * The job of this protected constructor is merely to
@@ -93,7 +93,7 @@ namespace ExtensionManager
                                 throw new ArgumentNullException(
                                     nameof(extensionService)
                                 );
-            _vsAppCommandLineService = commandLineService ??
+            _commandLineService = commandLineService ??
                                        throw new ArgumentNullException(
                                            nameof(commandLineService)
                                        );
