@@ -133,7 +133,9 @@ namespace ExtensionManager
 
         private async Task<bool> IsSolutionLoadedAsync(IVsSolution solService)
         {
-            await JoinableTaskFactory.SwitchToMainThreadAsync();
+            if (solService == null) return false;
+
+                await JoinableTaskFactory.SwitchToMainThreadAsync();
 
             ErrorHandler.ThrowOnFailure(
                 solService.GetProperty(
