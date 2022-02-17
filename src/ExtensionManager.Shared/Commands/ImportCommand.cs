@@ -11,7 +11,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using EnvDTE;
 using Microsoft;
-using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.ExtensionManager;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
