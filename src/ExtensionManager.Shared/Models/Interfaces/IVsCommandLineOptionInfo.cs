@@ -16,7 +16,7 @@
         /// <summary>
         /// Gets a value that indicates whether the option was provided.
         /// </summary>
-        bool IsProvided { get; }
+        bool IsOnTheCommandLine { get; }
 
         /// <summary>
         /// Gets the string value passed as an argument to the option, if any.

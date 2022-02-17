@@ -73,7 +73,7 @@ namespace ExtensionManager
         /// </summary>
         public bool IsEmpty
             => string.IsNullOrWhiteSpace(Name) &&
-               string.IsNullOrWhiteSpace(Value) && IsProvided == false &&
+               string.IsNullOrWhiteSpace(Value) && IsOnTheCommandLine == false &&
                _vsAppCommandLine == null;
 
         /// <summary>
@@ -85,7 +85,7 @@ namespace ExtensionManager
         /// <summary>
         /// Gets a value that indicates whether the option was provided.
         /// </summary>
-        public bool IsProvided { get; private set; }
+        public bool IsOnTheCommandLine { get; private set; }
 
         /// <summary>
         /// Gets the string value passed as an argument to the option, if any.
@@ -99,7 +99,7 @@ namespace ExtensionManager
         {
             _vsAppCommandLine = null;
             Name = Value = string.Empty;
-            IsProvided = false;
+            IsOnTheCommandLine = false;
         }
 
         /// <summary>
@@ -120,7 +120,7 @@ namespace ExtensionManager
                         )
                     )) return;
                 Value = optionValue;
-                IsProvided = present != 0;
+                IsOnTheCommandLine = present != 0;
             }
             catch (Exception ex)
             {

@@ -439,9 +439,9 @@ namespace ExtensionManager
             try
             {
                 var option = _commandLineService.GetOption("rootsuffix");
-                if (option == null || option.IsEmpty) return result;
+                if (option == null || !option.IsOnTheCommandLine) return result;
 
-                result = option.IsProvided;
+                result = option.IsOnTheCommandLine;
                 rootSuffix = option.Value;
             }
             catch
