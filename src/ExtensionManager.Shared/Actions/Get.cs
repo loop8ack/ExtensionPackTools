@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -78,7 +77,7 @@ namespace ExtensionManager
                     // Unless a valid folder path is specified for the argument of the
                     // initialDirectory parameter.
                     sfd.InitialDirectory =
-                        DetermineAppropriateInitialDirectory(initialDirectory);
+                        Determine.AppropriateInitialDirectoryForImportAndExport(initialDirectory);
 
                     sfd.DefaultExt = ".vsext";
                     sfd.FileName = "extensions";
@@ -136,7 +135,9 @@ namespace ExtensionManager
                     // unless a valid folder path is specified for the argument of the
                     // initialDirectory parameter.
                     ofd.InitialDirectory =
-                        DetermineAppropriateInitialDirectory(initialDirectory);
+                        Determine.AppropriateInitialDirectoryForImportAndExport(
+                            initialDirectory
+                        );
 
                     ofd.DefaultExt = ".vsext";
                     ofd.FileName = "extensions";
@@ -284,31 +285,6 @@ namespace ExtensionManager
             }
 
             return result;
-        }
-
-        /// <summary>
-        /// Helper method to run an algorithm to set the initial directory for Open and
-        /// Save As dialog boxes to 'This PC' unless the caller has specified otherwise.
-        /// </summary>
-        /// <param name="initialDirectory">
-        /// (Optional.) String containing the
-        /// fully-qualified pathname of the folder to use for the initial directory.
-        /// </param>
-        /// <returns>
-        /// If <paramref name="initialDirectory" /> is blank, or if the pathname
-        /// provided does not exist, then 'This PC' is returned.
-        /// <para />
-        /// Otherwise, the provided pathname is returned.
-        /// </returns>
-        private static string DetermineAppropriateInitialDirectory(
-            string initialDirectory = "")
-        {
-            return !string.IsNullOrWhiteSpace(initialDirectory) &&
-                   Directory.Exists(initialDirectory)
-                ? initialDirectory
-                : Environment.GetFolderPath(
-                    Environment.SpecialFolder.MyComputer
-                );
         }
     }
 }

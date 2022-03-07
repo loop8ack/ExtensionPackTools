@@ -10,6 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Actions\Create.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Actions\Determine.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Actions\GetCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Actions\Remove.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Actions\Get.cs" />
