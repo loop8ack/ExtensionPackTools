@@ -221,7 +221,7 @@ namespace ExtensionManager
                     () =>
                     {
                         var prompter = new SolutionPrompter(extensionService);
-                        prompter.Check(fileName);
+                        prompter.PromptToInstallAssociatedExtensions(fileName);
                     }
                 );
             }

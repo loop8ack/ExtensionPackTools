@@ -34,17 +34,22 @@ namespace ExtensionManager
                                 );
         }
 
-        public void Check(string fileName)
+        public void PromptToInstallAssociatedExtensions(string fileName)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
 
+            if (string.IsNullOrWhiteSpace(fileName)) return;
             if (!File.Exists(fileName)) return;
 
-            var manifest = Manifest.FromFile(fileName);
+            var manifest = Import.Manifest.FromFile(fileName);
+            if (manifest == null) return;
 
             var installedExtensions =
                 _extensionService.GetInstalledExtensions();
-            manifest.MarkSelected(installedExtensions);
+            if (installedExtensions == null || !installedExtensions.Any())
+                return;
+
+            manifest.MarkAlreadyInstalledExtensionsAsSelected(installedExtensions);
 
             if (!manifest.Extensions.Any(e => e.Selected))
                 return;
