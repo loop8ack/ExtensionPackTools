@@ -167,7 +167,9 @@ namespace ExtensionManager
 
                 if (File.Exists(fileName))
                 {
-                    var existingManifest = Manifest.FromFile(fileName);
+                    var existingManifest = Import.Manifest.FromFile(fileName);
+                    if (existingManifest == null) return;
+
                     extensions = extensions.Union(existingManifest.Extensions)
                                            .ToList();
 
