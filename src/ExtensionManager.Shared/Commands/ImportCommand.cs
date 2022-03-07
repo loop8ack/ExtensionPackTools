@@ -155,7 +155,9 @@ namespace ExtensionManager
             var filePath = Get.ImportFilePath();
             if (string.IsNullOrWhiteSpace(filePath)) return;
 
-            var manifest = Manifest.FromFile(filePath);
+            var manifest = Import.Manifest.FromFile(filePath);
+            if (manifest == null) return;
+
             manifest.MarkSelected(_extensionService.GetInstalledExtensions());
 
             var dialog = ImportWindow.Open(manifest.Extensions, Purpose.Import);
