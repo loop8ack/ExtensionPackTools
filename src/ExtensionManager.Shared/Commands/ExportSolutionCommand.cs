@@ -158,6 +158,7 @@ namespace ExtensionManager
 
                 var extensions = _extensionService.GetInstalledExtensions()
                                                   .ToList();
+                if (extensions == null || !extensions.Any()) return;
 
                 foreach (var ext in extensions)
                     ext.Selected = false;
@@ -172,6 +173,7 @@ namespace ExtensionManager
 
                     extensions = extensions.Union(existingManifest.Extensions)
                                            .ToList();
+                    if (extensions == null || !extensions.Any()) return;
 
                     foreach (var ext in extensions)
                         ext.Selected =
