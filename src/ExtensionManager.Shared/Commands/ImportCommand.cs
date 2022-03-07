@@ -16,7 +16,6 @@ using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.Threading;
 using Process = System.Diagnostics.Process;
-using Task = System.Threading.Tasks.Task;
 
 namespace ExtensionManager
 {
@@ -143,6 +142,11 @@ namespace ExtensionManager
         /// A <see cref="T:System.EventArgs" /> that contains the event
         /// data.
         /// </param>
+        /// <remarks>
+        /// This method contains the code that runs when the user selects the
+        /// operation of importing extensions into the currently-open instance of Visual
+        /// Studio.
+        /// </remarks>
         public override void Execute(object sender, EventArgs e)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
@@ -174,10 +178,9 @@ namespace ExtensionManager
             var tempDir = Get.DefaultTempFolderPath;
             if (!Replace.Folder(tempDir)) return;
 
-            if (!(ServiceProvider.GetService(typeof(DTE)) is DTE dte)) 
+            if (!(ServiceProvider.GetService(typeof(DTE)) is DTE dte))
                 return;
             Assumes.Present(dte);
-            
 
             dte.StatusBar.Text = "Downloading extensions...";
 
