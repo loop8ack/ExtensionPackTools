@@ -54,6 +54,7 @@
   <ItemGroup>
     <Page Include="$(MSBuildThisFileDirectory)Importer\ImportWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
