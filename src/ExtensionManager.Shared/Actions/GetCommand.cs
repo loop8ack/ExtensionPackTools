@@ -3,7 +3,8 @@
 namespace ExtensionManager
 {
     /// <summary>
-    /// Exposes static methods to obtain a reference to the desired command object.
+    /// Exposes static methods to obtain a reference to the desired command object for
+    /// the intended operation.
     /// </summary>
     public static class GetCommand
     {
