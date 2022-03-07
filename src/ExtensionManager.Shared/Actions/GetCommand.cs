@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ExtensionManager.Shared.Actions
+namespace ExtensionManager
 {
     /// <summary>
     /// Exposes static methods to obtain a reference to the desired command object.
