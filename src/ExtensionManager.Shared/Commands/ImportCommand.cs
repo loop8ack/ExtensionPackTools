@@ -158,7 +158,7 @@ namespace ExtensionManager
             var manifest = Import.Manifest.FromFile(filePath);
             if (manifest == null) return;
 
-            manifest.MarkSelected(_extensionService.GetInstalledExtensions());
+            manifest.MarkAlreadyInstalledExtensionsAsSelected(_extensionService.GetInstalledExtensions());
 
             var dialog = ImportWindow.Open(manifest.Extensions, Purpose.Import);
 
