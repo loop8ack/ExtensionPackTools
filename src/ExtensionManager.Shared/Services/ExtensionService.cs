@@ -70,7 +70,7 @@ namespace ExtensionManager
         /// If no extensions obtained from the Visual Studio Marketplace are installed, or
         /// if an error occurs, then the empty collection is returned.
         /// </returns>
-        public IEnumerable<IExtension> GetInstalledExtensions()
+        public IList<IExtension> GetInstalledExtensions()
         {
             ThreadHelper.ThrowIfNotOnUIThread();
 
