@@ -133,7 +133,7 @@ namespace ExtensionManager
                         true; // do not reset the current working dir
 
                     // Start the user out in "This PC" so they can then drill down from there,
-                    // Unless a valid folder path is specified for the argument of the
+                    // unless a valid folder path is specified for the argument of the
                     // initialDirectory parameter.
                     ofd.InitialDirectory =
                         DetermineAppropriateInitialDirectory(initialDirectory);
