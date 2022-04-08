@@ -3,7 +3,7 @@
 
 [![Build status](https://ci.appveyor.com/api/projects/status/hc78u7wnqya38mur?svg=true)](https://ci.appveyor.com/project/madskristensen/extensionpacktools)
 
-Download the extension from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=MadsKristensen.ExtensionManager) or get the latest [CI build](http://vsixgallery.com/extension/e83d71b8-8bfc-4e06-b145-b0388910c016/)
+Download the extension from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=MadsKristensen.ExtensionManager2022) or get the latest [CI build](http://vsixgallery.com/extension/e83d71b8-8bfc-4e06-b145-b0388910c016/)
 
 --------------------------------------
 
