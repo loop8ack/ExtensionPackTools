@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
 using Microsoft.VisualStudio.ExtensionManager;
 
 namespace ExtensionManager
 {
-    public class GalleryEntry : GalleryOnlineExtension, IRepositoryEntry
+    public class GalleryEntry : OnlineExtensionBase, IRepositoryEntry
     {
         public override string VsixID { get; set; }
         public override string VsixVersion { get; set; }
@@ -33,6 +36,15 @@ namespace ExtensionManager
         public override bool SupportsMasterPage { get; set; }
         public override string OnlinePreviewImage { get; set; }
         public override string DefaultName { get; set; }
+
+        public override string Version { get; set; }
+        public override DateTime PublishedDate { get; set; }
+        public override string PublisherDomain { get; set; }
+        public override Func<Task<string>> FetchMarkdownDescriptionAsync { get; set; }
+        public override string MarkdownAssetBaseURL { get; set; }
+        public override string MarkdownUrl { get; set; }
+        public override List<string> PackedExtensionsVsixIDs { get; set; }
+        public override List<string> Flags { get; set; }
 
         public override string ToString()
         {
