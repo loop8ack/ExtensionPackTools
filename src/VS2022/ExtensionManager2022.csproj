@@ -76,6 +76,10 @@
       <HintPath>..\..\lib\2022\Microsoft.VisualStudio.ExtensionEngine.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Microsoft.VisualStudio.ExtensionEngineContract">
+      <HintPath>..\..\lib\2022\Microsoft.VisualStudio.ExtensionEngineContract.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Microsoft.VisualStudio.ExtensionManager">
       <HintPath>..\..\lib\2022\Microsoft.VisualStudio.ExtensionManager.dll</HintPath>
       <Private>False</Private>

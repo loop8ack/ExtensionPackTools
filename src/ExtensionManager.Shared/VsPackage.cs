@@ -77,7 +77,7 @@ namespace ExtensionManager
 
                 await ThreadHelper.JoinableTaskFactory.StartOnIdle(() =>
                 {
-                    var prompter = new SolutionPrompter(es);
+                    var prompter = new SolutionPrompter(this, es);
                     prompter.Check(fileName);
                 });
             }
