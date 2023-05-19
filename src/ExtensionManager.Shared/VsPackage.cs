@@ -1,14 +1,15 @@
-﻿using System;
+using System;
 using System.ComponentModel.Design;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
+
 using Microsoft.VisualStudio;
-using Microsoft.VisualStudio.ExtensionManager;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Events;
 using Microsoft.VisualStudio.Shell.Interop;
+
 using Task = System.Threading.Tasks.Task;
 
 namespace ExtensionManager
@@ -24,10 +25,10 @@ namespace ExtensionManager
         {
             await JoinableTaskFactory.SwitchToMainThreadAsync();
 
-            var manager = await GetServiceAsync(typeof(SVsExtensionManager)) as IVsExtensionManager;
-            var repository = await GetServiceAsync(typeof(SVsExtensionRepository)) as IVsExtensionRepository;
+            var vsVersion = await GetVisualStudioVersionAsync();
+            var vsService = await VisualStudioServiceFactory.CreateAsync(this, vsVersion);
 
-            var extService = new ExtensionService(manager, repository);
+            var extService = new ExtensionService(vsService);
             var solService = await GetServiceAsync(typeof(SVsSolution)) as IVsSolution;
 
             var isSolutionLoaded = await IsSolutionLoadedAsync(solService);
@@ -36,19 +37,32 @@ namespace ExtensionManager
             {
                 JoinableTaskFactory.RunAsync(() =>
                 {
-                    return HandleOpenSolutionAsync(solService, extService, cancellationToken);
-                }).FileAndForget($"{nameof(ExtensionManager)}/{nameof(HandleOpenSolutionAsync)}"); ;
+                    return HandleOpenSolutionAsync(solService, extService, vsService, cancellationToken);
+                }).FileAndForget($"{nameof(ExtensionManager)}/{nameof(HandleOpenSolutionAsync)}");
+                ;
             }
 
             // Listen for subsequent solution events
-            SolutionEvents.OnAfterOpenSolution += (s, e) => HandleOpenSolutionAsync(solService, extService, cancellationToken).ConfigureAwait(false);
+            SolutionEvents.OnAfterOpenSolution += (s, e) =>
+            {
+                _ = HandleOpenSolutionAsync(solService, extService, vsService, cancellationToken);
+            };
 
             if (await GetServiceAsync(typeof(IMenuCommandService)) is OleMenuCommandService commandService)
             {
                 ExportCommand.Initialize(this, commandService, extService);
                 ExportSolutionCommand.Initialize(this, commandService, extService);
-                ImportCommand.Initialize(this, commandService, extService);
+                ImportCommand.Initialize(this, commandService, extService, vsService);
             }
+        }
+
+        private async Task<Version> GetVisualStudioVersionAsync()
+        {
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+            var shell = await GetServiceAsync(typeof(SVsShell)) as IVsShell;
+            shell.GetProperty((int)__VSSPROPID5.VSSPROPID_ReleaseVersion, out var versionObject);
+            var version = versionObject.ToString();
+            return Version.Parse(version.Substring(0, version.IndexOf(' ')));
         }
 
         private async Task<bool> IsSolutionLoadedAsync(IVsSolution solService)
@@ -60,7 +74,7 @@ namespace ExtensionManager
             return value is bool isSolOpen && isSolOpen;
         }
 
-        private async Task HandleOpenSolutionAsync(IVsSolution solService, ExtensionService es, CancellationToken cancellationToken)
+        private async Task HandleOpenSolutionAsync(IVsSolution solService, ExtensionService es, IVisualStudioService vsService, CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
             {
@@ -77,7 +91,7 @@ namespace ExtensionManager
 
                 await ThreadHelper.JoinableTaskFactory.StartOnIdle(() =>
                 {
-                    var prompter = new SolutionPrompter(this, es);
+                    var prompter = new SolutionPrompter(this, es, vsService);
                     prompter.Check(fileName);
                 });
             }

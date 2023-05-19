@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 using Microsoft.VisualStudio.ExtensionManager;
 
-namespace ExtensionManager
+namespace ExtensionManager.V17_7
 {
-    public class GalleryEntry : OnlineExtensionBase, IRepositoryEntry
+    public class GalleryEntry : OnlineExtensionBase, IRepositoryEntry, IGalleryEntry
     {
         public override string VsixID { get; set; }
         public override string VsixVersion { get; set; }

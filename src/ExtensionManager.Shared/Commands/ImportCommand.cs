@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel.Design;
 using System.Linq;
 using System.Windows.Forms;
@@ -13,11 +13,13 @@ namespace ExtensionManager
     {
         private readonly Package _package;
         private readonly ExtensionService _es;
+        private readonly IVisualStudioService _vsService;
 
-        private ImportCommand(Package package, OleMenuCommandService commandService, ExtensionService es)
+        private ImportCommand(Package package, OleMenuCommandService commandService, ExtensionService es, IVisualStudioService vsService)
         {
             _package = package ?? throw new ArgumentNullException(nameof(package));
             _es = es;
+            _vsService = vsService;
 
             var cmdId = new CommandID(PackageGuids.guidExportPackageCmdSet, PackageIds.ImportCmd);
             var cmd = new MenuCommand(Execute, cmdId);
@@ -26,9 +28,9 @@ namespace ExtensionManager
 
         public static ImportCommand Instance { get; private set; }
 
-        public static void Initialize(AsyncPackage package, OleMenuCommandService commandService, ExtensionService es)
+        public static void Initialize(AsyncPackage package, OleMenuCommandService commandService, ExtensionService es, IVisualStudioService vsService)
         {
-            Instance = new ImportCommand(package, commandService, es);
+            Instance = new ImportCommand(package, commandService, es, vsService);
         }
 
         private void Execute(object sender, EventArgs e)
@@ -47,7 +49,7 @@ namespace ExtensionManager
 
             if (dialog.DialogResult == true && dialog.SelectedExtension.Any())
             {
-                new ExtensionInstaller(_package)
+                new ExtensionInstaller(_package, _vsService)
                     .Install(dialog.SelectedExtension, dialog.InstallSystemWide);
             }
         }

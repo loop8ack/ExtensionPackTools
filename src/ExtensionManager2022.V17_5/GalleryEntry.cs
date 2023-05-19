@@ -1,10 +1,12 @@
 using System;
-using System.Windows.Media.Imaging;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
 using Microsoft.VisualStudio.ExtensionManager;
 
-namespace ExtensionManager
+namespace ExtensionManager.V17_5
 {
-    public class GalleryEntry : GalleryOnlineExtension, IRepositoryEntry, IGalleryEntry
+    public class GalleryEntry : OnlineExtensionBase, IRepositoryEntry, IGalleryEntry
     {
         public override string VsixID { get; set; }
         public override string VsixVersion { get; set; }
@@ -23,9 +25,6 @@ namespace ExtensionManager
 
         public override float Priority => throw new NotImplementedException();
 
-        public override BitmapSource MediumThumbnailImage => throw new NotImplementedException();
-
-        public override BitmapSource SmallThumbnailImage => throw new NotImplementedException();
 
         public override bool IsSelected { get; set; }
         public override string DownloadUrl { get; set; }
@@ -37,6 +36,15 @@ namespace ExtensionManager
         public override bool SupportsMasterPage { get; set; }
         public override string OnlinePreviewImage { get; set; }
         public override string DefaultName { get; set; }
+
+        public override string Version { get; set; }
+        public override DateTime PublishedDate { get; set; }
+        public override string PublisherDomain { get; set; }
+        public override Func<Task<string>> FetchMarkdownDescriptionAsync { get; set; }
+        public override string MarkdownAssetBaseURL { get; set; }
+        public override string MarkdownUrl { get; set; }
+        public override List<string> PackedExtensionsVsixIDs { get; set; }
+        public override List<string> Flags { get; set; }
 
         public override string ToString()
         {

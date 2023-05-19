@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 
 namespace ExtensionManager
 {
@@ -19,7 +19,7 @@ namespace ExtensionManager
         [JsonIgnore]
         public bool Selected { get; set; }
 
-        public static Extension FromGalleryExtension(GalleryEntry entry)
+        public static Extension FromGalleryExtension(IGalleryEntry entry)
         {
             return new Extension { ID = entry.VsixID, Name = entry.Name, MoreInfoUrl = entry.MoreInfoURL, DownloadUrl = entry.DownloadUrl };
         }

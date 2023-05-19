@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using Microsoft.VisualStudio.ExtensionManager;
 
 namespace ExtensionManager
 {
-    public class GalleryEntry : GalleryOnlineExtension, IRepositoryEntry
+    public class GalleryEntry : GalleryOnlineExtension, IRepositoryEntry, IGalleryEntry
     {
         public override string VsixID { get; set; }
         public override string VsixVersion { get; set; }

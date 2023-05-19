@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -9,12 +9,14 @@ namespace ExtensionManager
     public class SolutionPrompter
     {
         private readonly ExtensionService _extService;
+        private readonly IVisualStudioService _vsService;
         private readonly Package _package;
 
-        public SolutionPrompter(Package package, ExtensionService extService)
+        public SolutionPrompter(Package package, ExtensionService extService, IVisualStudioService vsService)
         {
             _package = package;
             _extService = extService;
+            _vsService = vsService;
         }
 
         public void Check(string fileName)
@@ -37,7 +39,7 @@ namespace ExtensionManager
 
                 if (dialog.DialogResult == true && dialog.SelectedExtension.Any())
                 {
-                    new ExtensionInstaller(_package)
+                    new ExtensionInstaller(_package, _vsService)
                         .Install(dialog.SelectedExtension, dialog.InstallSystemWide);
                 }
             }

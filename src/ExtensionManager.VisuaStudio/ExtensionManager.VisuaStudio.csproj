@@ -1,0 +1,121 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(VS2017)' == 'True'">
+    <PackageReference Include="Madskristensen.VisualStudio.SDK" ExcludeAssets="runtime">
+      <Version>15.7.81-pre</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VSSDK.BuildTools">
+      <Version>17.0.1619-preview1</Version>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+
+    <Reference Include="V15.Microsoft.VisualStudio.ExtensionEngine">
+      <HintPath>..\..\lib\V15.Microsoft.VisualStudio.ExtensionEngine.dll</HintPath>
+      <Aliases>V15</Aliases>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="V15.Microsoft.VisualStudio.ExtensionManager">
+      <HintPath>..\..\lib\V15.Microsoft.VisualStudio.ExtensionManager.dll</HintPath>
+      <Aliases>V15</Aliases>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="V15.Microsoft.VisualStudio.ExtensionsExplorer">
+      <HintPath>..\..\lib\V15.Microsoft.VisualStudio.ExtensionsExplorer.dll</HintPath>
+      <Aliases>V15</Aliases>
+      <Private>true</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(VS2019)' == 'True'">
+    <ItemGroup>
+      <PackageReference Include="Microsoft.VisualStudio.SDK" ExcludeAssets="runtime">
+        <Version>16.0.206</Version>
+        <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+      <PackageReference Include="Microsoft.VSSDK.BuildTools">
+        <Version>17.0.1619-preview1</Version>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+        <PrivateAssets>all</PrivateAssets>
+      </PackageReference>
+    </ItemGroup>
+    
+    <Reference Include="V16.Microsoft.VisualStudio.ExtensionEngine">
+      <HintPath>..\..\lib\V16.Microsoft.VisualStudio.ExtensionEngine.dll</HintPath>
+      <Aliases>V16</Aliases>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="V16.Microsoft.VisualStudio.ExtensionManager">
+      <HintPath>..\..\lib\V16.Microsoft.VisualStudio.ExtensionManager.dll</HintPath>
+      <Aliases>V16</Aliases>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="V16.Microsoft.VisualStudio.ExtensionsExplorer">
+      <HintPath>..\..\lib\V16.Microsoft.VisualStudio.ExtensionsExplorer.dll</HintPath>
+      <Aliases>V16</Aliases>
+      <Private>true</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(VS2022)' == 'True'">
+    <PackageReference Include="Microsoft.VisualStudio.SDK" ExcludeAssets="runtime">
+      <Version>17.6.36389</Version>
+      <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Setup.Configuration.Interop">
+      <Version>3.6.2115</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VSSDK.BuildTools">
+      <Version>17.6.2164</Version>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    
+    <Reference Include="V17_5.Microsoft.VisualStudio.ExtensionEngine">
+      <HintPath>..\..\lib\V17_5.Microsoft.VisualStudio.ExtensionEngine.dll</HintPath>
+      <Aliases>V17_5</Aliases>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="V17_5.Microsoft.VisualStudio.ExtensionEngineContract">
+      <HintPath>..\..\lib\V17_5.Microsoft.VisualStudio.ExtensionEngineContract.dll</HintPath>
+      <Aliases>V17_5</Aliases>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="V17_5.Microsoft.VisualStudio.ExtensionManager">
+      <HintPath>..\..\lib\V17_5.Microsoft.VisualStudio.ExtensionManager.dll</HintPath>
+      <Aliases>V17_5</Aliases>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="V17_5.Microsoft.VisualStudio.ExtensionsExplorer">
+      <HintPath>..\..\lib\V17_5.Microsoft.VisualStudio.ExtensionsExplorer.dll</HintPath>
+      <Aliases>V17_5</Aliases>
+      <Private>true</Private>
+    </Reference>
+
+    <!--<Reference Include="V17_7.Microsoft.VisualStudio.ExtensionEngine">
+      <HintPath>..\..\lib\V17_7.Microsoft.VisualStudio.ExtensionEngine.dll</HintPath>
+      <Aliases>V17_7</Aliases>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="V17_7.Microsoft.VisualStudio.ExtensionEngineContract">
+      <HintPath>..\..\lib\V17_7.Microsoft.VisualStudio.ExtensionEngineContract.dll</HintPath>
+      <Aliases>V17_7</Aliases>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="V17_7.Microsoft.VisualStudio.ExtensionManager">
+      <HintPath>..\..\lib\V17_7.Microsoft.VisualStudio.ExtensionManager.dll</HintPath>
+      <Aliases>V17_7</Aliases>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="V17_7.Microsoft.VisualStudio.ExtensionsExplorer">
+      <HintPath>..\..\lib\V17_7.Microsoft.VisualStudio.ExtensionsExplorer.dll</HintPath>
+      <Aliases>V17_7</Aliases>
+      <Private>true</Private>
+    </Reference>-->
+  </ItemGroup>
+
+</Project>

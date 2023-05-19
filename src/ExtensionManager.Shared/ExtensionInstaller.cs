@@ -13,7 +13,6 @@ using EnvDTE;
 
 using Microsoft;
 using Microsoft.VisualStudio;
-using Microsoft.VisualStudio.ExtensionManager;
 using Microsoft.VisualStudio.Setup.Configuration;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
@@ -27,12 +26,14 @@ namespace ExtensionManager
     internal class ExtensionInstaller
     {
         private readonly IServiceProvider _serviceProvider;
+        private readonly IVisualStudioService _vsService;
         private int _currentCount;
         private int _entriesCount;
 
-        public ExtensionInstaller(IServiceProvider serviceProvider)
+        public ExtensionInstaller(IServiceProvider serviceProvider, IVisualStudioService vsService)
         {
             _serviceProvider = serviceProvider;
+            _vsService = vsService;
         }
 
         public void Install(IEnumerable<Extension> extension, bool installSystemWide)
@@ -41,10 +42,7 @@ namespace ExtensionManager
 
             var toInstall = extension.Select(ext => ext.ID).ToList();
 
-            var repository = _serviceProvider.GetService(typeof(SVsExtensionRepository)) as IVsExtensionRepository;
-            Assumes.Present(repository);
-
-            IEnumerable<GalleryEntry> marketplaceEntries = repository.GetVSGalleryExtensions<GalleryEntry>(toInstall, 1033, false).Where(x => x.DownloadUrl != null);
+            IEnumerable<IGalleryEntry> marketplaceEntries = _vsService.GetGalleryEntries(toInstall).Where(x => x.DownloadUrl != null);
             var tempDir = PrepareTempDir();
 
             var dte = _serviceProvider.GetService(typeof(DTE)) as DTE;
@@ -56,7 +54,7 @@ namespace ExtensionManager
             ThreadHelper.JoinableTaskFactory.Run(() => DownloadExtensionsAsync(installSystemWide, marketplaceEntries, tempDir, dte, rootSuffix));
         }
 
-        private async Task DownloadExtensionsAsync(bool installSystemWide, IEnumerable<GalleryEntry> marketplaceEntries, string tempDir, DTE dte, string rootSuffix)
+        private async Task DownloadExtensionsAsync(bool installSystemWide, IEnumerable<IGalleryEntry> marketplaceEntries, string tempDir, DTE dte, string rootSuffix)
         {
             ServicePointManager.DefaultConnectionLimit = 100;
             _entriesCount = marketplaceEntries.Count();
@@ -106,12 +104,12 @@ namespace ExtensionManager
             Process.Start(start);
         }
 
-        private Task DownloadExtensionAsync(IEnumerable<GalleryEntry> entries, string dir, DTE dte)
+        private Task DownloadExtensionAsync(IEnumerable<IGalleryEntry> entries, string dir, DTE dte)
         {
             return Task.WhenAll(entries.Select(entry => Task.Run(() => DownloadExtensionFileAsync(entry, dir, dte))).ToArray());
         }
 
-        private async Task DownloadExtensionFileAsync(GalleryEntry entry, string dir, DTE dte)
+        private async Task DownloadExtensionFileAsync(IGalleryEntry entry, string dir, DTE dte)
         {
             var localPath = Path.Combine(dir, CreateMD5(entry.DownloadUrl) + ".vsix");
 
