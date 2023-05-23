@@ -118,5 +118,15 @@ To create a `.vsext` file containing the checked extensions in a location on the
 
 You have the option to commit the generated .vsext file to souce control.  This is highly recommended.
 
+## Project Takeover
+
+This project has been taken over by Loop8ack.
+
+I have assumed ownership and responsibility for the further development and maintenance of this project. As the new maintainer, I will be actively working on improving and adding new features to the project.
+
+Please feel free to [create an Issue](https://github.com/loop8ack/ExtensionPackTools/issues) for any questions, bug reports, or feature requests you may have. Your feedback and contributions are highly appreciated as I continue with the development of this project.
+
+Thank you!
+
 ## License
 [Apache 2.0](LICENSE)
