@@ -11,7 +11,7 @@ namespace ExtensionManager
         public const string Name = "Extension Manager 2022";
         public const string Description = @"Import/export extensions as well as associate extensions with individual solutions";
         public const string Language = "en-US";
-        public const string Version = "1.1.999";
+        public const string Version = "1.2.9999";
         public const string Author = "Mads Kristensen";
         public const string Tags = "extension pack, vsix";
     }
