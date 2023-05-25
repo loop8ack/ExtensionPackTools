@@ -12,7 +12,7 @@ namespace ExtensionManager
         public const string Description = @"Import/export extensions as well as associate extensions with individual solutions";
         public const string Language = "en-US";
         public const string Version = "1.2.9999";
-        public const string Author = "Mads Kristensen";
+        public const string Author = "Loop8ack";
         public const string Tags = "extension pack, vsix";
     }
 }
