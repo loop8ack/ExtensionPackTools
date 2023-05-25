@@ -120,7 +120,7 @@ You have the option to commit the generated .vsext file to souce control.  This 
 
 ## Project Takeover
 
-This project has been taken over by Loop8ack.
+This project has been taken over by [Loop8ack](https://github.com/loop8ack), the original author was [Mads Kristensen](https://github.com/madskristensen).
 
 I have assumed ownership and responsibility for the further development and maintenance of this project. As the new maintainer, I will be actively working on improving and adding new features to the project.
 
