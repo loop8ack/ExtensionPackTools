@@ -7,7 +7,7 @@ namespace ExtensionManager
 {
     internal sealed partial class Vsix
     {
-        public const string Id = "4a196712-2c3f-4730-ad1d-e7cda4185eb3";
+        public const string Id = "3d183c28-64c6-4efb-a201-50310d65e675";
         public const string Name = "Extension Manager 2022";
         public const string Description = @"Import/export extensions as well as associate extensions with individual solutions";
         public const string Language = "en-US";
