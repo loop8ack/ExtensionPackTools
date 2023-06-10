@@ -3,14 +3,16 @@
   <PropertyGroup>
     <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
     <HasSharedItems>true</HasSharedItems>
-    <SharedGUID>e21ceac2-5e8c-4ae9-84ee-2e390cd272a9</SharedGUID>
+    <SharedGUID>77052739-b59a-4e8b-9e4a-8d1372f0e6b5</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
     <Import_RootNamespace>ExtensionManager</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)System.Runtime.CompilerServices\CallerArgumentExpressionAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)System.Runtime.CompilerServices\CompilerFeatureRequiredAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)System.Runtime.CompilerServices\RequiredMemberAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExtensionManagerPackage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Properties\" />
   </ItemGroup>
 </Project>

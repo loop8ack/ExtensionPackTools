@@ -1,0 +1,15 @@
+<Project>
+  
+  <PropertyGroup>
+    <!-- Ensures that NuGet references are packed into the vsix file. -->
+    <!-- See: https://www.cazzulino.com/include-dlls-in-vsix.html -->
+    <GetVsixSourceItemsDependsOn>$(GetVsixSourceItemsDependsOn);IncludeNuGetResolvedAssets</GetVsixSourceItemsDependsOn>
+  </PropertyGroup>
+  
+  <Target Name="IncludeNuGetResolvedAssets" DependsOnTargets="ResolveNuGetPackageAssets">
+    <ItemGroup>
+      <VSIXCopyLocalReferenceSourceItem Include="@(ReferenceCopyLocalPaths)" />
+    </ItemGroup>
+  </Target>
+
+</Project>

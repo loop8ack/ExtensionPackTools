@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>db482bd0-94ba-4e7d-8a51-ac2a2663267a</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>ExtensionManager.VisualStudio</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Documents\VSDocuments.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\VSExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MessageBox\VSMessageBox.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Solution\VSSolutionItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Solution\VSSolutions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Solution\VSSolution.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Solution\VSSolutionFolder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)StatusBar\VSStatusBar.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Themes\VSThemes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Threads\VSThreads.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)VSFacadeImplementation.cs" />
+  </ItemGroup>
+</Project>

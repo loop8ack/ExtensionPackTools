@@ -1,0 +1,247 @@
+<Window x:Class="ExtensionManager.UI.Views.InstallExportDialogWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:a="clr-namespace:ExtensionManager.UI.Attached"
+        xmlns:c="clr-namespace:ExtensionManager.UI.Converters"
+        xmlns:vm="clr-namespace:ExtensionManager.UI.ViewModels"
+        xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+        mc:Ignorable="d" d:DataContext="{d:DesignInstance vm:InstallExportDialogViewModel}"
+        x:ClassModifier="internal"
+        a:VSTheme.Use="True">
+
+    <Window.Style>
+        <Style TargetType="Window" BasedOn="{StaticResource {x:Type Window}}">
+            <Setter Property="Topmost" Value="True" />
+            <Setter Property="Height" Value="450" />
+            <Setter Property="MaxHeight" Value="500" />
+            <Setter Property="Width" Value="709.478" />
+            <Setter Property="BorderBrush" Value="DarkGray" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="ShowInTaskbar" Value="False" />
+            <Setter Property="SizeToContent" Value="Height" />
+            <Setter Property="AllowsTransparency" Value="False" />
+
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding DialogType}" Value="{x:Static vm:InstallExportDialogType.Export}">
+                    <Setter Property="Title" Value="Export Extensions" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding DialogType}" Value="{x:Static vm:InstallExportDialogType.ExportSolution}">
+                    <Setter Property="Title" Value="Export Extensions" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding DialogType}" Value="{x:Static vm:InstallExportDialogType.Install}">
+                    <Setter Property="Title" Value="Extension Manager" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding DialogType}" Value="{x:Static vm:InstallExportDialogType.InstallSolution}">
+                    <Setter Property="Title" Value="Extension Manager" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Style>
+
+    <Window.Resources>
+        <Style x:Key="{x:Type Label}" TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
+            <Setter Property="FontFamily" Value="Segoe UI" />
+            <Setter Property="FontWeight" Value="Normal" />
+            <Setter Property="FontSize" Value="12" />
+        </Style>
+
+        <Style x:Key="{x:Type Hyperlink}" TargetType="{x:Type Hyperlink}" BasedOn="{StaticResource {x:Type Hyperlink}}">
+            <Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource AncestorType=TextBlock}}" />
+            <Setter Property="ToolTip" Value="{Binding NavigateUri, RelativeSource={x:Static RelativeSource.Self}}" />
+        </Style>
+        
+        <ControlTemplate x:Key="_dialogLayoutTemplate" TargetType="ContentControl">
+            <DockPanel LastChildFill="True" Margin="10"
+                       d:DataContext="{d:DesignInstance vm:InstallExportDialogViewModel}">
+
+                <Label DockPanel.Dock="Top"
+                       Name="_headlineLabel"
+                       FontWeight="SemiBold"
+                       Margin="0,0,0,10"
+                       FontSize="14" />
+
+                <Label DockPanel.Dock="Top"
+                       Name="_descriptionLabel" />
+
+                <DockPanel DockPanel.Dock="Bottom" LastChildFill="True">
+
+                    <Button Name="_cancelButton"
+                            DockPanel.Dock="Right"
+                            Command="{Binding CancelCommand}"
+                            IsCancel="true"
+                            MinWidth="75" />
+
+                    <Button Name="_okButton"
+                            DockPanel.Dock="Right"
+                            Command="{Binding OkCommand}"
+                            Margin="0,0,10,0"
+                            IsDefault="true"
+                            MinWidth="75" />
+
+                    <CheckBox Name="_systemWideCheckBox"
+                              IsChecked="{Binding SystemWide}"
+                              Content="Install for all users"
+                              HorizontalAlignment="Left"
+                              VerticalAlignment="Center" />
+
+                </DockPanel>
+
+                <ContentPresenter Margin="0,10" />
+
+            </DockPanel>
+
+            <ControlTemplate.Triggers>
+                <DataTrigger Binding="{Binding DialogType}" Value="{x:Static vm:InstallExportDialogType.Export}">
+                    <Setter TargetName="_systemWideCheckBox" Property="Visibility" Value="Collapsed" />
+
+                    <Setter TargetName="_headlineLabel" Property="Content" Value="Export your extension(s) to file" />
+                    <Setter TargetName="_descriptionLabel" Property="Content" Value="Select the extension(s) you wish to export. Only extensions published to the Visual Studio Marketplace are shown." />
+                    <Setter TargetName="_okButton" Property="Content" Value="_Export" />
+                    <Setter TargetName="_cancelButton" Property="Content" Value="_Cancel" />
+                </DataTrigger>
+
+                <DataTrigger Binding="{Binding DialogType}" Value="{x:Static vm:InstallExportDialogType.ExportSolution}">
+                    <Setter TargetName="_systemWideCheckBox" Property="Visibility" Value="Collapsed" />
+
+                    <Setter TargetName="_headlineLabel" Property="Content" Value="Export your extension(s) to file" />
+                    <Setter TargetName="_descriptionLabel" Property="Content" Value="Select the extension(s) you wish to export. Only extensions published to the Visual Studio Marketplace are shown." />
+                    <Setter TargetName="_okButton" Property="Content" Value="_Export" />
+                    <Setter TargetName="_cancelButton" Property="Content" Value="_Cancel" />
+                </DataTrigger>
+
+                <DataTrigger Binding="{Binding DialogType}" Value="{x:Static vm:InstallExportDialogType.Install}">
+                    <Setter TargetName="_headlineLabel" Property="Content" Value="Import extension(s) into Visual Studio" />
+                    <Setter TargetName="_descriptionLabel" Property="Content" Value="Select the extension(s) you wish to import. Only extensions published to the Visual Studio Marketplace are shown." />
+                    <Setter TargetName="_okButton" Property="Content" Value="_Import" />
+                    <Setter TargetName="_cancelButton" Property="Content" Value="_Cancel" />
+                </DataTrigger>
+
+                <DataTrigger Binding="{Binding DialogType}" Value="{x:Static vm:InstallExportDialogType.InstallSolution}">
+                    <Setter TargetName="_headlineLabel" Property="Content" Value="Install extension(s) required by this solution" />
+                    <Setter TargetName="_descriptionLabel" Property="Content" Value="This solution asks that you install the following extensions." />
+                    <Setter TargetName="_okButton" Property="Content" Value="_Install" />
+                    <Setter TargetName="_cancelButton" Property="Content" Value="_Cancel" />
+                </DataTrigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+    </Window.Resources>
+
+    <ContentControl Template="{StaticResource _dialogLayoutTemplate}">
+
+        <DockPanel LastChildFill="True">
+            <CheckBox DockPanel.Dock="Top" IsChecked="{Binding HasAllSelected}" Content="Select/deselect all" Margin="0,0,0,10" />
+
+            <Border BorderThickness="1" BorderBrush="DarkGray">
+                <ScrollViewer HorizontalScrollBarVisibility="Hidden"
+                              VerticalScrollBarVisibility="Auto"
+                              Margin="0,0,0,5">
+                    <Grid Name="Test">
+                        <Grid.Resources>
+                            <CollectionViewSource x:Key="ExtensionsSource" Source="{Binding Extensions}">
+                                <CollectionViewSource.SortDescriptions>
+                                    <scm:SortDescription PropertyName="Group" Direction="Descending" />
+                                </CollectionViewSource.SortDescriptions>
+                                
+                                <CollectionViewSource.GroupDescriptions>
+                                    <PropertyGroupDescription PropertyName="Group" />
+                                </CollectionViewSource.GroupDescriptions>
+                            </CollectionViewSource>
+                        </Grid.Resources>
+
+                        <ItemsControl ItemsSource="{Binding Source={StaticResource ExtensionsSource}}" Margin="5" MinHeight="100">
+                            <ItemsControl.Style>
+                                <Style TargetType="ItemsControl" BasedOn="{StaticResource {x:Type ItemsControl}}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Extensions.Count}" Value="0">
+                                            <Setter Property="Visibility" Value="Hidden" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ItemsControl.Style>
+                            
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate d:DataType="vm:ExtensionViewModel">
+
+                                    <DockPanel LastChildFill="False">
+                                        <CheckBox x:Name="_checkBox"
+                                                  DockPanel.Dock="Left"
+                                                  IsEnabled="{Binding CanBeSelected}"
+                                                  IsChecked="{Binding IsSelected}"
+                                                  Content="{Binding Name}"
+                                                  Opacity="0.5" />
+
+                                        <TextBlock x:Name="_hyperlink" DockPanel.Dock="Right">           
+                                            <Hyperlink NavigateUri="{Binding MoreInfoURL}" RequestNavigate="OnHyperlinkRequestNavigate">
+                                                More info
+                                            </Hyperlink>
+                                        </TextBlock>
+                                    </DockPanel>
+
+                                    <DataTemplate.Triggers>
+                                        <DataTrigger Binding="{Binding MoreInfoURL, Converter={c:IsNullOrEmptyConverter}}" Value="True">
+                                            <Setter TargetName="_hyperlink" Property="Visibility" Value="Collapsed" />
+                                        </DataTrigger>
+                                        
+                                        <!-- With VSTheme.Use = True the Foreground is overwritten so that the style adjustments for IsEnabled = False do not apply. Opacity = 0.5 avoids this problem. -->
+                                        <DataTrigger Binding="{Binding CanBeSelected}" Value="True">
+                                            <Setter TargetName="_checkBox" Property="Opacity" Value="1" />
+                                        </DataTrigger>
+                                    </DataTemplate.Triggers>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+
+                            <ItemsControl.GroupStyle>
+                                <GroupStyle>
+                                    <GroupStyle.HeaderTemplate>
+                                        <DataTemplate>
+                                            <Label Name="_groupNameLabel" FontWeight="Bold" Content="{Binding Name}"/>
+
+                                            <DataTemplate.Triggers>
+                                                <DataTrigger Binding="{Binding Name, Converter={c:IsNullOrEmptyConverter}}" Value="True">
+                                                    <Setter TargetName="_groupNameLabel" Property="Visibility" Value="Collapsed" />
+                                                </DataTrigger>
+                                            </DataTemplate.Triggers>
+                                        </DataTemplate>
+                                    </GroupStyle.HeaderTemplate>
+                                </GroupStyle>
+                            </ItemsControl.GroupStyle>
+                        </ItemsControl>
+
+                        <Label DockPanel.Dock="Top"
+                               VerticalAlignment="Center"
+                               Margin="10,0,0,0">
+                            <Label.Style>
+                                <Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
+                                    <Setter Property="Visibility" Value="Hidden" />
+
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Extensions.Count}" Value="0">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+
+                                        <DataTrigger Binding="{Binding DialogType}" Value="{x:Static vm:InstallExportDialogType.Export}">
+                                            <Setter Property="Content" Value="No extensions are installed." />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding DialogType}" Value="{x:Static vm:InstallExportDialogType.ExportSolution}">
+                                            <Setter Property="Content" Value="No extensions are installed." />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding DialogType}" Value="{x:Static vm:InstallExportDialogType.Install}">
+                                            <Setter Property="Content" Value="There are no extensions to install." />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding DialogType}" Value="{x:Static vm:InstallExportDialogType.InstallSolution}">
+                                            <Setter Property="Content" Value="There are no extensions to install." />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Label.Style>
+                        </Label>
+                    </Grid>
+                </ScrollViewer>
+            </Border>
+        </DockPanel>
+        
+    </ContentControl>
+
+</Window>

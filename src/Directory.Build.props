@@ -1,0 +1,10 @@
+<Project>
+  
+  <PropertyGroup>
+    <TargetFramework>net4.8.1</TargetFramework>
+    <LangVersion>preview</LangVersion>
+    <Nullable>enable</Nullable>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  
+</Project>
