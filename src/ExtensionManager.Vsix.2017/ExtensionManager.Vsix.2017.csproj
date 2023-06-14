@@ -95,8 +95,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Madskristensen.VisualStudio.SDK" ExcludeAssets="runtime" Version="[15.7.81-pre]" />
-    <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="[17.0.1619-preview1]">
+    <PackageReference Include="Madskristensen.VisualStudio.SDK" ExcludeAssets="runtime" Version="15.7.81-pre" />
+    <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="17.0.1619-preview1">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
