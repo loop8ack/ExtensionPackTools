@@ -7,25 +7,49 @@ using ExtensionManager.Manifest;
 using ExtensionManager.UI;
 using ExtensionManager.UI.Worker;
 using ExtensionManager.VisualStudio;
+using ExtensionManager.VisualStudio.Documents;
 using ExtensionManager.VisualStudio.Extensions;
+using ExtensionManager.VisualStudio.MessageBox;
 
 namespace ExtensionManager.Features.Export;
 
 public abstract class ExportFeatureBase : IFeature, IExportWorker
 {
-    protected IDialogService DialogService { get; }
-    protected IManifestService ManifestService { get; }
-
-    protected ExportFeatureBase(IDialogService dialogService, IManifestService manifestService)
+    public sealed class Args
     {
-        DialogService = dialogService ?? throw new ArgumentNullException(nameof(dialogService));
-        ManifestService = manifestService ?? throw new ArgumentNullException(nameof(manifestService));
+        public IVSDocuments Documents { get; }
+        public IVSMessageBox MessageBox { get; }
+        public IVSExtensions Extensions { get; }
+        public IDialogService DialogService { get; }
+        public IManifestService ManifestService { get; }
+
+        public Args(IVSDocuments documents, IVSMessageBox messageBox, IVSExtensions extensions, IDialogService dialogService, IManifestService manifestService)
+        {
+            Documents = documents;
+            MessageBox = messageBox;
+            Extensions = extensions;
+            DialogService = dialogService;
+            ManifestService = manifestService;
+        }
+    }
+
+    private readonly Args _args;
+
+    protected IVSDocuments Documents => _args.Documents;
+    protected IVSMessageBox MessageBox => _args.MessageBox;
+    protected IVSExtensions Extensions => _args.Extensions;
+    protected IDialogService DialogService => _args.DialogService;
+    protected IManifestService ManifestService => _args.ManifestService;
+
+    protected ExportFeatureBase(Args args)
+    {
+        _args = args;
     }
 
     public async Task ExecuteAsync()
     {
         var manifest = ManifestService.CreateNew();
-        var installedExtensions = await VSFacade.Extensions.GetInstalledExtensionsAsync().ConfigureAwait(false);
+        var installedExtensions = await Extensions.GetInstalledExtensionsAsync().ConfigureAwait(false);
 
         await ShowExportDialogAsync(manifest, this, installedExtensions);
     }

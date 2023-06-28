@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using ExtensionManager.VisualStudio;
 using ExtensionManager.VisualStudio.Extensions;
+using ExtensionManager.VisualStudio.MessageBox;
 using ExtensionManager.VisualStudio.Solution;
 
 namespace ExtensionManager.Features;
@@ -22,13 +23,13 @@ internal static class VisualStudioExtensions
             .ToArray();
     }
 
-    public static async Task<string?> GetCurrentSolutionExtensionsManifestFilePathAsync(this IVSSolutions solutions)
+    public static async Task<string?> GetCurrentSolutionExtensionsManifestFilePathAsync(this IVSSolutions solutions, IVSMessageBox messageBox)
     {
         var solution = await solutions.GetCurrentOrThrowAsync();
 
         if (solution.Name is null or { Length: 0 })
         {
-            await VSFacade.MessageBox.ShowErrorAsync("The solution must be saved in order to manage solution extensions.").ConfigureAwait(false);
+            await messageBox.ShowErrorAsync("The solution must be saved in order to manage solution extensions.").ConfigureAwait(false);
 
             return null;
         }

@@ -11,8 +11,8 @@ namespace ExtensionManager.Features.Install;
 
 public sealed class InstallFeature : InstallFeatureBase
 {
-    public InstallFeature(IExtensionInstaller installer, IDialogService dialogService, IManifestService manifestService)
-        : base(installer, dialogService, manifestService)
+    public InstallFeature(Args args)
+        : base(args)
     {
     }
 

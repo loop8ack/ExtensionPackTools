@@ -5,12 +5,14 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
+using System.Threading.Tasks;
 
 using Community.VisualStudio.Toolkit;
 
 using ExtensionManager.Features.Export;
 using ExtensionManager.Features.Install;
 using ExtensionManager.VisualStudio;
+using ExtensionManager.VisualStudio.Solution;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio;
@@ -39,36 +41,41 @@ public sealed class ExtensionManagerPackage : AsyncPackage
     protected override async Task InitializeAsync(CancellationToken cancellationToken, IProgress<ServiceProgressData> progress)
     {
         var services = new ServiceCollection()
+            .ConfigureVSFacade(await CreateVSServiceFactoryAsync())
             .ConfigureExtensionManager()
             .BuildServiceProvider();
 
+        var solutions = services.GetRequiredService<IVSSolutions>();
         var featureExecutor = services.GetRequiredService<IFeatureExecutor>();
 
-        await InitializeVSFacadeAsync();
+        await CreateVSServiceFactoryAsync();
         await InitMenuCommandsAsync(featureExecutor);
-        await HandleSolutionExtensionsAsync(featureExecutor);
+        await HandleSolutionExtensionsAsync(solutions, featureExecutor);
     }
-    private static async Task InitializeVSFacadeAsync()
+    private static async Task<IVSServiceFactory> CreateVSServiceFactoryAsync()
     {
         var vsVersion = await VS.Shell.GetVsVersionAsync();
 
-#if V15
-        if (vsVersion >= new Version(15, 0))
-            VisualStudio.V15.VSFacadeImplementation.Initialize();
+#if V17    
+        if (vsVersion >= new Version(17, 7))
+            return new VisualStudio.V17_7.VSServiceFactory();
+
+        if (vsVersion >= new Version(17, 5))
+            return new VisualStudio.V17_5.VSServiceFactory();
 #elif V16
         if (vsVersion >= new Version(16, 0))
-            VisualStudio.V16.VSFacadeImplementation.Initialize();
-#elif V17
-        if (vsVersion >= new Version(17, 7))
-            VisualStudio.V17_7.VSFacadeImplementation.Initialize();
-        else if (vsVersion >= new Version(17, 5))
-            VisualStudio.V17_5.VSFacadeImplementation.Initialize();
+            return new VisualStudio.V16.VSServiceFactory();
+#elif V15
+        if (vsVersion >= new Version(15, 0))
+            return new VisualStudio.V15.VSServiceFactory();
 #endif
+
+        throw new InvalidOperationException("Unknown Visual Studio Version: " + vsVersion);
     }
 
-    private async Task HandleSolutionExtensionsAsync(IFeatureExecutor executor)
+    private async Task HandleSolutionExtensionsAsync(IVSSolutions solutions, IFeatureExecutor executor)
     {
-        if (await VSFacade.Solutions.IsOpenAsync())
+        if (await solutions.IsOpenAsync())
         {
             JoinableTaskFactory
                 .RunAsync(() => InstallSolutionExtensionsOnIdleAsync(executor))

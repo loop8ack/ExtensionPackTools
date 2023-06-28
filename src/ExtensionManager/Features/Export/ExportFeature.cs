@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using ExtensionManager.Manifest;
-using ExtensionManager.UI;
 using ExtensionManager.UI.Worker;
 using ExtensionManager.VisualStudio;
 using ExtensionManager.VisualStudio.Extensions;
@@ -11,8 +10,8 @@ namespace ExtensionManager.Features.Export;
 
 public sealed class ExportFeature : ExportFeatureBase
 {
-    public ExportFeature(IDialogService dialogService, IManifestService manifestService)
-        : base(dialogService, manifestService)
+    public ExportFeature(Args args)
+        : base(args)
     {
     }
 
@@ -23,5 +22,5 @@ public sealed class ExportFeature : ExportFeatureBase
         => await DialogService.ShowExportDialogAsync(worker, manifest, installedExtensions);
 
     protected override async Task OnManifestWrittenAsync(string filePath)
-        => await VSFacade.Documents.OpenAsync(filePath);
+        => await Documents.OpenAsync(filePath);
 }

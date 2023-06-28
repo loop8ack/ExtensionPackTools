@@ -14,7 +14,6 @@
     <Compile Remove="IVisualStudioUIThread.cs" />
     <Compile Remove="IVisualStudioViewColors.cs" />
     <Compile Remove="IVisualStudioViewResourceKeys.cs" />
-    <Compile Remove="ServiceCollectionExtensions.cs" />
   </ItemGroup>
 
   <ItemGroup>

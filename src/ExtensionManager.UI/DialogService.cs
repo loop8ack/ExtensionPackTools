@@ -10,6 +10,7 @@ using ExtensionManager.UI.Views;
 using ExtensionManager.UI.Worker;
 using ExtensionManager.VisualStudio;
 using ExtensionManager.VisualStudio.Extensions;
+using ExtensionManager.VisualStudio.Threads;
 
 using Microsoft.Win32;
 
@@ -19,15 +20,22 @@ namespace ExtensionManager.UI;
 
 internal sealed class DialogService : IDialogService
 {
+    private readonly IVSThreads _threads;
+
+    public DialogService(IVSThreads threads)
+    {
+        _threads = threads;
+    }
+
     public Task<string?> ShowSaveVsextFileDialogAsync() => ShowVsextFileDialogAsync<SaveFileDialog>();
     public Task<string?> ShowOpenVsextFileDialogAsync() => ShowVsextFileDialogAsync<OpenFileDialog>();
     private Task<string?> ShowVsextFileDialogAsync<TFileDialog>()
         where TFileDialog : FileDialog, new()
     {
-        if (VSFacade.Threads.CheckUIThreadAccess())
+        if (_threads.CheckUIThreadAccess())
             return Task.FromResult(OnUIThread());
 
-        return VSFacade.Threads.RunOnUIThreadAsync(OnUIThread);
+        return _threads.RunOnUIThreadAsync(OnUIThread);
 
         static string? OnUIThread()
         {
@@ -79,14 +87,14 @@ internal sealed class DialogService : IDialogService
 
     private Task ShowInstallExportDialogAsync(object viewModel)
     {
-        if (VSFacade.Threads.CheckUIThreadAccess())
+        if (_threads.CheckUIThreadAccess())
         {
             OnUIThread(viewModel);
 
             return Task.CompletedTask;
         }
 
-        return VSFacade.Threads.RunOnUIThreadAsync(() => OnUIThread(viewModel));
+        return _threads.RunOnUIThreadAsync(() => OnUIThread(viewModel));
 
         static void OnUIThread(object viewModel)
         {

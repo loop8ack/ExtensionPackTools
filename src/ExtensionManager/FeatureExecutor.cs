@@ -1,8 +1,7 @@
 using System;
-using System.Threading;
 using System.Threading.Tasks;
 
-using ExtensionManager.VisualStudio;
+using ExtensionManager.VisualStudio.MessageBox;
 
 using Microsoft.Extensions.DependencyInjection;
 
@@ -29,7 +28,9 @@ internal sealed class FeatureExecutor : IFeatureExecutor
         }
         catch (Exception ex)
         {
-            await VSFacade.MessageBox.ShowErrorAsync(ex.Message);
+            await _services
+                .GetRequiredService<IVSMessageBox>()
+                .ShowErrorAsync(ex.Message);
         }
     }
 }

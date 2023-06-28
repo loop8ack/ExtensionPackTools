@@ -1,3 +1,5 @@
+using ExtensionManager.Features.Export;
+using ExtensionManager.Features.Install;
 using ExtensionManager.Installation;
 using ExtensionManager.Manifest;
 using ExtensionManager.UI;
@@ -13,6 +15,8 @@ public static class ServiceCollectionExtensions
         return services
             .AddDialogService()
             .AddManifestService()
+            .AddTransient<ExportFeatureBase.Args>()
+            .AddTransient<InstallFeatureBase.Args>()
             .AddTransient<IFeatureExecutor, FeatureExecutor>()
             .AddTransient<IExtensionInstaller, ExtensionInstaller>();
     }

@@ -9,14 +9,27 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using ExtensionManager.UI.Worker;
-using ExtensionManager.VisualStudio;
 using ExtensionManager.VisualStudio.Extensions;
+using ExtensionManager.VisualStudio.MessageBox;
+using ExtensionManager.VisualStudio.StatusBar;
+
 using Task = System.Threading.Tasks.Task;
 
 namespace ExtensionManager.Installation;
 
 internal sealed class ExtensionInstaller : IExtensionInstaller
 {
+    private readonly IVSMessageBox _messageBox;
+    private readonly IVSExtensions _extensions;
+    private readonly IVSStatusBar _statusBar;
+
+    public ExtensionInstaller(IVSMessageBox messageBox, IVSExtensions extensions, IVSStatusBar statusBar)
+    {
+        _messageBox = messageBox;
+        _extensions = extensions;
+        _statusBar = statusBar;
+    }
+
     public async Task InstallAsync(IReadOnlyCollection<IVSExtension> extensions, bool installSystemWide, IProgress<ProgressStep<InstallStep>> uiProgress, CancellationToken cancellationToken)
     {
         if (extensions.Count == 0)
@@ -26,7 +39,7 @@ internal sealed class ExtensionInstaller : IExtensionInstaller
 
         uiProgress.Report(null, InstallStep.DownloadData);
 
-        extensions = await VSFacade.Extensions.GetGalleryExtensionsAsync(extensions.Select(x => x.Id)).ConfigureAwait(false);
+        extensions = await _extensions.GetGalleryExtensionsAsync(extensions.Select(x => x.Id)).ConfigureAwait(false);
 
         try
         {
@@ -52,15 +65,15 @@ internal sealed class ExtensionInstaller : IExtensionInstaller
         finally
         {
             // Only ClearAsync does not seem to work
-            await VSFacade.StatusBar.ShowProgressAsync("", 1, 1);
-            await VSFacade.StatusBar.ShowMessageAsync("");
-            await VSFacade.StatusBar.ClearAsync();
+            await _statusBar.ShowProgressAsync("", 1, 1);
+            await _statusBar.ShowMessageAsync("");
+            await _statusBar.ClearAsync();
         }
     }
 
     private IReadOnlyList<ExtensionDownloader> CreateDownloaders(HttpMessageHandler httpMessageHandler, IReadOnlyCollection<IVSExtension> extensions, IProgress<ProgressStep<InstallStep>> uiProgress, CancellationToken cancellationToken)
     {
-        var progress = new DownloadProgres(uiProgress, extensions.Count);
+        var progress = new DownloadProgres(uiProgress, _statusBar, extensions.Count);
         var entries = new List<ExtensionDownloader>();
 
         var targetFolder = PrepareDownloadTargetFolder(cancellationToken);
@@ -114,7 +127,7 @@ internal sealed class ExtensionInstaller : IExtensionInstaller
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        await VSFacade.StatusBar.ShowMessageAsync($"Downloading {entries.Count} extensions ...").ConfigureAwait(false);
+        await _statusBar.ShowMessageAsync($"Downloading {entries.Count} extensions ...").ConfigureAwait(false);
 
         foreach (var entry in entries)
         {
@@ -131,7 +144,7 @@ internal sealed class ExtensionInstaller : IExtensionInstaller
 
         if (failedCount > 0)
         {
-            return await VSFacade.MessageBox.ShowWarningAsync(
+            return await _messageBox.ShowWarningAsync(
                 $"The download of {failedCount} extensions failed.",
                 "Continue?");
         }
@@ -153,7 +166,7 @@ internal sealed class ExtensionInstaller : IExtensionInstaller
 
         uiProgress.Report(null, InstallStep.RunInstallation);
 
-        await VSFacade.StatusBar.ShowMessageAsync($"Extensions downloaded. Starting VSIX Installer ...");
-        await VSFacade.Extensions.StartInstallerAsync(vsixFiles, installSystemWide);
+        await _statusBar.ShowMessageAsync($"Extensions downloaded. Starting VSIX Installer ...");
+        await _extensions.StartInstallerAsync(vsixFiles, installSystemWide);
     }
 }

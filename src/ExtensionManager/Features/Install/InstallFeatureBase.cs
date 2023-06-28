@@ -7,22 +7,42 @@ using ExtensionManager.Installation;
 using ExtensionManager.Manifest;
 using ExtensionManager.UI;
 using ExtensionManager.UI.Worker;
-using ExtensionManager.VisualStudio;
 using ExtensionManager.VisualStudio.Extensions;
+using ExtensionManager.VisualStudio.MessageBox;
 
 namespace ExtensionManager.Features.Install;
 
 public abstract class InstallFeatureBase : IFeature, IInstallWorker
 {
-    protected IExtensionInstaller Installer { get; }
-    protected IDialogService DialogService { get; }
-    protected IManifestService ManifestService { get; }
-
-    protected InstallFeatureBase(IExtensionInstaller installer, IDialogService dialogService, IManifestService manifestService)
+    public sealed class Args
     {
-        Installer = installer ?? throw new ArgumentNullException(nameof(installer));
-        DialogService = dialogService ?? throw new ArgumentNullException(nameof(dialogService));
-        ManifestService = manifestService ?? throw new ArgumentNullException(nameof(manifestService));
+        public IVSExtensions Extensions { get; }
+        public IVSMessageBox MessageBox { get; }
+        public IDialogService DialogService { get; }
+        public IExtensionInstaller Installer { get; }
+        public IManifestService ManifestService { get; }
+
+        public Args(IVSExtensions extensions, IVSMessageBox messageBox, IDialogService dialogService, IExtensionInstaller installer, IManifestService manifestService)
+        {
+            Extensions = extensions;
+            MessageBox = messageBox;
+            DialogService = dialogService;
+            Installer = installer;
+            ManifestService = manifestService;
+        }
+    }
+
+    private readonly Args _args;
+
+    protected IVSExtensions Extensions => _args.Extensions;
+    protected IVSMessageBox MessageBox => _args.MessageBox;
+    protected IDialogService DialogService => _args.DialogService;
+    protected IExtensionInstaller Installer => _args.Installer;
+    protected IManifestService ManifestService => _args.ManifestService;
+
+    protected InstallFeatureBase(Args args)
+    {
+        _args = args;
     }
 
     public async Task ExecuteAsync()
@@ -32,7 +52,7 @@ public abstract class InstallFeatureBase : IFeature, IInstallWorker
         if (filePath is null or { Length: 0 })
             return;
 
-        var installedExtensions = await VSFacade.Extensions.GetInstalledExtensionsAsync().ConfigureAwait(false);
+        var installedExtensions = await Extensions.GetInstalledExtensionsAsync().ConfigureAwait(false);
         var manifest = await ManifestService.ReadAsync(filePath).ConfigureAwait(false);
         
         await ShowInstallDialogAsync(manifest, this, installedExtensions);
