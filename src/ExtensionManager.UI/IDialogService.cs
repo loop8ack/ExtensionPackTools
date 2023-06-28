@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 
 using ExtensionManager.Manifest;
+using ExtensionManager.UI.Worker;
 using ExtensionManager.VisualStudio.Extensions;
 
 namespace ExtensionManager.UI;
@@ -12,8 +12,8 @@ public interface IDialogService
     Task<string?> ShowSaveVsextFileDialogAsync();
     Task<string?> ShowOpenVsextFileDialogAsync();
 
-    Task<bool> ShowExportDialogAsync(IManifest manifest, IReadOnlyCollection<IVSExtension> installedExtensions);
-    Task<bool> ShowExportForSolutionDialogAsync(IManifest manifest, IReadOnlyCollection<IVSExtension> installedExtensions);
-    Task<InstallExtensionsDialogResult?> ShowInstallDialogAsync(IManifest manifest, IReadOnlyCollection<IVSExtension> installedExtensions);
-    Task<InstallExtensionsDialogResult?> ShowInstallForSolutionDialogAsync(IManifest manifest, IReadOnlyCollection<IVSExtension> installedExtensions);
+    Task ShowExportDialogAsync(IExportWorker worker, IManifest manifest, IReadOnlyCollection<IVSExtension> installedExtensions);
+    Task ShowExportForSolutionDialogAsync(IExportWorker worker, IManifest manifest, IReadOnlyCollection<IVSExtension> installedExtensions);
+    Task ShowInstallDialogAsync(IInstallWorker worker, IManifest manifest, IReadOnlyCollection<IVSExtension> installedExtensions);
+    Task ShowInstallForSolutionDialogAsync(IInstallWorker worker, IManifest manifest, IReadOnlyCollection<IVSExtension> installedExtensions);
 }

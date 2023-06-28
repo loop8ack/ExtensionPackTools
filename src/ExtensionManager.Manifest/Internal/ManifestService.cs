@@ -45,12 +45,12 @@ internal sealed class ManifestService : IManifestService
         }
     }
 
-    public async Task WriteAsync(string filePath, IManifest manifest)
+    public async Task WriteAsync(string filePath, IManifest manifest, CancellationToken cancellationToken)
     {
         Directory.CreateDirectory(Path.GetDirectoryName(filePath));
 
         using var stream = File.Create(filePath);
 
-        await ManifestVersion.Latest.WriteAsync(stream, manifest).ConfigureAwait(false);
+        await ManifestVersion.Latest.WriteAsync(stream, manifest, cancellationToken);
     }
 }

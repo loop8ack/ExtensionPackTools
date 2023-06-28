@@ -14,6 +14,7 @@ internal sealed class ExtensionDownloader
 {
     private readonly HttpMessageHandler _httpMessageHandler;
     private readonly IProgress<DownloadResult> _progress;
+    private readonly CancellationToken _cancellationToken;
 
     public Uri DownloadUri { get; }
     public string TargetFilePath { get; }
@@ -22,10 +23,11 @@ internal sealed class ExtensionDownloader
     public Task DownloadTask { get; private set; }
     public Exception? DownloadException { get; private set; }
 
-    public ExtensionDownloader(HttpMessageHandler httpMessageHandler, IProgress<DownloadResult> progress, Uri downloadUri, string targetFilePath, IVSExtension extension)
+    public ExtensionDownloader(HttpMessageHandler httpMessageHandler, IProgress<DownloadResult> progress, Uri downloadUri, string targetFilePath, IVSExtension extension, CancellationToken cancellationToken)
     {
         _httpMessageHandler = httpMessageHandler;
         _progress = progress;
+        _cancellationToken = cancellationToken;
 
         DownloadUri = downloadUri;
         TargetFilePath = targetFilePath;
@@ -42,13 +44,17 @@ internal sealed class ExtensionDownloader
 
     private async Task DownloadAsync()
     {
+        _cancellationToken.ThrowIfCancellationRequested();
+
+        await Task.Delay(1000, _cancellationToken);
+
         try
         {
             using (var client = new HttpClient(_httpMessageHandler, disposeHandler: false))
-            using (var response = await client.GetAsync(DownloadUri).ConfigureAwait(false))
+            using (var response = await client.GetAsync(DownloadUri, _cancellationToken).ConfigureAwait(false))
             using (var responseStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
             using (var targetStream = new FileStream(TargetFilePath, FileMode.Create, FileAccess.Write))
-                await responseStream.CopyToAsync(targetStream, 81920).ConfigureAwait(false);
+                await responseStream.CopyToAsync(targetStream, 81920, _cancellationToken).ConfigureAwait(false);
 
             _progress.Report(DownloadResult.Success);
         }

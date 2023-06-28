@@ -3,17 +3,20 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Threading;
 
+using ExtensionManager.UI.Worker;
 using ExtensionManager.VisualStudio;
 namespace ExtensionManager.Installation;
 
 internal sealed class DownloadProgres : IProgress<DownloadResult>
 {
+    private readonly IProgress<ProgressStep<InstallStep>> _uiProgress;
     private readonly int _initialCount;
     private int _remainingCount;
     private int _failedCount;
 
-    public DownloadProgres(int initialCount)
+    public DownloadProgres(IProgress<ProgressStep<InstallStep>> uiProgress, int initialCount)
     {
+        _uiProgress = uiProgress;
         _initialCount = initialCount;
         _remainingCount = initialCount;
         _failedCount = 0;
@@ -44,9 +47,11 @@ internal sealed class DownloadProgres : IProgress<DownloadResult>
             : $"Downloading {remainingCount} extensions ...";
 
         var currentCount = _initialCount - remainingCount;
+        var percentage = currentCount / (float)_initialCount;
 
         Debug.WriteLine($"====== {currentCount} - {_initialCount}");
 
+        _uiProgress.Report(percentage, InstallStep.DownloadVsix);
         _ = VSFacade.StatusBar.ShowProgressAsync(text, currentCount, _initialCount);
     }
 }

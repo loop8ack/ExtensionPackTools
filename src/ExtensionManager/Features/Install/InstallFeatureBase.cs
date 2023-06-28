@@ -1,16 +1,18 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 using ExtensionManager.Installation;
 using ExtensionManager.Manifest;
 using ExtensionManager.UI;
+using ExtensionManager.UI.Worker;
 using ExtensionManager.VisualStudio;
 using ExtensionManager.VisualStudio.Extensions;
 
 namespace ExtensionManager.Features.Install;
 
-public abstract class InstallFeatureBase : IFeature
+public abstract class InstallFeatureBase : IFeature, IInstallWorker
 {
     protected IExtensionInstaller Installer { get; }
     protected IDialogService DialogService { get; }
@@ -32,15 +34,16 @@ public abstract class InstallFeatureBase : IFeature
 
         var installedExtensions = await VSFacade.Extensions.GetInstalledExtensionsAsync().ConfigureAwait(false);
         var manifest = await ManifestService.ReadAsync(filePath).ConfigureAwait(false);
-        var result = await ShowInstallDialogAsync(manifest, installedExtensions).ConfigureAwait(false);
+        
+        await ShowInstallDialogAsync(manifest, this, installedExtensions);
+    }
 
-        if (result is null)
-            return;
-
-        if (result.Extensions.Count > 0)
-            await Installer.InstallAsync(result.Extensions, result.SystemWide).ConfigureAwait(false);
+    async Task IInstallWorker.InstallAsync(IManifest manifest, IReadOnlyCollection<IVSExtension> extensions, bool systemWide, IProgress<ProgressStep<InstallStep>> progress, CancellationToken cancellationToken)
+    {
+        if (extensions.Count > 0)
+            await Installer.InstallAsync(extensions, systemWide, progress, cancellationToken);
     }
 
     protected abstract Task<string?> GetFilePathAsync();
-    protected abstract Task<InstallExtensionsDialogResult?> ShowInstallDialogAsync(IManifest manifest, IReadOnlyCollection<IVSExtension> installedExtensions);
+    protected abstract Task ShowInstallDialogAsync(IManifest manifest, IInstallWorker worker, IReadOnlyCollection<IVSExtension> installedExtensions);
 }

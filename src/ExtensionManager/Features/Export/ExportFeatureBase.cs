@@ -1,14 +1,17 @@
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
 using ExtensionManager.Manifest;
 using ExtensionManager.UI;
+using ExtensionManager.UI.Worker;
 using ExtensionManager.VisualStudio;
+using ExtensionManager.VisualStudio.Extensions;
 
 namespace ExtensionManager.Features.Export;
 
-public abstract class ExportFeatureBase : IFeature
+public abstract class ExportFeatureBase : IFeature, IExportWorker
 {
     protected IDialogService DialogService { get; }
     protected IManifestService ManifestService { get; }
@@ -23,20 +26,25 @@ public abstract class ExportFeatureBase : IFeature
     {
         var manifest = ManifestService.CreateNew();
         var installedExtensions = await VSFacade.Extensions.GetInstalledExtensionsAsync().ConfigureAwait(false);
-        var accept = await DialogService.ShowExportDialogAsync(manifest, installedExtensions).ConfigureAwait(false);
 
-        if (!accept)
-            return;
+        await ShowExportDialogAsync(manifest, this, installedExtensions);
+    }
 
+    async Task IExportWorker.ExportAsync(IManifest manifest, IProgress<ProgressStep<ExportStep>> progress, CancellationToken cancellationToken)
+    {
         var filePath = await GetFilePathAsync().ConfigureAwait(false);
 
         if (filePath is null or { Length: 0 })
             return;
 
-        await ManifestService.WriteAsync(filePath, manifest).ConfigureAwait(false);
-        await OnManifestWrittenAsync(filePath).ConfigureAwait(false);
+        progress.Report(null, ExportStep.SaveManifest);
+        await ManifestService.WriteAsync(filePath, manifest, cancellationToken).ConfigureAwait(false);
+
+        progress.Report(null, ExportStep.Finish);
+        await OnManifestWrittenAsync(filePath);
     }
 
     protected abstract Task<string?> GetFilePathAsync();
+    protected abstract Task ShowExportDialogAsync(IManifest manifest, IExportWorker worker, IReadOnlyCollection<IVSExtension> installedExtensions);
     protected abstract Task OnManifestWrittenAsync(string filePath);
 }

@@ -32,7 +32,7 @@ internal partial class InstallExportDialogWindow : Window
         }
     }
 
-    private void OnCloseRequested(object sender, bool? result)
+    private void OnCloseRequested(object sender, EventArgs e)
     {
         if (sender is not InstallExportDialogViewModel vm)
             return;
@@ -42,8 +42,6 @@ internal partial class InstallExportDialogWindow : Window
             vm.CloseRequested -= OnCloseRequested;
             return;
         }
-
-        DialogResult = result;
 
         Close();
     }
@@ -61,6 +59,14 @@ internal partial class InstallExportDialogWindow : Window
 
         if (e.ChangedButton == MouseButton.Left)
             DragMove();
+    }
+
+    protected override void OnClosed(EventArgs e)
+    {
+        base.OnClosed(e);
+
+        if (DataContext is InstallExportDialogViewModel vm)
+            vm.OnClosed();
     }
 
     private void OnHyperlinkRequestNavigate(object sender, RequestNavigateEventArgs e)

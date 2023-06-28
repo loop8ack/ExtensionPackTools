@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <MinimumVisualStudioVersion>$(VisualStudioVersion)</MinimumVisualStudioVersion>
@@ -104,6 +104,14 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ExtensionManager.Manifest\ExtensionManager.Manifest.csproj">
+      <Project>{c67042cb-6c88-4273-bef3-6a99b87b4c3f}</Project>
+      <Name>ExtensionManager.Manifest</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ExtensionManager.UI\ExtensionManager.UI.csproj">
+      <Project>{6468e392-1c88-4f3c-b8d7-e61f942adbfc}</Project>
+      <Name>ExtensionManager.UI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ExtensionManager\ExtensionManager.csproj">
       <Project>{B03BF78A-E1A1-4295-A3B2-C5C1AC7E5F70}</Project>
       <Name>ExtensionManager</Name>

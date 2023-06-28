@@ -15,5 +15,10 @@ public interface IVSThreads
     /// <summary>
     /// Executes the method on the UI thread.
     /// </summary>
+    Task RunOnUIThreadAsync(Action syncMethod);
+
+    /// <summary>
+    /// Executes the method on the UI thread.
+    /// </summary>
     Task<TResult> RunOnUIThreadAsync<TResult>(Func<TResult> syncMethod);
 }

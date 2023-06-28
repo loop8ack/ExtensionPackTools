@@ -66,7 +66,7 @@ internal class V0ManifestVersion : ManifestVersion
         }
     }
 
-    public override Task WriteAsync(Stream stream, IManifest manifest)
+    public override Task WriteAsync(Stream stream, IManifest manifest, CancellationToken cancellationToken)
         => throw CreateVersionNotSupportedException();
 }
 

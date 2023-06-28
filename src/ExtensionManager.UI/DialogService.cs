@@ -4,8 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using ExtensionManager.Manifest;
+using ExtensionManager.UI.Utils;
 using ExtensionManager.UI.ViewModels;
 using ExtensionManager.UI.Views;
+using ExtensionManager.UI.Worker;
 using ExtensionManager.VisualStudio;
 using ExtensionManager.VisualStudio.Extensions;
 
@@ -43,65 +45,50 @@ internal sealed class DialogService : IDialogService
         }
     }
 
-    public Task<bool> ShowExportDialogAsync(IManifest manifest, IReadOnlyCollection<IVSExtension> installedExtensions)
-        => ShowExportDialogAsync(manifest, installedExtensions, forSolution: false);
-    public Task<bool> ShowExportForSolutionDialogAsync(IManifest manifest, IReadOnlyCollection<IVSExtension> installedExtensions)
-        => ShowExportDialogAsync(manifest, installedExtensions, forSolution: true);
-    private async Task<bool> ShowExportDialogAsync(IManifest manifest, IReadOnlyCollection<IVSExtension> installedExtensions, bool forSolution)
+    public Task ShowExportDialogAsync(IExportWorker worker, IManifest manifest, IReadOnlyCollection<IVSExtension> installedExtensions)
+        => ShowExportDialogAsync(worker, manifest, installedExtensions, forSolution: false);
+    public Task ShowExportForSolutionDialogAsync(IExportWorker worker, IManifest manifest, IReadOnlyCollection<IVSExtension> installedExtensions)
+        => ShowExportDialogAsync(worker, manifest, installedExtensions, forSolution: true);
+    private async Task ShowExportDialogAsync(IExportWorker worker, IManifest manifest, IReadOnlyCollection<IVSExtension> installedExtensions, bool forSolution)
     {
-        var vm = new InstallExportDialogViewModel(forSolution ? InstallExportDialogType.ExportSolution : InstallExportDialogType.Export);
+        var vm = new ExportDialogViewModel(worker, manifest, forSolution);
 
         foreach (var ext in installedExtensions)
             vm.Extensions.Add(new(ext));
 
-        var accept = await ShowInstallExportDialogAsync(vm).ConfigureAwait(false);
-
-        if (accept)
-        {
-            manifest.Extensions.Clear();
-
-            foreach (var ext in vm.SelectedExtensions)
-                manifest.Extensions.Add(ext.Model);
-        }
-
-        return accept;
+        await ShowInstallExportDialogAsync(vm);
     }
 
-    public Task<InstallExtensionsDialogResult?> ShowInstallDialogAsync(IManifest manifest, IReadOnlyCollection<IVSExtension> installedExtensions)
-        => ShowInstallForSolutionDialogAsync(manifest, installedExtensions, forSolution: false);
-    public Task<InstallExtensionsDialogResult?> ShowInstallForSolutionDialogAsync(IManifest manifest, IReadOnlyCollection<IVSExtension> installedExtensions)
-        => ShowInstallForSolutionDialogAsync(manifest, installedExtensions, forSolution: true);
-    private async Task<InstallExtensionsDialogResult?> ShowInstallForSolutionDialogAsync(IManifest manifest, IReadOnlyCollection<IVSExtension> installedExtensions, bool forSolution)
+    public Task ShowInstallDialogAsync(IInstallWorker worker, IManifest manifest, IReadOnlyCollection<IVSExtension> installedExtensions)
+        => ShowInstallForSolutionDialogAsync(worker, manifest, installedExtensions, forSolution: false);
+    public Task ShowInstallForSolutionDialogAsync(IInstallWorker worker, IManifest manifest, IReadOnlyCollection<IVSExtension> installedExtensions)
+        => ShowInstallForSolutionDialogAsync(worker, manifest, installedExtensions, forSolution: true);
+    private async Task ShowInstallForSolutionDialogAsync(IInstallWorker worker, IManifest manifest, IReadOnlyCollection<IVSExtension> installedExtensions, bool forSolution)
     {
-        var vm = new InstallExportDialogViewModel(forSolution ? InstallExportDialogType.InstallSolution : InstallExportDialogType.Install);
+        var vm = new InstallDialogViewModel(worker, manifest, forSolution);
 
         foreach (var ext in manifest.Extensions)
         {
-            var isInstalled = installedExtensions.Contains(ext, ExtensionEqualityComparer.Instance);
+            var isInstalled = installedExtensions.Contains(ext, ExtensionEqualityComparerById.Instance);
 
-            vm.Extensions.Add(new(ext)
-            {
-                CanBeSelected = !isInstalled,
-                Group = isInstalled ? "Already installed" : "Extensions",
-            });
+            vm.AddExtension(ext, isInstalled);
         }
 
-        var accept = await ShowInstallExportDialogAsync(vm).ConfigureAwait(false);
-
-        if (accept)
-            return new(vm.SystemWide, vm.SelectedExtensions.Select(x => x.Model).ToArray());
-
-        return null;
+        await ShowInstallExportDialogAsync(vm);
     }
 
-    private Task<bool> ShowInstallExportDialogAsync(object viewModel)
+    private Task ShowInstallExportDialogAsync(object viewModel)
     {
         if (VSFacade.Threads.CheckUIThreadAccess())
-            return Task.FromResult(OnUIThread(viewModel));
+        {
+            OnUIThread(viewModel);
+
+            return Task.CompletedTask;
+        }
 
         return VSFacade.Threads.RunOnUIThreadAsync(() => OnUIThread(viewModel));
 
-        static bool OnUIThread(object viewModel)
+        static void OnUIThread(object viewModel)
         {
             var window = new InstallExportDialogWindow
             {
@@ -109,20 +96,7 @@ internal sealed class DialogService : IDialogService
                 DataContext = viewModel
             };
 
-            var result = window.ShowDialog();
-
-            return result == true;
+            window.ShowDialog();
         }
     }
-}
-
-file sealed class ExtensionEqualityComparer : IEqualityComparer<IVSExtension>
-{
-    public static ExtensionEqualityComparer Instance { get; } = new();
-
-    public bool Equals(IVSExtension x, IVSExtension y)
-        => x?.Id == y?.Id;
-
-    public int GetHashCode(IVSExtension obj)
-        => obj?.Id?.GetHashCode() ?? 0;
 }

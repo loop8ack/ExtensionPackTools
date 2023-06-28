@@ -51,7 +51,7 @@
             <Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource AncestorType=TextBlock}}" />
             <Setter Property="ToolTip" Value="{Binding NavigateUri, RelativeSource={x:Static RelativeSource.Self}}" />
         </Style>
-        
+
         <ControlTemplate x:Key="_dialogLayoutTemplate" TargetType="ContentControl">
             <DockPanel LastChildFill="True" Margin="10"
                        d:DataContext="{d:DesignInstance vm:InstallExportDialogViewModel}">
@@ -64,6 +64,32 @@
 
                 <Label DockPanel.Dock="Top"
                        Name="_descriptionLabel" />
+
+                <DockPanel DockPanel.Dock="Bottom" Margin="0,10,0,0" LastChildFill="True">
+                    <TextBlock DockPanel.Dock="Left" Text="{Binding ProgressText}"/>
+                    
+                    <ProgressBar Minimum="0" Maximum="1" Margin="10,0,0,0" Value="{Binding ProgressPercentage, Mode=OneWay}">
+                        <ProgressBar.Style>
+                            <Style TargetType="ProgressBar" BasedOn="{StaticResource {x:Type ProgressBar}}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ProgressPercentage}" Value="{x:Null}">
+                                        <Setter Property="IsIndeterminate" Value="True" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ProgressBar.Style>
+                    </ProgressBar>
+
+                    <DockPanel.Style>
+                        <Style TargetType="DockPanel">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ProgressText}" Value="{x:Null}">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DockPanel.Style>
+                </DockPanel>
 
                 <DockPanel DockPanel.Dock="Bottom" LastChildFill="True">
 
@@ -82,6 +108,7 @@
 
                     <CheckBox Name="_systemWideCheckBox"
                               IsChecked="{Binding SystemWide}"
+                              IsEnabled="{Binding IsRunning, Converter={c:InvertBoolConverter}}"
                               Content="Install for all users"
                               HorizontalAlignment="Left"
                               VerticalAlignment="Center" />
@@ -124,6 +151,17 @@
                     <Setter TargetName="_okButton" Property="Content" Value="_Install" />
                     <Setter TargetName="_cancelButton" Property="Content" Value="_Cancel" />
                 </DataTrigger>
+
+                <!-- With VSTheme.Use = True the Foreground is overwritten so that the style adjustments for IsEnabled = False do not apply. Opacity = 0.5 avoids this problem. -->
+                <Trigger SourceName="_systemWideCheckBox" Property="IsEnabled" Value="False">
+                    <Setter TargetName="_systemWideCheckBox" Property="Opacity" Value="0.5" />
+                </Trigger>
+                <Trigger SourceName="_okButton" Property="IsEnabled" Value="False">
+                    <Setter TargetName="_okButton" Property="Opacity" Value="0.5" />
+                </Trigger>
+                <Trigger SourceName="_cancelButton" Property="IsEnabled" Value="False">
+                    <Setter TargetName="_cancelButton" Property="Opacity" Value="0.5" />
+                </Trigger>
             </ControlTemplate.Triggers>
         </ControlTemplate>
     </Window.Resources>
@@ -131,7 +169,11 @@
     <ContentControl Template="{StaticResource _dialogLayoutTemplate}">
 
         <DockPanel LastChildFill="True">
-            <CheckBox DockPanel.Dock="Top" IsChecked="{Binding HasAllSelected}" Content="Select/deselect all" Margin="0,0,0,10" />
+            <CheckBox DockPanel.Dock="Top"
+                      IsEnabled="{Binding IsRunning, Converter={c:InvertBoolConverter}}"
+                      IsChecked="{Binding HasAllSelected}"
+                      Content="Select/deselect all"
+                      Margin="0,0,0,10" />
 
             <Border BorderThickness="1" BorderBrush="DarkGray">
                 <ScrollViewer HorizontalScrollBarVisibility="Hidden"
@@ -143,7 +185,7 @@
                                 <CollectionViewSource.SortDescriptions>
                                     <scm:SortDescription PropertyName="Group" Direction="Descending" />
                                 </CollectionViewSource.SortDescriptions>
-                                
+
                                 <CollectionViewSource.GroupDescriptions>
                                     <PropertyGroupDescription PropertyName="Group" />
                                 </CollectionViewSource.GroupDescriptions>
@@ -160,19 +202,29 @@
                                     </Style.Triggers>
                                 </Style>
                             </ItemsControl.Style>
-                            
+
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate d:DataType="vm:ExtensionViewModel">
 
                                     <DockPanel LastChildFill="False">
                                         <CheckBox x:Name="_checkBox"
                                                   DockPanel.Dock="Left"
-                                                  IsEnabled="{Binding CanBeSelected}"
                                                   IsChecked="{Binding IsSelected}"
-                                                  Content="{Binding Name}"
-                                                  Opacity="0.5" />
+                                                  Content="{Binding Name}">
+                                            <CheckBox.IsEnabled>
+                                                <MultiBinding Converter="{c:AndConverter}">
+                                                    <MultiBinding.Bindings>
+                                                        <Binding Path="CanBeSelected" />
+                                                        
+                                                        <Binding Path="DataContext.IsRunning"
+                                                                 Converter="{c:InvertBoolConverter}"
+                                                                 RelativeSource="{RelativeSource AncestorType=ItemsControl}" />
+                                                    </MultiBinding.Bindings>
+                                                </MultiBinding>
+                                            </CheckBox.IsEnabled>
+                                        </CheckBox>
 
-                                        <TextBlock x:Name="_hyperlink" DockPanel.Dock="Right">           
+                                        <TextBlock x:Name="_hyperlink" DockPanel.Dock="Right">
                                             <Hyperlink NavigateUri="{Binding MoreInfoURL}" RequestNavigate="OnHyperlinkRequestNavigate">
                                                 More info
                                             </Hyperlink>
@@ -183,11 +235,11 @@
                                         <DataTrigger Binding="{Binding MoreInfoURL, Converter={c:IsNullOrEmptyConverter}}" Value="True">
                                             <Setter TargetName="_hyperlink" Property="Visibility" Value="Collapsed" />
                                         </DataTrigger>
-                                        
+
                                         <!-- With VSTheme.Use = True the Foreground is overwritten so that the style adjustments for IsEnabled = False do not apply. Opacity = 0.5 avoids this problem. -->
-                                        <DataTrigger Binding="{Binding CanBeSelected}" Value="True">
-                                            <Setter TargetName="_checkBox" Property="Opacity" Value="1" />
-                                        </DataTrigger>
+                                        <Trigger SourceName="_checkBox" Property="IsEnabled" Value="False">
+                                            <Setter TargetName="_checkBox" Property="Opacity" Value="0.5" />
+                                        </Trigger>
                                     </DataTemplate.Triggers>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
@@ -241,7 +293,7 @@
                 </ScrollViewer>
             </Border>
         </DockPanel>
-        
+
     </ContentControl>
 
 </Window>

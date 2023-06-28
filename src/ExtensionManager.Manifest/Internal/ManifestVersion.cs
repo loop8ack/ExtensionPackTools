@@ -73,7 +73,7 @@ internal abstract class ManifestVersion
     }
 
     public abstract Task<IManifest> ReadAsync(Stream stream);
-    public abstract Task WriteAsync(Stream stream, IManifest manifest);
+    public abstract Task WriteAsync(Stream stream, IManifest manifest, CancellationToken cancellationToken);
 
     protected Exception CreateVersionNotSupportedException()
         => ThrowHelper.CreateManifestVersionNotSupportedException(Version);

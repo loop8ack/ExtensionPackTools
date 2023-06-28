@@ -60,7 +60,7 @@ internal class V1ManifestVersion : ManifestVersion
         }
     }
 
-    public override async Task WriteAsync(Stream stream, IManifest manifest)
+    public override async Task WriteAsync(Stream stream, IManifest manifest, CancellationToken cancellationToken)
     {
         var data = new JsonManifest(manifest);
 
@@ -69,7 +69,7 @@ internal class V1ManifestVersion : ManifestVersion
             WriteIndented = true,
         };
 
-        await JsonSerializer.SerializeAsync(stream, data, options);
+        await JsonSerializer.SerializeAsync(stream, data, options, cancellationToken);
     }
 }
 

@@ -1,10 +1,10 @@
 using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 
 using ExtensionManager.Installation;
 using ExtensionManager.Manifest;
 using ExtensionManager.UI;
+using ExtensionManager.UI.Worker;
 using ExtensionManager.VisualStudio;
 using ExtensionManager.VisualStudio.Extensions;
 
@@ -20,6 +20,6 @@ public sealed class InstallForSolutionFeature : InstallFeatureBase
     protected override async Task<string?> GetFilePathAsync()
         => await VSFacade.Solutions.GetCurrentSolutionExtensionsManifestFilePathAsync();
 
-    protected override async Task<InstallExtensionsDialogResult?> ShowInstallDialogAsync(IManifest manifest, IReadOnlyCollection<IVSExtension> installedExtensions)
-        => await DialogService.ShowInstallForSolutionDialogAsync(manifest, installedExtensions);
+    protected override async Task ShowInstallDialogAsync(IManifest manifest, IInstallWorker worker, IReadOnlyCollection<IVSExtension> installedExtensions)
+        => await DialogService.ShowInstallForSolutionDialogAsync(worker, manifest, installedExtensions);
 }
