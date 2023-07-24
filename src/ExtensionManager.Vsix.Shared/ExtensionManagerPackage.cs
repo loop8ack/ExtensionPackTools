@@ -11,6 +11,7 @@ using Community.VisualStudio.Toolkit;
 
 using ExtensionManager.Features.Export;
 using ExtensionManager.Features.Install;
+using ExtensionManager.UI;
 using ExtensionManager.VisualStudio;
 using ExtensionManager.VisualStudio.Solution;
 
@@ -44,6 +45,8 @@ public sealed class ExtensionManagerPackage : AsyncPackage
             .ConfigureVSFacade(await CreateVSServiceFactoryAsync())
             .ConfigureExtensionManager(new ThisVsixInfo())
             .BuildServiceProvider();
+
+        UIMarkupServices.Initialize(services);
 
         var solutions = services.GetRequiredService<IVSSolutions>();
         var featureExecutor = services.GetRequiredService<IFeatureExecutor>();
