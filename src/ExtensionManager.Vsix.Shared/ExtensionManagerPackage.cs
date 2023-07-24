@@ -58,10 +58,10 @@ public sealed class ExtensionManagerPackage : AsyncPackage
 
 #if V17    
         if (vsVersion >= new Version(17, 7))
-            return new VisualStudio.V17_7.VSServiceFactory();
+            return new VisualStudio.V17_Preview.VSServiceFactory();
 
         if (vsVersion >= new Version(17, 5))
-            return new VisualStudio.V17_5.VSServiceFactory();
+            return new VisualStudio.V17.VSServiceFactory();
 #elif V16
         if (vsVersion >= new Version(16, 0))
             return new VisualStudio.V16.VSServiceFactory();
@@ -70,7 +70,7 @@ public sealed class ExtensionManagerPackage : AsyncPackage
             return new VisualStudio.V15.VSServiceFactory();
 #endif
 
-        throw new InvalidOperationException("Unknown Visual Studio Version: " + vsVersion);
+        throw new InvalidOperationException("Not supported Visual Studio version: " + vsVersion);
     }
 
     private async Task HandleSolutionExtensionsAsync(IVSSolutions solutions, IFeatureExecutor executor)

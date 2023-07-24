@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <VsixTargetVersion>17_5</VsixTargetVersion>
+    <VsixTargetVersion>17</VsixTargetVersion>
   </PropertyGroup>
 
   <ItemGroup>

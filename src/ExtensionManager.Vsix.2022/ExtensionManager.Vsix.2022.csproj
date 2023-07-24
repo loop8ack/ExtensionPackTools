@@ -122,13 +122,13 @@
       <Project>{3a474662-f23f-4339-bf62-22d52b834cfc}</Project>
       <Name>ExtensionManager.VisualStudio.Abstractions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ExtensionManager.VisualStudio.V17_5\ExtensionManager.VisualStudio.V17_5.csproj">
+    <ProjectReference Include="..\ExtensionManager.VisualStudio.V17\ExtensionManager.VisualStudio.V17.csproj">
       <Project>{8cad40ad-aaec-4f29-9e74-cbd51d5c4001}</Project>
-      <Name>ExtensionManager.VisualStudio.V17_5</Name>
+      <Name>ExtensionManager.VisualStudio.V17</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ExtensionManager.VisualStudio.V17_7\ExtensionManager.VisualStudio.V17_7.csproj">
+    <ProjectReference Include="..\ExtensionManager.VisualStudio.V17_Preview\ExtensionManager.VisualStudio.V17_Preview.csproj">
       <Project>{fba37161-1194-4bff-a3bf-f4bf5fca4575}</Project>
-      <Name>ExtensionManager.VisualStudio.V17_7</Name>
+      <Name>ExtensionManager.VisualStudio.V17_Preview</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="..\ExtensionManager.Vsix.Shared\ExtensionManager.Vsix.Shared.projitems" Label="Shared" />

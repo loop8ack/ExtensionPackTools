@@ -33,9 +33,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExtensionManager.VisualStud
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExtensionManager.VisualStudio.V16", "src\ExtensionManager.VisualStudio.V16\ExtensionManager.VisualStudio.V16.csproj", "{4EFB3BBE-8C1A-4723-9C8D-89B1DD4E8D60}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExtensionManager.VisualStudio.V17_5", "src\ExtensionManager.VisualStudio.V17_5\ExtensionManager.VisualStudio.V17_5.csproj", "{8CAD40AD-AAEC-4F29-9E74-CBD51D5C4001}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExtensionManager.VisualStudio.V17", "src\ExtensionManager.VisualStudio.V17\ExtensionManager.VisualStudio.V17.csproj", "{8CAD40AD-AAEC-4F29-9E74-CBD51D5C4001}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExtensionManager.VisualStudio.V17_7", "src\ExtensionManager.VisualStudio.V17_7\ExtensionManager.VisualStudio.V17_7.csproj", "{FBA37161-1194-4BFF-A3BF-F4BF5FCA4575}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExtensionManager.VisualStudio.V17_Preview", "src\ExtensionManager.VisualStudio.V17_Preview\ExtensionManager.VisualStudio.V17_Preview.csproj", "{FBA37161-1194-4BFF-A3BF-F4BF5FCA4575}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ExtensionManager.VisualStudio.Shared", "src\ExtensionManager.VisualStudio.Shared\ExtensionManager.VisualStudio.Shared.shproj", "{DB482BD0-94BA-4E7D-8A51-AC2A2663267A}"
 EndProject

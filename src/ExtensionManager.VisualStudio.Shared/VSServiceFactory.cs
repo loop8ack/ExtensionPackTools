@@ -10,10 +10,10 @@ using ExtensionManager.VisualStudio.Threads;
 namespace ExtensionManager.VisualStudio.V15;
 #elif V16
 namespace ExtensionManager.VisualStudio.V16;
-#elif V17_5
-namespace ExtensionManager.VisualStudio.V17_5;
-#elif V17_7
-namespace ExtensionManager.VisualStudio.V17_7;
+#elif V17
+namespace ExtensionManager.VisualStudio.V17;
+#elif V17_Preview
+namespace ExtensionManager.VisualStudio.V17_Preview;
 #endif
 
 public sealed class VSServiceFactory : IVSServiceFactory
