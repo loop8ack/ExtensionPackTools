@@ -13,14 +13,14 @@ namespace ExtensionManager.Features;
 
 internal static class VisualStudioExtensions
 {
-    public static async Task<IReadOnlyCollection<IVSExtension>> GetInstalledExtensionsAsync(this IVSExtensions extensions)
+    public static async Task<List<IVSExtension>> GetInstalledExtensionsAsync(this IVSExtensions extensions)
     {
         var installedIds = await extensions.GetInstalledExtensionIdsAsync().ConfigureAwait(false);
 
         // Filter the installed extensions to only be the ones that exist on the Marketplace
         return (await extensions.GetGalleryExtensionsAsync(installedIds).ConfigureAwait(false))
             .OrderBy(e => e.Name)
-            .ToArray();
+            .ToList();
     }
 
     public static async Task<string?> GetCurrentSolutionExtensionsManifestFilePathAsync(this IVSSolutions solutions, IVSMessageBox messageBox)

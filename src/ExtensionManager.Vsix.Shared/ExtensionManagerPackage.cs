@@ -42,7 +42,7 @@ public sealed class ExtensionManagerPackage : AsyncPackage
     {
         var services = new ServiceCollection()
             .ConfigureVSFacade(await CreateVSServiceFactoryAsync())
-            .ConfigureExtensionManager()
+            .ConfigureExtensionManager(new ThisVsixInfo())
             .BuildServiceProvider();
 
         var solutions = services.GetRequiredService<IVSSolutions>();

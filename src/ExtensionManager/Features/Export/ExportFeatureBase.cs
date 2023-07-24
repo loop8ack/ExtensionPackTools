@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using ExtensionManager.Manifest;
 using ExtensionManager.UI;
 using ExtensionManager.UI.Worker;
-using ExtensionManager.VisualStudio;
 using ExtensionManager.VisualStudio.Documents;
 using ExtensionManager.VisualStudio.Extensions;
 using ExtensionManager.VisualStudio.MessageBox;
@@ -17,14 +16,16 @@ public abstract class ExportFeatureBase : IFeature, IExportWorker
 {
     public sealed class Args
     {
+        public IThisVsixInfo VsixInfo { get; }
         public IVSDocuments Documents { get; }
         public IVSMessageBox MessageBox { get; }
         public IVSExtensions Extensions { get; }
         public IDialogService DialogService { get; }
         public IManifestService ManifestService { get; }
 
-        public Args(IVSDocuments documents, IVSMessageBox messageBox, IVSExtensions extensions, IDialogService dialogService, IManifestService manifestService)
+        public Args(IThisVsixInfo vsixInfo, IVSDocuments documents, IVSMessageBox messageBox, IVSExtensions extensions, IDialogService dialogService, IManifestService manifestService)
         {
+            VsixInfo = vsixInfo;
             Documents = documents;
             MessageBox = messageBox;
             Extensions = extensions;
@@ -35,6 +36,7 @@ public abstract class ExportFeatureBase : IFeature, IExportWorker
 
     private readonly Args _args;
 
+    protected IThisVsixInfo VsixInfo => _args.VsixInfo;
     protected IVSDocuments Documents => _args.Documents;
     protected IVSMessageBox MessageBox => _args.MessageBox;
     protected IVSExtensions Extensions => _args.Extensions;
@@ -50,6 +52,8 @@ public abstract class ExportFeatureBase : IFeature, IExportWorker
     {
         var manifest = ManifestService.CreateNew();
         var installedExtensions = await Extensions.GetInstalledExtensionsAsync().ConfigureAwait(false);
+        
+        installedExtensions.RemoveAll(vsix => vsix.Id == VsixInfo.Id);
 
         await ShowExportDialogAsync(manifest, this, installedExtensions);
     }
