@@ -19,6 +19,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 
+using ShellSolutionEvents = Microsoft.VisualStudio.Shell.Events.SolutionEvents;
 using Task = System.Threading.Tasks.Task;
 
 #nullable enable
@@ -79,24 +80,21 @@ public sealed class ExtensionManagerPackage : AsyncPackage
     private async Task HandleSolutionExtensionsAsync(IVSSolutions solutions, IFeatureExecutor executor)
     {
         if (await solutions.IsOpenAsync())
-        {
-            JoinableTaskFactory
-                .RunAsync(() => InstallSolutionExtensionsOnIdleAsync(executor))
-                .FileAndForget($"{nameof(ExtensionManager)}/{nameof(InstallSolutionExtensionsOnIdleAsync)}");
-        }
+            InstallSolutionExtensionsOnIdle(executor);
 
-        VS.Events.SolutionEvents.OnAfterOpenSolution += s =>
+        ShellSolutionEvents.OnAfterOpenSolution += (s, e) =>
         {
             if (_isFeatureExecuting)
                 return;
 
-            _ = InstallSolutionExtensionsOnIdleAsync(executor);
+            InstallSolutionExtensionsOnIdle(executor);
         };
 
-        static async Task InstallSolutionExtensionsOnIdleAsync(IFeatureExecutor executor)
+        void InstallSolutionExtensionsOnIdle(IFeatureExecutor executor)
         {
-            await ThreadHelper.JoinableTaskFactory.StartOnIdle(
-                executor.ExecuteAsync<InstallForSolutionFeature>);
+            JoinableTaskFactory
+                .StartOnIdle(executor.ExecuteAsync<InstallForSolutionFeature>)
+                .FileAndForget($"{nameof(ExtensionManager)}/{nameof(InstallForSolutionFeature)}");
         }
     }
 
