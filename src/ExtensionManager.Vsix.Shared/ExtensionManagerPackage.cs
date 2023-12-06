@@ -51,10 +51,10 @@ public sealed class ExtensionManagerPackage : AsyncPackage
         var solutions = services.GetRequiredService<IVSSolutions>();
         var featureExecutor = services.GetRequiredService<IFeatureExecutor>();
 
-        await CreateVSServiceFactoryAsync();
         await InitMenuCommandsAsync(featureExecutor);
         await HandleSolutionExtensionsAsync(solutions, featureExecutor);
     }
+
     private static async Task<IVSServiceFactory> CreateVSServiceFactoryAsync()
     {
         var vsVersion = await VS.Shell.GetVsVersionAsync();
