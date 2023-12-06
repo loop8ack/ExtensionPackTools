@@ -24,8 +24,6 @@ internal class GalleryExtension : GalleryOnlineExtension, IRepositoryEntry, IVSE
     public override string? Id { get; set; }
     public override string? Description { get; set; }
     public override float Priority => throw new NotImplementedException();
-    public override BitmapSource MediumThumbnailImage => throw new NotImplementedException();
-    public override BitmapSource SmallThumbnailImage => throw new NotImplementedException();
     public override bool IsSelected { get; set; }
     public override string? DownloadUrl { get; set; }
     public override string? DownloadUpdateUrl { get; set; }
