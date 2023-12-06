@@ -112,13 +112,13 @@
       <Project>{91f6edc0-cd6f-415b-b15d-ac31083faf0e}</Project>
       <Name>ExtensionManager.Abstractions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ExtensionManager2022.V17_5\ExtensionManager2022.V17_5.csproj">
+    <ProjectReference Include="..\ExtensionManager2022.V17\ExtensionManager2022.V17.csproj">
       <Project>{d48aa432-d137-466c-b4f0-a67d26ac4fc4}</Project>
-      <Name>ExtensionManager2022.V17_5</Name>
+      <Name>ExtensionManager2022.V17</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ExtensionManager2022.V17_7\ExtensionManager2022.V17_7.csproj">
+    <ProjectReference Include="..\ExtensionManager2022.V17_Preview\ExtensionManager2022.V17_Preview.csproj">
       <Project>{9dd19443-585a-44e1-8fd0-d17ac2ad7543}</Project>
-      <Name>ExtensionManager2022.V17_7</Name>
+      <Name>ExtensionManager2022.V17_Preview</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="..\ExtensionManager.Shared\ExtensionManager.Shared.projitems" Label="Shared" />

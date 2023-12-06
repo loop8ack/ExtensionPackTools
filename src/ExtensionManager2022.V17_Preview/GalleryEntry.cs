@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 using Microsoft.VisualStudio.ExtensionManager;
 
-namespace ExtensionManager.V17_7
+namespace ExtensionManager.V17_Preview
 {
     public class GalleryEntry : OnlineExtensionBase, IRepositoryEntry, IGalleryEntry
     {

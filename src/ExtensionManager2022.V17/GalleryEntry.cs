@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.VisualStudio.ExtensionManager;
 
-namespace ExtensionManager.V17_5
+namespace ExtensionManager.V17
 {
     public class GalleryEntry : OnlineExtensionBase, IRepositoryEntry, IGalleryEntry
     {
@@ -20,7 +21,6 @@ namespace ExtensionManager.V17_5
         public override int RatingsCount { get; set; }
         public override int DownloadCount { get; set; }
         public override string Name { get; set; }
-        public override string Id { get; set; }
         public override string Description { get; set; }
 
         public override float Priority => throw new NotImplementedException();
@@ -40,7 +40,7 @@ namespace ExtensionManager.V17_5
         public override string Version { get; set; }
         public override DateTime PublishedDate { get; set; }
         public override string PublisherDomain { get; set; }
-        public override Func<Task<string>> FetchMarkdownDescriptionAsync { get; set; }
+        public override Func<CancellationToken, Task<string>> FetchMarkdownDescriptionAsync { get; set; }
         public override string MarkdownAssetBaseURL { get; set; }
         public override string MarkdownUrl { get; set; }
         public override List<string> PackedExtensionsVsixIDs { get; set; }

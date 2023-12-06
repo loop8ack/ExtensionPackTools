@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -7,8 +7,8 @@
     <ProjectGuid>{D48AA432-D137-466C-B4F0-A67D26AC4FC4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ExtensionManager2022.V17_5</RootNamespace>
-    <AssemblyName>ExtensionManager2022.V17_5</AssemblyName>
+    <RootNamespace>ExtensionManager2022.V17</RootNamespace>
+    <AssemblyName>ExtensionManager2022.V17</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -39,20 +39,20 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="V17_5.Microsoft.VisualStudio.ExtensionEngine">
-      <HintPath>..\..\lib\V17_5.Microsoft.VisualStudio.ExtensionEngine.dll</HintPath>
+    <Reference Include="V17.Microsoft.VisualStudio.ExtensionEngine">
+      <HintPath>..\..\lib\V17.Microsoft.VisualStudio.ExtensionEngine.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="V17_5.Microsoft.VisualStudio.ExtensionEngineContract">
-      <HintPath>..\..\lib\V17_5.Microsoft.VisualStudio.ExtensionEngineContract.dll</HintPath>
+    <Reference Include="V17.Microsoft.VisualStudio.ExtensionEngineContract">
+      <HintPath>..\..\lib\V17.Microsoft.VisualStudio.ExtensionEngineContract.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="V17_5.Microsoft.VisualStudio.ExtensionManager">
-      <HintPath>..\..\lib\V17_5.Microsoft.VisualStudio.ExtensionManager.dll</HintPath>
+    <Reference Include="V17.Microsoft.VisualStudio.ExtensionManager">
+      <HintPath>..\..\lib\V17.Microsoft.VisualStudio.ExtensionManager.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="V17_5.Microsoft.VisualStudio.ExtensionsExplorer">
-      <HintPath>..\..\lib\V17_5.Microsoft.VisualStudio.ExtensionsExplorer.dll</HintPath>
+    <Reference Include="V17.Microsoft.VisualStudio.ExtensionsExplorer">
+      <HintPath>..\..\lib\V17.Microsoft.VisualStudio.ExtensionsExplorer.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.VisualStudio.ExtensionManager;
 using Microsoft.VisualStudio.Shell;
 
-namespace ExtensionManager.V17_7
+namespace ExtensionManager.V17
 {
     public class VisualStudioService : IVisualStudioService
     {
@@ -22,7 +22,7 @@ namespace ExtensionManager.V17_7
         private readonly IVsExtensionRepository _repository;
         private readonly IVsExtensionManager _manager;
 
-        private VisualStudioService(IVsExtensionRepository repository, IVsExtensionManager manager)
+        public VisualStudioService(IVsExtensionRepository repository, IVsExtensionManager manager)
         {
             _repository = repository;
             _manager = manager;
