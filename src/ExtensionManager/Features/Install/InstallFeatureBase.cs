@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -50,6 +51,9 @@ public abstract class InstallFeatureBase : IFeature, IInstallWorker
         var filePath = await GetFilePathAsync().ConfigureAwait(false);
 
         if (filePath is null or { Length: 0 })
+            return;
+
+        if (!File.Exists(filePath))
             return;
 
         var installedExtensions = await Extensions.GetInstalledExtensionsAsync().ConfigureAwait(false);
