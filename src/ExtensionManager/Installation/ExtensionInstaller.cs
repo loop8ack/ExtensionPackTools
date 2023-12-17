@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -43,13 +44,16 @@ internal sealed class ExtensionInstaller : IExtensionInstaller
 
         try
         {
-            IReadOnlyList<ExtensionDownloader> downloaders;
+            IReadOnlyList<ExtensionDownloader>? downloaders;
 
             using (var httpMessageHandler = new HttpClientHandler())
             {
                 httpMessageHandler.MaxConnectionsPerServer = 100;
 
-                downloaders = CreateDownloaders(httpMessageHandler, extensions, uiProgress, cancellationToken);
+                var optDownloaders = await CreateDownloadersAsync(httpMessageHandler, extensions, uiProgress, cancellationToken);
+
+                if (!optDownloaders.HasValue(out downloaders))
+                    return;
 
                 if (downloaders.Count == 0)
                     return;
@@ -71,12 +75,15 @@ internal sealed class ExtensionInstaller : IExtensionInstaller
         }
     }
 
-    private IReadOnlyList<ExtensionDownloader> CreateDownloaders(HttpMessageHandler httpMessageHandler, IReadOnlyCollection<IVSExtension> extensions, IProgress<ProgressStep<InstallStep>> uiProgress, CancellationToken cancellationToken)
+    private async Task<Opt<IReadOnlyList<ExtensionDownloader>>> CreateDownloadersAsync(HttpMessageHandler httpMessageHandler, IReadOnlyCollection<IVSExtension> extensions, IProgress<ProgressStep<InstallStep>> uiProgress, CancellationToken cancellationToken)
     {
         var progress = new DownloadProgres(uiProgress, _statusBar, extensions.Count);
         var entries = new List<ExtensionDownloader>();
 
-        var targetFolder = PrepareDownloadTargetFolder(cancellationToken);
+        var optTargetFolder = await PrepareDownloadTargetFolderAsync(cancellationToken);
+
+        if (!optTargetFolder.HasValue(out var targetFolder))
+            return default;
 
         foreach (var extension in extensions)
         {
@@ -95,14 +102,27 @@ internal sealed class ExtensionInstaller : IExtensionInstaller
 
         return entries;
     }
-    private static string PrepareDownloadTargetFolder(CancellationToken cancellationToken)
+    private async Task<Opt<string>> PrepareDownloadTargetFolderAsync(CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
         var tempFolder = Path.Combine(Path.GetTempPath(), nameof(ExtensionManager));
 
         if (Directory.Exists(tempFolder))
-            Directory.Delete(tempFolder, true);
+        {
+            try
+            {
+                Directory.Delete(tempFolder, true);
+            }
+            catch (IOException ex) when ((ex.HResult & 0xFFFF) == 32)
+            {
+                await _messageBox.ShowErrorAsync(
+                    "The file is already in use.",
+                    "Has an installation already started and not yet completed?");
+
+                return default;
+            }
+        }
 
         Directory.CreateDirectory(tempFolder);
 
@@ -168,5 +188,22 @@ internal sealed class ExtensionInstaller : IExtensionInstaller
 
         await _statusBar.ShowMessageAsync($"Extensions downloaded. Starting VSIX Installer ...");
         await _extensions.StartInstallerAsync(vsixFiles, installSystemWide);
+    }
+
+    private readonly struct Opt<T>
+        where T : class
+    {
+        public static implicit operator Opt<T>(T value) => new(value);
+
+        private readonly T _value;
+
+        private Opt(T value)
+            => _value = value;
+
+        public bool HasValue([MaybeNullWhen(false)] out T value)
+        {
+            value = _value;
+            return value is not null;
+        }
     }
 }
