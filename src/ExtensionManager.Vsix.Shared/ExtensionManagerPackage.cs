@@ -60,11 +60,11 @@ public sealed class ExtensionManagerPackage : AsyncPackage
     {
         var vsVersion = await VS.Shell.GetVsVersionAsync();
 
-#if V17    
-        if (vsVersion >= new Version(17, 7))
+#if V17
+        if (vsVersion >= new Version(17, 9))
             return new VisualStudio.V17_Preview.VSServiceFactory();
 
-        if (vsVersion >= new Version(17, 5))
+        if (vsVersion >= new Version(17, 8))
             return new VisualStudio.V17.VSServiceFactory();
 #elif V16
         if (vsVersion >= new Version(16, 0))
