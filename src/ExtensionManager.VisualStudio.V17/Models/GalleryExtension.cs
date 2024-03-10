@@ -43,6 +43,7 @@ internal class GalleryExtension : OnlineExtensionBase, IRepositoryEntry, IVSExte
     public override List<string>? PackedExtensionsVsixIDs { get; set; }
     public override List<string>? Flags { get; set; }
     public override Func<CancellationToken, Task<string>>? FetchMarkdownDescriptionAsync { get; set; }
+    public override bool IsPublisherDomainVerified { get; set; }
     public override string? ToString() => Name;
 
     string IVSExtension.Id => VsixID;

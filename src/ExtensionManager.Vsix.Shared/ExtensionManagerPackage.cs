@@ -2,6 +2,7 @@ using System;
 using System.ComponentModel.Design;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.IO.Packaging;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -61,10 +62,10 @@ public sealed class ExtensionManagerPackage : AsyncPackage
         var vsVersion = await VS.Shell.GetVsVersionAsync();
 
 #if V17
-        if (vsVersion >= new Version(17, 9))
+        if (vsVersion >= new Version(17, 10))
             return new VisualStudio.V17_Preview.VSServiceFactory();
 
-        if (vsVersion >= new Version(17, 8))
+        if (vsVersion >= new Version(17, 9))
             return new VisualStudio.V17.VSServiceFactory();
 #elif V16
         if (vsVersion >= new Version(16, 0))
