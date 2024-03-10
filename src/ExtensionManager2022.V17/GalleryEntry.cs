@@ -45,6 +45,7 @@ namespace ExtensionManager.V17
         public override string MarkdownUrl { get; set; }
         public override List<string> PackedExtensionsVsixIDs { get; set; }
         public override List<string> Flags { get; set; }
+        public override bool IsPublisherDomainVerified { get; set; }
 
         public override string ToString()
         {
