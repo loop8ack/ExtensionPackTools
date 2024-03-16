@@ -61,6 +61,14 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ExtensionManager.Shared", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExtensionManager.UI", "src\ExtensionManager.UI\ExtensionManager.UI.csproj", "{6468E392-1C88-4F3C-B8D7-E61F942ADBFC}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{431E1523-840F-473A-8592-2BB32332911E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{5C6EB350-6BEE-4D5A-B02F-7B331D6D8FE8}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\Build.yml = .github\workflows\Build.yml
+		.github\workflows\Release.yml = .github\workflows\Release.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -224,6 +232,8 @@ Global
 		{C67042CB-6C88-4273-BEF3-6A99B87B4C3F} = {C8C286F7-7669-402E-8F06-2C47A05FE372}
 		{E21CEAC2-5E8C-4AE9-84EE-2E390CD272A9} = {C8C286F7-7669-402E-8F06-2C47A05FE372}
 		{6468E392-1C88-4F3C-B8D7-E61F942ADBFC} = {C8C286F7-7669-402E-8F06-2C47A05FE372}
+		{431E1523-840F-473A-8592-2BB32332911E} = {AF4F860B-CBFE-4136-BFA4-4B51B64FC796}
+		{5C6EB350-6BEE-4D5A-B02F-7B331D6D8FE8} = {431E1523-840F-473A-8592-2BB32332911E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1BD96434-7B7A-4183-ABA0-CA3DC2FCD23B}
