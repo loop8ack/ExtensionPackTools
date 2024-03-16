@@ -1,7 +1,8 @@
 
 # Import/Export Visual Studio extensions
 
-[![Build status](https://ci.appveyor.com/api/projects/status/8p1hrumrxeh2hmks?svg=true)](https://ci.appveyor.com/project/loop8ack/extensionpacktools)
+[![](https://img.shields.io/github/actions/workflow/status/loop8ack/ExtensionPackTools/Build.yml?branch=master&label=Build%20Status)](https://github.com/loop8ack/ExtensionPackTools/actions/workflows/Build.yml)
+[![](https://img.shields.io/github/actions/workflow/status/loop8ack/ExtensionPackTools/Release.yml?branch=master&label=Latest%20Release)](https://github.com/loop8ack/ExtensionPackTools/releases/latest)
 
 Download the extension from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=MadsKristensen.ExtensionManager2022) or get the latest CI build: [VS 2017](http://vsixgallery.com/extension/e83d71b8-8bfc-4e06-b145-b0388910c016/), [VS 2019](http://vsixgallery.com/extension/4a196712-2c3f-4730-ad1d-e7cda4185eb2/), [VS 2022](http://vsixgallery.com/extension/4a196712-2c3f-4730-ad1d-e7cda4185eb3/)
 
