@@ -1,0 +1,58 @@
+name: Release
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  
+jobs:
+  build:
+    uses: ./.github/workflows/Build.yml
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkup code
+        uses: actions/checkout@v4.1.1
+        with:
+          fetch-depth: 0
+
+      - name: Download VSIX 2017
+        uses: actions/download-artifact@v3
+        with:
+          name: ExtensionManager2017.vsix
+          path: artifacts
+
+      - name: Download VSIX 2019
+        uses: actions/download-artifact@v3
+        with:
+          name: ExtensionManager2019.vsix
+          path: artifacts
+
+      - name: Download VSIX 2022
+        uses: actions/download-artifact@v3
+        with:
+          name: ExtensionManager2022.vsix
+          path: artifacts
+
+      - name: Create version tag
+        run: |
+          git config user.name "GitHub Action"
+          git config user.email "<>"
+          git tag v${{ needs.build.outputs.version }}
+          git push origin v${{ needs.build.outputs.version }}
+
+      - name: Create Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create v${{ needs.build.outputs.version }}
+
+      - name: Upload Release Binaries
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release upload v${{ needs.build.outputs.version }} "artifacts/ExtensionManager2017.vsix" "artifacts/ExtensionManager2019.vsix" "artifacts/ExtensionManager2022.vsix"

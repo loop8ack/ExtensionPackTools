@@ -1,0 +1,79 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - master
+
+  workflow_call:
+    outputs:
+      version:
+        value: ${{ jobs.build.outputs.version }}
+
+jobs:
+  build:
+    runs-on: windows-2019
+    
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+
+    steps:
+      - name: Checkup code
+        uses: actions/checkout@v4.1.1
+        with:
+          fetch-depth: 0
+
+      - name: Setup NuGet
+        uses: nuget/setup-nuget@v2
+        
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Search and increment last version
+        id: version
+        run: |
+          $latestTag = git tag --list 'v*' | Where-Object { $_ -match '^v[0-9]+\.[0-9]+\.[0-9]+$' } | Sort-Object { [Version]($_.TrimStart('v')) } | Select-Object -Last 1
+          $oldVersion = $latestTag.TrimStart('v')
+          $versionParts = $oldVersion -split '\.'
+          $versionParts[2] = [int]$versionParts[2] + 1
+          $newVersion = "$($versionParts -join '.')"
+          echo version=$newVersion >> $env:GITHUB_OUTPUT
+
+      - name: Set extension manifest versions
+        shell: pwsh
+        run: |
+          $paths = @(
+              "src\VS2017\source.extension.vsixmanifest",
+              "src\VS2019\source.extension.vsixmanifest",
+              "src\VS2022\source.extension.vsixmanifest",
+              "src\VS2017\source.extension.cs",
+              "src\VS2019\source.extension.cs",
+              "src\VS2022\source.extension.cs"
+          )
+          foreach ($path in $paths) {
+              (Get-Content -Path $path) -Replace '1.2.9999', '${{ steps.version.outputs.version }}' | Set-Content -Path $path
+          }
+
+      - name: NuGet Restore
+        run: nuget restore
+
+      - name: Run build
+        run: msbuild ExtensionManager.sln /p:configuration=Release /p:DeployExtension=false /p:ZipPackageCompressionLevel=normal /v:m
+
+      - name: Archive VSIX 2017
+        uses: actions/upload-artifact@v3
+        with:
+          name: ExtensionManager2017.vsix
+          path: src/VS2017/bin/Release/ExtensionManager2017.vsix
+
+      - name: Archive VSIX 2019
+        uses: actions/upload-artifact@v3
+        with:
+          name: ExtensionManager2019.vsix
+          path: src/VS2019/bin/Release/ExtensionManager2019.vsix
+
+      - name: Archive VSIX 2022
+        uses: actions/upload-artifact@v3
+        with:
+          name: ExtensionManager2022.vsix
+          path: src/VS2022/bin/Release/ExtensionManager2022.vsix

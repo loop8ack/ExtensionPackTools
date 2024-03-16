@@ -24,6 +24,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtensionManager2022.V17", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtensionManager2022.V17_Preview", "src\ExtensionManager2022.V17_Preview\ExtensionManager2022.V17_Preview.csproj", "{9DD19443-585A-44E1-8FD0-D17AC2AD7543}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{80BED70D-9FD7-4D75-B6FD-9DF7FC314A25}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{AED86EA1-CED1-4C71-996F-12F1F30D51AF}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\Build.yml = .github\workflows\Build.yml
+		.github\workflows\Release.yml = .github\workflows\Release.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +91,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{80BED70D-9FD7-4D75-B6FD-9DF7FC314A25} = {AF4F860B-CBFE-4136-BFA4-4B51B64FC796}
+		{AED86EA1-CED1-4C71-996F-12F1F30D51AF} = {80BED70D-9FD7-4D75-B6FD-9DF7FC314A25}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1BD96434-7B7A-4183-ABA0-CA3DC2FCD23B}
