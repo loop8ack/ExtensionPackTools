@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -52,8 +53,11 @@ public abstract class ExportFeatureBase : IFeature, IExportWorker
     {
         var manifest = ManifestService.CreateNew();
         var installedExtensions = await Extensions.GetInstalledExtensionsAsync().ConfigureAwait(false);
-        
-        installedExtensions.RemoveAll(vsix => vsix.Id == VsixInfo.Id);
+
+        var installedExtensionsList = installedExtensions as List<IVSExtension>
+            ?? installedExtensions.ToList();
+
+        installedExtensionsList.RemoveAll(vsix => vsix.Id == VsixInfo.Id);
 
         await ShowExportDialogAsync(manifest, this, installedExtensions);
     }

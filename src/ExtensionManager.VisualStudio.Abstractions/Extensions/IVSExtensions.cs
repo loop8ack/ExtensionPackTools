@@ -9,7 +9,7 @@ public interface IVSExtensions
     /// <summary>
     /// Retrieves the IDs of all installed extensions.
     /// </summary>
-    Task<IReadOnlyCollection<string>> GetInstalledExtensionIdsAsync();
+    Task<IReadOnlyCollection<IVSExtension>> GetInstalledExtensionsAsync();
 
     /// <summary>
     /// Downloads extension data based on the specified extension IDs

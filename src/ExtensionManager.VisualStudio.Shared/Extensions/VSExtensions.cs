@@ -6,34 +6,41 @@ using System.Threading.Tasks;
 
 using Community.VisualStudio.Toolkit;
 
-using ExtensionManager.VisualStudio.Models;
+using ExtensionManager.VisualStudio.Adapter.Extensions;
 
-using Microsoft.VisualStudio.ExtensionManager;
 using Microsoft.VisualStudio.Setup.Configuration;
 
 namespace ExtensionManager.VisualStudio.Extensions;
 
 internal sealed class VSExtensions : IVSExtensions
 {
-    public async Task<IReadOnlyCollection<IVSExtension>> GetGalleryExtensionsAsync(IEnumerable<string> extensionIds)
+    private readonly IVSExtensionRepositoryAdapter _repositoryAdapter;
+    private readonly IVSExtensionManagerAdapter _managerAdapter;
+
+    public VSExtensions(IVSExtensionRepositoryAdapter repositoryAdapter, IVSExtensionManagerAdapter managerAdapter)
     {
-        var repository = await VS.GetRequiredServiceAsync<SVsExtensionRepository, IVsExtensionRepository>();
-
-        var extensionIdsList = extensionIds as List<string> ?? extensionIds.ToList();
-
-        return repository
-            .GetVSGalleryExtensions<GalleryExtension>(extensionIdsList, 1033, false)
-            .ToArray();
+        _repositoryAdapter = repositoryAdapter;
+        _managerAdapter = managerAdapter;
     }
 
-    public async Task<IReadOnlyCollection<string>> GetInstalledExtensionIdsAsync()
+    public async Task<IReadOnlyCollection<IVSExtension>> GetGalleryExtensionsAsync(IEnumerable<string> extensionIds)
     {
-        var manager = await VS.GetRequiredServiceAsync<SVsExtensionManager, IVsExtensionManager>();
+        var extensionIdsList = extensionIds as List<string> ?? extensionIds.ToList();
 
-        return manager.GetInstalledExtensions()
-            .Where(i => !i.Header.SystemComponent && !i.IsPackComponent)
-            .Select(i => i.Header.Identifier)
-            .ToArray();
+        return await _repositoryAdapter.GetVSGalleryExtensionsAsync(extensionIdsList, 1033, false);
+    }
+
+    public async Task<IReadOnlyCollection<IVSExtension>> GetInstalledExtensionsAsync()
+    {
+        var installedExtensions = await _managerAdapter.GetInstalledExtensionsAsync();
+
+        var extensionIds = installedExtensions
+            .Where(i => !i.IsSystemComponent)
+            .Where(i => !i.IsPackComponent)
+            .Select(i => i.Identifier)
+            .ToList();
+
+        return await GetGalleryExtensionsAsync(extensionIds);
     }
 
     public async Task StartInstallerAsync(IEnumerable<string> vsixFiles, bool systemWide)

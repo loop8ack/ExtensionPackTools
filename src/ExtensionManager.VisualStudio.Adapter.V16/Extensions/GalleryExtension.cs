@@ -1,11 +1,10 @@
 using System;
-using System.Windows.Media.Imaging;
 
 using ExtensionManager.VisualStudio.Extensions;
 
 using Microsoft.VisualStudio.ExtensionManager;
 
-namespace ExtensionManager.VisualStudio.Models;
+namespace ExtensionManager.VisualStudio.Adapter.Extensions;
 
 internal class GalleryExtension : GalleryOnlineExtension, IRepositoryEntry, IVSExtension
 {

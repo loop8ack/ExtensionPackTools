@@ -2,7 +2,6 @@ using System;
 using System.ComponentModel.Design;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.IO.Packaging;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -44,7 +43,7 @@ public sealed class ExtensionManagerPackage : AsyncPackage
     protected override async Task InitializeAsync(CancellationToken cancellationToken, IProgress<ServiceProgressData> progress)
     {
         var services = new ServiceCollection()
-            .ConfigureVSFacade(await CreateVSServiceFactoryAsync())
+            .ConfigureVSServices(await CreateVSServiceFactoryAsync())
             .ConfigureExtensionManager(new ThisVsixInfo())
             .BuildServiceProvider();
 
@@ -57,22 +56,22 @@ public sealed class ExtensionManagerPackage : AsyncPackage
         await HandleSolutionExtensionsAsync(solutions, featureExecutor);
     }
 
-    private static async Task<IVSServiceFactory> CreateVSServiceFactoryAsync()
+    private static async Task<IVSServicesRegistrar> CreateVSServiceFactoryAsync()
     {
         var vsVersion = await VS.Shell.GetVsVersionAsync();
 
 #if V17
-        if (vsVersion >= new Version(17, 10))
-            return new VisualStudio.V17_Preview.VSServiceFactory();
-
         if (vsVersion >= new Version(17, 9))
-            return new VisualStudio.V17.VSServiceFactory();
+            return new VisualStudio.V17_Preview.VSServicesRegistrar();
+
+        if (vsVersion >= new Version(17, 8))
+            return new VisualStudio.V17.VSServicesRegistrar();
 #elif V16
         if (vsVersion >= new Version(16, 0))
-            return new VisualStudio.V16.VSServiceFactory();
+            return new VisualStudio.V16.VSServicesRegistrar();
 #elif V15
         if (vsVersion >= new Version(15, 0))
-            return new VisualStudio.V15.VSServiceFactory();
+            return new VisualStudio.V15.VSServicesRegistrar();
 #endif
 
         throw new InvalidOperationException("Not supported Visual Studio version: " + vsVersion);

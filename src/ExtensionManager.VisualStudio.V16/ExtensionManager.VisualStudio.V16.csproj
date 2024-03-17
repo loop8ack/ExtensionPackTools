@@ -15,6 +15,11 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ExtensionManager.VisualStudio.Adapter.Abstractions\ExtensionManager.VisualStudio.Adapter.Abstractions.csproj" />
+    <ProjectReference Include="..\ExtensionManager.VisualStudio.Adapter.V16\ExtensionManager.VisualStudio.Adapter.V16.csproj" />
+  </ItemGroup>
+
   <Import Project="..\ExtensionManager.VisualStudio.Shared\ExtensionManager.VisualStudio.Shared.projitems" Label="Shared" />
   <Import Project="..\ExtensionManager.VisualStudio.props" />
 

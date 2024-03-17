@@ -4,7 +4,7 @@ using ExtensionManager.VisualStudio.Extensions;
 
 using Microsoft.VisualStudio.ExtensionManager;
 
-namespace ExtensionManager.VisualStudio.Models;
+namespace ExtensionManager.VisualStudio.Adapter.Extensions;
 
 internal class GalleryExtension : GalleryOnlineExtension, IRepositoryEntry, IVSExtension
 {
@@ -22,7 +22,7 @@ internal class GalleryExtension : GalleryOnlineExtension, IRepositoryEntry, IVSE
     public override string? Name { get; set; }
     public override string? Id { get; set; }
     public override string? Description { get; set; }
-    public override float Priority => throw new NotImplementedException();
+    public override float Priority { get; }
     public override bool IsSelected { get; set; }
     public override string? DownloadUrl { get; set; }
     public override string? DownloadUpdateUrl { get; set; }
@@ -33,7 +33,6 @@ internal class GalleryExtension : GalleryOnlineExtension, IRepositoryEntry, IVSE
     public override bool SupportsMasterPage { get; set; }
     public override string? OnlinePreviewImage { get; set; }
     public override string? DefaultName { get; set; }
-    public override string? ToString() => Name;
 
     string IVSExtension.Id => VsixID;
 }

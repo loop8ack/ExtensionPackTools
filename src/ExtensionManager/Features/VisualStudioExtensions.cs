@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-using ExtensionManager.VisualStudio;
 using ExtensionManager.VisualStudio.Extensions;
 using ExtensionManager.VisualStudio.MessageBox;
 using ExtensionManager.VisualStudio.Solution;
@@ -15,10 +14,7 @@ internal static class VisualStudioExtensions
 {
     public static async Task<List<IVSExtension>> GetInstalledExtensionsAsync(this IVSExtensions extensions)
     {
-        var installedIds = await extensions.GetInstalledExtensionIdsAsync().ConfigureAwait(false);
-
-        // Filter the installed extensions to only be the ones that exist on the Marketplace
-        return (await extensions.GetGalleryExtensionsAsync(installedIds).ConfigureAwait(false))
+        return (await extensions.GetInstalledExtensionsAsync().ConfigureAwait(false))
             .OrderBy(e => e.Name)
             .ToList();
     }

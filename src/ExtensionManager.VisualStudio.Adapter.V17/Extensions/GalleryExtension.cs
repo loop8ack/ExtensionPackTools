@@ -7,7 +7,7 @@ using ExtensionManager.VisualStudio.Extensions;
 
 using Microsoft.VisualStudio.ExtensionManager;
 
-namespace ExtensionManager.VisualStudio.Models;
+namespace ExtensionManager.VisualStudio.Adapter.Extensions;
 
 internal class GalleryExtension : OnlineExtensionBase, IRepositoryEntry, IVSExtension
 {

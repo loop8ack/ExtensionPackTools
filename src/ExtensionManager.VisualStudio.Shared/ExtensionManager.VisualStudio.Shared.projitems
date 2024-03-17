@@ -19,6 +19,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)StatusBar\VSStatusBar.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Themes\VSThemes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Threads\VSThreads.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)VSServiceFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)VSServicesRegistrar.cs" />
   </ItemGroup>
 </Project>

@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>ExtensionManager.VisualStudio.Adapter</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ExtensionManager.VisualStudio.Abstractions\ExtensionManager.VisualStudio.Abstractions.csproj" />
+  </ItemGroup>
+
+</Project>
