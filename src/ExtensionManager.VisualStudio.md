@@ -30,5 +30,4 @@ but it is extended with additional functions.
 | ExtensionManager.VisualStudio.V15 | Divergent implementation and referenced DLLs for Visual Studio 2017 |
 | ExtensionManager.VisualStudio.V16 | Divergent implementation and referenced DLLs for Visual Studio 2019 |
 | ExtensionManager.VisualStudio.V17 | Divergent implementation and referenced DLLs for Visual Studio 2022 |
-| ExtensionManager.VisualStudio.V17_Preview | Divergent implementation and referenced DLLs for Visual Studio 2022 Preview |
 | ExtensionManager.VisualStudio.Shared | Contains the shared code and the implementation of the `VSFacade` class. |

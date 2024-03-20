@@ -34,8 +34,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExtensionManager.VisualStud
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExtensionManager.VisualStudio.V17", "src\ExtensionManager.VisualStudio.V17\ExtensionManager.VisualStudio.V17.csproj", "{8CAD40AD-AAEC-4F29-9E74-CBD51D5C4001}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExtensionManager.VisualStudio.V17_Preview", "src\ExtensionManager.VisualStudio.V17_Preview\ExtensionManager.VisualStudio.V17_Preview.csproj", "{FBA37161-1194-4BFF-A3BF-F4BF5FCA4575}"
-EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ExtensionManager.VisualStudio.Shared", "src\ExtensionManager.VisualStudio.Shared\ExtensionManager.VisualStudio.Shared.shproj", "{DB482BD0-94BA-4E7D-8A51-AC2A2663267A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Vsix", "Vsix", "{DA9ABE41-806C-442B-B8D5-56AD9C958E32}"
@@ -71,14 +69,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExtensionManager.VisualStudio.Adapter.Abstractions", "src\ExtensionManager.VisualStudio.Adapter.Abstractions\ExtensionManager.VisualStudio.Adapter.Abstractions.csproj", "{78E14F78-6B4A-4E64-95C1-7CC4E91D4A9F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExtensionManager.VisualStudio.Adapter.Generator", "src\ExtensionManager.VisualStudio.Adapter.Generator\ExtensionManager.VisualStudio.Adapter.Generator.csproj", "{9BACA2E2-713C-42FC-9AA0-A128D48E2D12}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtensionManager.VisualStudio.Adapter.V17_Preview", "src\ExtensionManager.VisualStudio.Adapter.V17_Preview\ExtensionManager.VisualStudio.Adapter.V17_Preview.csproj", "{36B75BDB-ADA8-4F9A-B0DC-7C96081AE33E}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtensionManager.VisualStudio.Adapter.V17", "src\ExtensionManager.VisualStudio.Adapter.V17\ExtensionManager.VisualStudio.Adapter.V17.csproj", "{CDDBC413-C87D-4904-984C-A7CE50DABC47}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtensionManager.VisualStudio.Adapter.V16", "src\ExtensionManager.VisualStudio.Adapter.V16\ExtensionManager.VisualStudio.Adapter.V16.csproj", "{C23A4298-86D2-4275-89ED-197E891A793D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtensionManager.VisualStudio.Adapter.V15", "src\ExtensionManager.VisualStudio.Adapter.V15\ExtensionManager.VisualStudio.Adapter.V15.csproj", "{72F85167-78BC-4F94-B850-326A8A224674}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Adapter", "Adapter", "{F180C738-5477-4CE7-9D4A-247BB4E5C1DF}"
 EndProject
@@ -140,18 +130,6 @@ Global
 		{8CAD40AD-AAEC-4F29-9E74-CBD51D5C4001}.Release|arm64.Build.0 = Release|Any CPU
 		{8CAD40AD-AAEC-4F29-9E74-CBD51D5C4001}.Release|x86.ActiveCfg = Release|Any CPU
 		{8CAD40AD-AAEC-4F29-9E74-CBD51D5C4001}.Release|x86.Build.0 = Release|Any CPU
-		{FBA37161-1194-4BFF-A3BF-F4BF5FCA4575}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FBA37161-1194-4BFF-A3BF-F4BF5FCA4575}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FBA37161-1194-4BFF-A3BF-F4BF5FCA4575}.Debug|arm64.ActiveCfg = Debug|Any CPU
-		{FBA37161-1194-4BFF-A3BF-F4BF5FCA4575}.Debug|arm64.Build.0 = Debug|Any CPU
-		{FBA37161-1194-4BFF-A3BF-F4BF5FCA4575}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{FBA37161-1194-4BFF-A3BF-F4BF5FCA4575}.Debug|x86.Build.0 = Debug|Any CPU
-		{FBA37161-1194-4BFF-A3BF-F4BF5FCA4575}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FBA37161-1194-4BFF-A3BF-F4BF5FCA4575}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FBA37161-1194-4BFF-A3BF-F4BF5FCA4575}.Release|arm64.ActiveCfg = Release|Any CPU
-		{FBA37161-1194-4BFF-A3BF-F4BF5FCA4575}.Release|arm64.Build.0 = Release|Any CPU
-		{FBA37161-1194-4BFF-A3BF-F4BF5FCA4575}.Release|x86.ActiveCfg = Release|Any CPU
-		{FBA37161-1194-4BFF-A3BF-F4BF5FCA4575}.Release|x86.Build.0 = Release|Any CPU
 		{E2DDEDFD-659B-40D1-A8DB-2048E3556FDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E2DDEDFD-659B-40D1-A8DB-2048E3556FDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E2DDEDFD-659B-40D1-A8DB-2048E3556FDB}.Debug|arm64.ActiveCfg = Debug|Any CPU
@@ -248,54 +226,6 @@ Global
 		{9BACA2E2-713C-42FC-9AA0-A128D48E2D12}.Release|arm64.Build.0 = Release|Any CPU
 		{9BACA2E2-713C-42FC-9AA0-A128D48E2D12}.Release|x86.ActiveCfg = Release|Any CPU
 		{9BACA2E2-713C-42FC-9AA0-A128D48E2D12}.Release|x86.Build.0 = Release|Any CPU
-		{36B75BDB-ADA8-4F9A-B0DC-7C96081AE33E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{36B75BDB-ADA8-4F9A-B0DC-7C96081AE33E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{36B75BDB-ADA8-4F9A-B0DC-7C96081AE33E}.Debug|arm64.ActiveCfg = Debug|Any CPU
-		{36B75BDB-ADA8-4F9A-B0DC-7C96081AE33E}.Debug|arm64.Build.0 = Debug|Any CPU
-		{36B75BDB-ADA8-4F9A-B0DC-7C96081AE33E}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{36B75BDB-ADA8-4F9A-B0DC-7C96081AE33E}.Debug|x86.Build.0 = Debug|Any CPU
-		{36B75BDB-ADA8-4F9A-B0DC-7C96081AE33E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{36B75BDB-ADA8-4F9A-B0DC-7C96081AE33E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{36B75BDB-ADA8-4F9A-B0DC-7C96081AE33E}.Release|arm64.ActiveCfg = Release|Any CPU
-		{36B75BDB-ADA8-4F9A-B0DC-7C96081AE33E}.Release|arm64.Build.0 = Release|Any CPU
-		{36B75BDB-ADA8-4F9A-B0DC-7C96081AE33E}.Release|x86.ActiveCfg = Release|Any CPU
-		{36B75BDB-ADA8-4F9A-B0DC-7C96081AE33E}.Release|x86.Build.0 = Release|Any CPU
-		{CDDBC413-C87D-4904-984C-A7CE50DABC47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CDDBC413-C87D-4904-984C-A7CE50DABC47}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CDDBC413-C87D-4904-984C-A7CE50DABC47}.Debug|arm64.ActiveCfg = Debug|Any CPU
-		{CDDBC413-C87D-4904-984C-A7CE50DABC47}.Debug|arm64.Build.0 = Debug|Any CPU
-		{CDDBC413-C87D-4904-984C-A7CE50DABC47}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{CDDBC413-C87D-4904-984C-A7CE50DABC47}.Debug|x86.Build.0 = Debug|Any CPU
-		{CDDBC413-C87D-4904-984C-A7CE50DABC47}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CDDBC413-C87D-4904-984C-A7CE50DABC47}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CDDBC413-C87D-4904-984C-A7CE50DABC47}.Release|arm64.ActiveCfg = Release|Any CPU
-		{CDDBC413-C87D-4904-984C-A7CE50DABC47}.Release|arm64.Build.0 = Release|Any CPU
-		{CDDBC413-C87D-4904-984C-A7CE50DABC47}.Release|x86.ActiveCfg = Release|Any CPU
-		{CDDBC413-C87D-4904-984C-A7CE50DABC47}.Release|x86.Build.0 = Release|Any CPU
-		{C23A4298-86D2-4275-89ED-197E891A793D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C23A4298-86D2-4275-89ED-197E891A793D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C23A4298-86D2-4275-89ED-197E891A793D}.Debug|arm64.ActiveCfg = Debug|Any CPU
-		{C23A4298-86D2-4275-89ED-197E891A793D}.Debug|arm64.Build.0 = Debug|Any CPU
-		{C23A4298-86D2-4275-89ED-197E891A793D}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{C23A4298-86D2-4275-89ED-197E891A793D}.Debug|x86.Build.0 = Debug|Any CPU
-		{C23A4298-86D2-4275-89ED-197E891A793D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C23A4298-86D2-4275-89ED-197E891A793D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C23A4298-86D2-4275-89ED-197E891A793D}.Release|arm64.ActiveCfg = Release|Any CPU
-		{C23A4298-86D2-4275-89ED-197E891A793D}.Release|arm64.Build.0 = Release|Any CPU
-		{C23A4298-86D2-4275-89ED-197E891A793D}.Release|x86.ActiveCfg = Release|Any CPU
-		{C23A4298-86D2-4275-89ED-197E891A793D}.Release|x86.Build.0 = Release|Any CPU
-		{72F85167-78BC-4F94-B850-326A8A224674}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{72F85167-78BC-4F94-B850-326A8A224674}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{72F85167-78BC-4F94-B850-326A8A224674}.Debug|arm64.ActiveCfg = Debug|Any CPU
-		{72F85167-78BC-4F94-B850-326A8A224674}.Debug|arm64.Build.0 = Debug|Any CPU
-		{72F85167-78BC-4F94-B850-326A8A224674}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{72F85167-78BC-4F94-B850-326A8A224674}.Debug|x86.Build.0 = Debug|Any CPU
-		{72F85167-78BC-4F94-B850-326A8A224674}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{72F85167-78BC-4F94-B850-326A8A224674}.Release|Any CPU.Build.0 = Release|Any CPU
-		{72F85167-78BC-4F94-B850-326A8A224674}.Release|arm64.ActiveCfg = Release|Any CPU
-		{72F85167-78BC-4F94-B850-326A8A224674}.Release|arm64.Build.0 = Release|Any CPU
-		{72F85167-78BC-4F94-B850-326A8A224674}.Release|x86.ActiveCfg = Release|Any CPU
-		{72F85167-78BC-4F94-B850-326A8A224674}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -306,7 +236,6 @@ Global
 		{C555A2A9-6045-41D1-A8B4-7B9EE859CA96} = {DD63B191-4457-40BA-984A-0C1D6B95D197}
 		{4EFB3BBE-8C1A-4723-9C8D-89B1DD4E8D60} = {DD63B191-4457-40BA-984A-0C1D6B95D197}
 		{8CAD40AD-AAEC-4F29-9E74-CBD51D5C4001} = {DD63B191-4457-40BA-984A-0C1D6B95D197}
-		{FBA37161-1194-4BFF-A3BF-F4BF5FCA4575} = {DD63B191-4457-40BA-984A-0C1D6B95D197}
 		{DB482BD0-94BA-4E7D-8A51-AC2A2663267A} = {DD63B191-4457-40BA-984A-0C1D6B95D197}
 		{DA9ABE41-806C-442B-B8D5-56AD9C958E32} = {C8C286F7-7669-402E-8F06-2C47A05FE372}
 		{77052739-B59A-4E8B-9E4A-8D1372F0E6B5} = {DA9ABE41-806C-442B-B8D5-56AD9C958E32}
@@ -321,10 +250,6 @@ Global
 		{5C6EB350-6BEE-4D5A-B02F-7B331D6D8FE8} = {431E1523-840F-473A-8592-2BB32332911E}
 		{78E14F78-6B4A-4E64-95C1-7CC4E91D4A9F} = {F180C738-5477-4CE7-9D4A-247BB4E5C1DF}
 		{9BACA2E2-713C-42FC-9AA0-A128D48E2D12} = {F180C738-5477-4CE7-9D4A-247BB4E5C1DF}
-		{36B75BDB-ADA8-4F9A-B0DC-7C96081AE33E} = {F180C738-5477-4CE7-9D4A-247BB4E5C1DF}
-		{CDDBC413-C87D-4904-984C-A7CE50DABC47} = {F180C738-5477-4CE7-9D4A-247BB4E5C1DF}
-		{C23A4298-86D2-4275-89ED-197E891A793D} = {F180C738-5477-4CE7-9D4A-247BB4E5C1DF}
-		{72F85167-78BC-4F94-B850-326A8A224674} = {F180C738-5477-4CE7-9D4A-247BB4E5C1DF}
 		{F180C738-5477-4CE7-9D4A-247BB4E5C1DF} = {DD63B191-4457-40BA-984A-0C1D6B95D197}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
@@ -343,6 +268,5 @@ Global
 		src\ExtensionManager.Vsix.Shared\ExtensionManager.Vsix.Shared.projitems*{dd73cf2d-9d26-4760-928b-454b9b682246}*SharedItemsImports = 4
 		src\ExtensionManager.Shared\ExtensionManager.Shared.projitems*{e21ceac2-5e8c-4ae9-84ee-2e390cd272a9}*SharedItemsImports = 13
 		src\ExtensionManager.Vsix.Shared\ExtensionManager.Vsix.Shared.projitems*{e2ddedfd-659b-40d1-a8db-2048e3556fdb}*SharedItemsImports = 4
-		src\ExtensionManager.VisualStudio.Shared\ExtensionManager.VisualStudio.Shared.projitems*{fba37161-1194-4bff-a3bf-f4bf5fca4575}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal

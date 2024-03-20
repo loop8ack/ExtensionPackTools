@@ -18,7 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ExtensionManager.VisualStudio.Adapter.Abstractions\ExtensionManager.VisualStudio.Adapter.Abstractions.csproj" />
-    <ProjectReference Include="..\ExtensionManager.VisualStudio.Adapter.V17\ExtensionManager.VisualStudio.Adapter.V17.csproj" />
+    <ProjectReference Include="..\ExtensionManager.VisualStudio.Adapter.Generator\ExtensionManager.VisualStudio.Adapter.Generator.csproj" />
   </ItemGroup>
 
   <Import Project="..\ExtensionManager.VisualStudio.Shared\ExtensionManager.VisualStudio.Shared.projitems" Label="Shared" />

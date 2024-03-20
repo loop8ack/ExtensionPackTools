@@ -1,4 +1,5 @@
-using ExtensionManager.VisualStudio.Adapter;
+using System;
+
 using ExtensionManager.VisualStudio.Documents;
 using ExtensionManager.VisualStudio.Extensions;
 using ExtensionManager.VisualStudio.MessageBox;
@@ -15,17 +16,20 @@ namespace ExtensionManager.VisualStudio.V15;
 namespace ExtensionManager.VisualStudio.V16;
 #elif V17
 namespace ExtensionManager.VisualStudio.V17;
-#elif V17_Preview
-namespace ExtensionManager.VisualStudio.V17_Preview;
 #endif
 
 public sealed class VSServicesRegistrar : IVSServicesRegistrar
 {
+    private readonly Version _visualStudioVersion;
+
+    public VSServicesRegistrar(Version visualStudioVersion)
+        => _visualStudioVersion = visualStudioVersion;
+
     public void AddServices(IServiceCollection services)
     {
-        var adapterServicesFactory = CreateAdapterServicesFactory();
-        services.AddSingleton(_ => adapterServicesFactory.CreateExtensionManagerAdapter());
-        services.AddSingleton(_ => adapterServicesFactory.CreateExtensionRepositoryAdapter());
+        services.AddSingleton(new VSAdapterServicesFactory(_visualStudioVersion));
+        services.AddSingleton(s => s.GetRequiredService<VSAdapterServicesFactory>().CreateExtensionManagerAdapter());
+        services.AddSingleton(s => s.GetRequiredService<VSAdapterServicesFactory>().CreateExtensionRepositoryAdapter());
 
         services.AddSingleton<IVSThemes, VSThemes>();
         services.AddSingleton<IVSThreads, VSThreads>();
@@ -35,7 +39,4 @@ public sealed class VSServicesRegistrar : IVSServicesRegistrar
         services.AddSingleton<IVSMessageBox, VSMessageBox>();
         services.AddSingleton<IVSExtensions, VSExtensions>();
     }
-
-    private static IVSAdapterServicesFactory CreateAdapterServicesFactory()
-        => new VSAdapterServicesFactory();
 }

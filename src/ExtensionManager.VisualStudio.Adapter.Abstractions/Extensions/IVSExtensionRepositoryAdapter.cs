@@ -12,7 +12,6 @@ public interface IVSExtensionRepositoryAdapter
 
 
 public interface IVSExtensionRepositoryAdapter<TRepository>
-    where TRepository : class
 {
     Task<TRepository> GetRepositoryAsync();
     IEnumerable<IVSExtension> GetVSGalleryExtensions(TRepository repository, List<string> extensionIds, int lcid, bool forAutoupdate);

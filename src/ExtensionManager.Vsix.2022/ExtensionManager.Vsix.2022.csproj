@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <MinimumVisualStudioVersion>$(VisualStudioVersion)</MinimumVisualStudioVersion>
@@ -125,10 +125,6 @@
     <ProjectReference Include="..\ExtensionManager.VisualStudio.V17\ExtensionManager.VisualStudio.V17.csproj">
       <Project>{8cad40ad-aaec-4f29-9e74-cbd51d5c4001}</Project>
       <Name>ExtensionManager.VisualStudio.V17</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ExtensionManager.VisualStudio.V17_Preview\ExtensionManager.VisualStudio.V17_Preview.csproj">
-      <Project>{fba37161-1194-4bff-a3bf-f4bf5fca4575}</Project>
-      <Name>ExtensionManager.VisualStudio.V17_Preview</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="..\ExtensionManager.Vsix.Shared\ExtensionManager.Vsix.Shared.projitems" Label="Shared" />

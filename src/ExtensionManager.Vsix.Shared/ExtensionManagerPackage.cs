@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.Design;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Reflection;
@@ -8,6 +9,8 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Community.VisualStudio.Toolkit;
+
+using EnvDTE;
 
 using ExtensionManager.Features.Export;
 using ExtensionManager.Features.Install;
@@ -42,8 +45,11 @@ public sealed class ExtensionManagerPackage : AsyncPackage
 
     protected override async Task InitializeAsync(CancellationToken cancellationToken, IProgress<ServiceProgressData> progress)
     {
+        var vsVersion = await VS.Shell.GetVsVersionAsync()
+            ?? throw new InvalidOperationException("Cannot find running visual studio version");
+
         var services = new ServiceCollection()
-            .ConfigureVSServices(await CreateVSServiceFactoryAsync())
+            .ConfigureVSServices(CreateVSServiceFactory(vsVersion))
             .ConfigureExtensionManager(new ThisVsixInfo())
             .BuildServiceProvider();
 
@@ -56,25 +62,17 @@ public sealed class ExtensionManagerPackage : AsyncPackage
         await HandleSolutionExtensionsAsync(solutions, featureExecutor);
     }
 
-    private static async Task<IVSServicesRegistrar> CreateVSServiceFactoryAsync()
+    private static IVSServicesRegistrar CreateVSServiceFactory(Version vsVersion)
     {
-        var vsVersion = await VS.Shell.GetVsVersionAsync();
-
 #if V17
-        if (vsVersion >= new Version(17, 9))
-            return new VisualStudio.V17_Preview.VSServicesRegistrar();
-
-        if (vsVersion >= new Version(17, 8))
-            return new VisualStudio.V17.VSServicesRegistrar();
+        return new VisualStudio.V17.VSServicesRegistrar(vsVersion);
 #elif V16
-        if (vsVersion >= new Version(16, 0))
-            return new VisualStudio.V16.VSServicesRegistrar();
+        return new VisualStudio.V16.VSServicesRegistrar(vsVersion);
 #elif V15
-        if (vsVersion >= new Version(15, 0))
-            return new VisualStudio.V15.VSServicesRegistrar();
+        return new VisualStudio.V15.VSServicesRegistrar(vsVersion);
+#else
+        throw new InvalidOperationException("Not supported Visual Studio version");
 #endif
-
-        throw new InvalidOperationException("Not supported Visual Studio version: " + vsVersion);
     }
 
     private async Task HandleSolutionExtensionsAsync(IVSSolutions solutions, IFeatureExecutor executor)

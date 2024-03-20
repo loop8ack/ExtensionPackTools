@@ -1,4 +1,7 @@
+using System;
+
 using Microsoft.Extensions.DependencyInjection;
+
 namespace ExtensionManager.VisualStudio;
 
 public interface IVSServicesRegistrar

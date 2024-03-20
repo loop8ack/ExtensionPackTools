@@ -21,10 +21,9 @@ internal sealed class FeatureExecutor : IFeatureExecutor
     {
         try
         {
-            await ActivatorUtilities
-                .GetServiceOrCreateInstance<TFeature>(_services)
-                .ExecuteAsync()
-                .ConfigureAwait(false);
+            var feature = ActivatorUtilities.GetServiceOrCreateInstance<TFeature>(_services);
+
+            await feature.ExecuteAsync().ConfigureAwait(false);
         }
         catch (Exception ex)
         {

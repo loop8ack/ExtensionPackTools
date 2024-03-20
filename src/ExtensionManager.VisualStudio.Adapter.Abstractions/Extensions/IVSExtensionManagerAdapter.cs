@@ -9,8 +9,6 @@ public interface IVSExtensionManagerAdapter
 }
 
 public interface IVSExtensionManagerAdapter<TManager, TInstalledExtension>
-    where TManager : class
-    where TInstalledExtension : class
 {
     Task<TManager> GetManagerAsync();
     IEnumerable<TInstalledExtension> GetInstalledExtensions(TManager manager);
