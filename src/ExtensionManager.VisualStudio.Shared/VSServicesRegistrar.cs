@@ -1,5 +1,6 @@
 using System;
 
+using ExtensionManager.VisualStudio.Adapter;
 using ExtensionManager.VisualStudio.Documents;
 using ExtensionManager.VisualStudio.Extensions;
 using ExtensionManager.VisualStudio.MessageBox;
@@ -27,9 +28,9 @@ public sealed class VSServicesRegistrar : IVSServicesRegistrar
 
     public void AddServices(IServiceCollection services)
     {
-        services.AddSingleton(new VSAdapterServicesFactory(_visualStudioVersion));
-        services.AddSingleton(s => s.GetRequiredService<VSAdapterServicesFactory>().CreateExtensionManagerAdapter());
-        services.AddSingleton(s => s.GetRequiredService<VSAdapterServicesFactory>().CreateExtensionRepositoryAdapter());
+        services.AddSingleton(new VSAdapterServicesFactoryGenerator(_visualStudioVersion).Generate());
+        services.AddSingleton(s => s.GetRequiredService<IVSAdapterServicesFactory>().CreateExtensionManagerAdapter());
+        services.AddSingleton(s => s.GetRequiredService<IVSAdapterServicesFactory>().CreateExtensionRepositoryAdapter());
 
         services.AddSingleton<IVSThemes, VSThemes>();
         services.AddSingleton<IVSThreads, VSThreads>();

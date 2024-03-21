@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Reflection;
 
 using ExtensionManager.VisualStudio.Adapter.Generator;
@@ -14,9 +12,9 @@ namespace ExtensionManager.VisualStudio.V16;
 namespace ExtensionManager.VisualStudio.V17;
 #endif
 
-internal sealed class VSAdapterServicesFactory : VSAdapterServicesFactoryBase
+internal sealed class VSAdapterServicesFactoryGenerator : VSAdapterServicesFactoryGeneratorBase
 {
-    public VSAdapterServicesFactory(Version visualStudioVersion)
+    public VSAdapterServicesFactoryGenerator(Version visualStudioVersion)
         : base(visualStudioVersion)
     {
     }
@@ -37,10 +35,7 @@ internal sealed class VSAdapterServicesFactory : VSAdapterServicesFactoryBase
         var devenvDirectory = Environment.GetEnvironmentVariable("VSAPPIDDIR");
 
         foreach (var filePath in GetVisualStudioAssemblyFilePaths(devenvDirectory))
-        {
-            if (File.Exists(filePath))
-                yield return Assembly.LoadFile(filePath);
-        }
+            yield return Assembly.LoadFile(filePath);
     }
     
     private IEnumerable<string> GetVisualStudioAssemblyFilePaths(string devenvDirectory)

@@ -1,7 +1,7 @@
 using System;
 using System.Reflection;
 
-namespace ExtensionManager.VisualStudio.Adapter.Generator.Utils;
+namespace ExtensionManager.VisualStudio.Adapter.Generator.Internal.Utils;
 
 internal static class ReflectionExtensions
 {
@@ -32,5 +32,32 @@ internal static class ReflectionExtensions
             | MethodAttributes.HideBySig
             | MethodAttributes.Virtual
             | MethodAttributes.Final;
+    }
+
+    public static PropertyInfo GetPropertyFlatten(this Type type, string name)
+    {
+        return GetPropertyFlattenOrNull(type, name)
+            ?? throw new ArgumentException($"Property {name} of type {type} not found");
+    }
+
+    private static PropertyInfo? GetPropertyFlattenOrNull(Type? type, string name)
+    {
+        if (type is null)
+            return null;
+
+        var property = type.GetProperty(name);
+
+        if (property is not null)
+            return property;
+
+        foreach (var baseTypes in type.GetInterfaces())
+        {
+            property = GetPropertyFlattenOrNull(baseTypes, name);
+
+            if (property is not null)
+                return property;
+        }
+
+        return null;
     }
 }
