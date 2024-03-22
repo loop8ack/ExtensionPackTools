@@ -1,5 +1,3 @@
-using System.Threading.Tasks;
-
 using Community.VisualStudio.Toolkit;
 
 namespace ExtensionManager.VisualStudio.Documents;

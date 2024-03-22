@@ -1,7 +1,3 @@
-using System;
-using System.Reflection;
-using System.Reflection.Emit;
-
 namespace ExtensionManager.VisualStudio.Adapter.Generator.Internal.Emitter;
 
 internal sealed class ModuleEmitter

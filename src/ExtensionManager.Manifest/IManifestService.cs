@@ -1,6 +1,3 @@
-using System.Threading;
-using System.Threading.Tasks;
-
 namespace ExtensionManager.Manifest;
 
 public interface IManifestService

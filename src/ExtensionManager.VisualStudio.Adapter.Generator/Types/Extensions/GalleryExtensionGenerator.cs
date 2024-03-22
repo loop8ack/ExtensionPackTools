@@ -1,7 +1,3 @@
-using System;
-using System.Linq;
-using System.Reflection;
-
 using ExtensionManager.VisualStudio.Adapter.Generator.Internal;
 using ExtensionManager.VisualStudio.Adapter.Generator.Internal.Emitter;
 using ExtensionManager.VisualStudio.Adapter.Generator.Internal.Utils;

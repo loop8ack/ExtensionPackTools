@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-
 using ExtensionManager.VisualStudio.Extensions;
 
 namespace ExtensionManager.Manifest.Internal.Models;

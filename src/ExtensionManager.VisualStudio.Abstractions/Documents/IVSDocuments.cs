@@ -1,8 +1,8 @@
-using System.Threading.Tasks;
-
 namespace ExtensionManager.VisualStudio.Documents;
 
-/// <summary> Contains helper methods for dealing with documents. </summary>
+/// <summary>
+/// Contains helper methods for dealing with documents.
+/// </summary>
 public interface IVSDocuments
 {
     /// <summary>

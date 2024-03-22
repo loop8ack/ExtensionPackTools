@@ -1,8 +1,8 @@
-using System.Threading.Tasks;
-
 namespace ExtensionManager.VisualStudio.StatusBar;
 
-/// <summary> An API wrapper that makes it easy to work with the status bar. </summary>
+/// <summary>
+/// An API wrapper that makes it easy to work with the status bar.
+/// </summary>
 public interface IVSStatusBar
 {
     /// <summary>

@@ -2,7 +2,9 @@ using System.Windows;
 
 namespace ExtensionManager.VisualStudio.Themes;
 
-/// <summary> Contains methods for WPF to deal with Visual Studio Themes. </summary>
+/// <summary>
+/// Contains methods for WPF to deal with Visual Studio Themes.
+/// </summary>
 public interface IVSThemes
 {
     /// <summary>

@@ -1,8 +1,4 @@
-using System;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 using ExtensionManager.Manifest;
 using ExtensionManager.UI.Worker;

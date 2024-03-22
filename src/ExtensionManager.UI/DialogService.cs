@@ -1,14 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 using ExtensionManager.Manifest;
 using ExtensionManager.UI.Utils;
 using ExtensionManager.UI.ViewModels;
 using ExtensionManager.UI.Views;
 using ExtensionManager.UI.Worker;
-using ExtensionManager.VisualStudio;
 using ExtensionManager.VisualStudio.Extensions;
 using ExtensionManager.VisualStudio.Threads;
 

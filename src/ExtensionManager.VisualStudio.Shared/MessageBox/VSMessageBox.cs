@@ -1,5 +1,3 @@
-using System.Threading.Tasks;
-
 using Community.VisualStudio.Toolkit;
 
 using Microsoft.VisualStudio;

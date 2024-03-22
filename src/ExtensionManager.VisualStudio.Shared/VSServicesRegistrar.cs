@@ -1,5 +1,3 @@
-using System;
-
 using ExtensionManager.VisualStudio.Adapter;
 using ExtensionManager.VisualStudio.Documents;
 using ExtensionManager.VisualStudio.Extensions;

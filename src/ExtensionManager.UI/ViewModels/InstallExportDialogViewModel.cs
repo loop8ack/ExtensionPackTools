@@ -1,11 +1,6 @@
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 using ExtensionManager.UI.ViewModels.Base;
@@ -46,7 +41,7 @@ internal abstract class InstallExportDialogViewModel<TStep> : InstallExportDialo
             await DoWorkAsync(this, cts.Token);
         }
         catch (OperationCanceledException)
-            when(cts.IsCancellationRequested)
+            when (cts.IsCancellationRequested)
         {
         }
         finally

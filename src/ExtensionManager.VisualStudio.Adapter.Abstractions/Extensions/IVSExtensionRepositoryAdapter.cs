@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
 using ExtensionManager.VisualStudio.Extensions;
 
 namespace ExtensionManager.VisualStudio.Adapter.Extensions;

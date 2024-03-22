@@ -1,4 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <Using Include="System.Reflection" />
+    <Using Include="System.Reflection.Emit" />
+  </ItemGroup>
   
   <ItemGroup>
     <ProjectReference Include="..\ExtensionManager.VisualStudio.Adapter.Abstractions\ExtensionManager.VisualStudio.Adapter.Abstractions.csproj" />

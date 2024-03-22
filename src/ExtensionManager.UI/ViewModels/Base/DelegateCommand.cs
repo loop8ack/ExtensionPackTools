@@ -1,4 +1,3 @@
-using System;
 using System.Windows.Input;
 
 namespace ExtensionManager.UI.ViewModels.Base;

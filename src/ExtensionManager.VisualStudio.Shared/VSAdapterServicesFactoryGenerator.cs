@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Reflection;
 
 using ExtensionManager.VisualStudio.Adapter.Generator;
@@ -31,7 +29,7 @@ internal sealed class VSAdapterServicesFactoryGenerator : VSAdapterServicesFacto
         foreach (var filePath in GetVisualStudioAssemblyFilePaths(devenvDirectory))
             yield return Assembly.LoadFile(filePath);
     }
-    
+
     private IEnumerable<string> GetVisualStudioAssemblyFilePaths(string devenvDirectory)
     {
 #if VS2017 || VS2019

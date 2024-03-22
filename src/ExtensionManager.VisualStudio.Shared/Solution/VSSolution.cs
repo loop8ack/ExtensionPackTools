@@ -1,5 +1,3 @@
-using System.Threading.Tasks;
-
 using CT = Community.VisualStudio.Toolkit;
 
 namespace ExtensionManager.VisualStudio.Solution;

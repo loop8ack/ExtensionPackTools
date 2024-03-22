@@ -1,5 +1,3 @@
-using System;
-
 namespace ExtensionManager.UI.Worker;
 
 public static class ProgressStepExtensions

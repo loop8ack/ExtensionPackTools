@@ -1,9 +1,8 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
 namespace ExtensionManager.VisualStudio.Extensions;
 
-/// <summary> Contains methods for dealing with Visual Studio Extensions. </summary>
+/// <summary>
+/// Contains methods for dealing with Visual Studio Extensions.
+/// </summary>
 public interface IVSExtensions
 {
     /// <summary>

@@ -1,9 +1,8 @@
-using System;
-using System.Threading.Tasks;
-
 namespace ExtensionManager.VisualStudio.Threads;
 
-/// <summary> Contains methods for dealing with threads. </summary>
+/// <summary>
+/// Contains methods for dealing with threads.
+/// </summary>
 public interface IVSThreads
 {
     /// <summary>

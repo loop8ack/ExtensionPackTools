@@ -1,6 +1,3 @@
-using System;
-using System.Threading.Tasks;
-
 using ExtensionManager.VisualStudio.MessageBox;
 
 using Microsoft.Extensions.DependencyInjection;

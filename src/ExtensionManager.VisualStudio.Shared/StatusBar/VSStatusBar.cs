@@ -1,5 +1,3 @@
-using System.Threading.Tasks;
-
 using VS = Community.VisualStudio.Toolkit.VS;
 
 namespace ExtensionManager.VisualStudio.StatusBar;

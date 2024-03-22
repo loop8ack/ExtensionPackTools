@@ -1,9 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-
 using ExtensionManager.VisualStudio.Extensions;
 using ExtensionManager.VisualStudio.MessageBox;
 using ExtensionManager.VisualStudio.Solution;

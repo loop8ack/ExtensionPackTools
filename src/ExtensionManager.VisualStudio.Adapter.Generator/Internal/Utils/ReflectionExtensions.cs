@@ -1,6 +1,3 @@
-using System;
-using System.Reflection;
-
 namespace ExtensionManager.VisualStudio.Adapter.Generator.Internal.Utils;
 
 internal static class ReflectionExtensions

@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
-
 using ExtensionManager.VisualStudio.Adapter.Generator.Internal.Emitter;
 
 namespace ExtensionManager.VisualStudio.Adapter.Generator.Internal;

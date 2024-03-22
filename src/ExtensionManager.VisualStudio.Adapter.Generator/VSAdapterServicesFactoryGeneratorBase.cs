@@ -1,9 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Reflection.Emit;
-
 using ExtensionManager.VisualStudio.Adapter.Generator.Internal;
 using ExtensionManager.VisualStudio.Adapter.Generator.Types;
 using ExtensionManager.VisualStudio.Adapter.Generator.Types.Extensions;

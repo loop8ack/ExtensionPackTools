@@ -1,5 +1,3 @@
-using System;
-
 namespace ExtensionManager.Manifest.Internal;
 
 internal static class ThrowHelper

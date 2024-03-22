@@ -1,8 +1,8 @@
-using System.Threading.Tasks;
-
 namespace ExtensionManager.VisualStudio.MessageBox;
 
-/// <summary> Shows message boxes. </summary>
+/// <summary>
+/// Shows message boxes.
+/// </summary>
 public interface IVSMessageBox
 {
     /// <summary>

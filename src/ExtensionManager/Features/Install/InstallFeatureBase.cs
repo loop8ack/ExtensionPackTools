@@ -1,9 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
-
 using ExtensionManager.Installation;
 using ExtensionManager.Manifest;
 using ExtensionManager.UI;
@@ -58,7 +52,7 @@ public abstract class InstallFeatureBase : IFeature, IInstallWorker
 
         var installedExtensions = await Extensions.GetInstalledExtensionsAsync().ConfigureAwait(false);
         var manifest = await ManifestService.ReadAsync(filePath).ConfigureAwait(false);
-        
+
         await ShowInstallDialogAsync(manifest, this, installedExtensions);
     }
 

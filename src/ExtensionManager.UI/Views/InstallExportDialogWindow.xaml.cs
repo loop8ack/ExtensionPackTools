@@ -1,14 +1,10 @@
-using System;
 using System.Diagnostics;
-using System.Security.Policy;
 using System.Windows;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Navigation;
 
 using ExtensionManager.UI.ViewModels;
 using ExtensionManager.UI.Win32;
-using ExtensionManager.VisualStudio;
 
 namespace ExtensionManager.UI.Views;
 

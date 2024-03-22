@@ -1,5 +1,3 @@
-using System.Threading.Tasks;
-
 namespace ExtensionManager.VisualStudio.Solution;
 
 /// <summary>
