@@ -59,6 +59,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExtensionManager.VisualStudio.Adapter.Generator", "src\ExtensionManager.VisualStudio.Adapter.Generator\ExtensionManager.VisualStudio.Adapter.Generator.csproj", "{9BACA2E2-713C-42FC-9AA0-A128D48E2D12}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Adapter", "Adapter", "{F180C738-5477-4CE7-9D4A-247BB4E5C1DF}"
+	ProjectSection(SolutionItems) = preProject
+		ExtensionManager.VisualStudio.Adapter.md = ExtensionManager.VisualStudio.Adapter.md
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExtensionManager.VisualStudio.VS2019", "src\ExtensionManager.VisualStudio.VS2019\ExtensionManager.VisualStudio.VS2019.csproj", "{37A5DBB8-C876-4D60-A972-4EC91A857C11}"
 EndProject
