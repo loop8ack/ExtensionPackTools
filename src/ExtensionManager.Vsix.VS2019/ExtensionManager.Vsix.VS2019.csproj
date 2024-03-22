@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <MinimumVisualStudioVersion>$(VisualStudioVersion)</MinimumVisualStudioVersion>
@@ -50,7 +50,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <DefineConstants>$(DefineConstants);V16</DefineConstants>
+    <DefineConstants>$(DefineConstants);VS2019</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Content Include="..\..\LICENSE">
@@ -120,9 +120,9 @@
       <Project>{3a474662-f23f-4339-bf62-22d52b834cfc}</Project>
       <Name>ExtensionManager.VisualStudio.Abstractions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ExtensionManager.VisualStudio.V16\ExtensionManager.VisualStudio.V16.csproj">
+    <ProjectReference Include="..\ExtensionManager.VisualStudio.VS2019\ExtensionManager.VisualStudio.VS2019.csproj">
       <Project>{4efb3bbe-8c1a-4723-9c8d-89b1dd4e8d60}</Project>
-      <Name>ExtensionManager.VisualStudio.V16</Name>
+      <Name>ExtensionManager.VisualStudio.VS2019</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="..\ExtensionManager.Vsix.Shared\ExtensionManager.Vsix.Shared.projitems" Label="Shared" />

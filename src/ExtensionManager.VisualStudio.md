@@ -1,33 +1,27 @@
 # ExtensionManager.VisualStudio
 
-These projects provide a facade around the Visual Studio API, enabling a simple solution for conflicts between DLLs of different Visual Studio versions.
+These projects provide a facade around the Visual Studio API, streamlining the handling of different dependency versions.
 
 ## Problems & Solutions
 
 #### Version conflicts
 
-The preview version of Visual Studio internally uses modified implementations that are not compatible with the normal version.
-
-To solve this problem, there are separate projects for each version that define divergent code, as well as a shared project that defines common code.
-In particular, retrieving data from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/) poses a challenge because it requires a `GalleryExtension` class,
-whose definition and content, however, differ.
+Different major versions of Visual Studio require specific dependencies that may not be compatible with each other.
+To manage this, separate projects are established for each Visual Studio version to specify their required dependency versions.
+A shared project is also maintained to house the common code applicable across all versions.
 
 #### API Facade
 
-To manage the majority of the code in regular SDK-style projects, direct usage of the Visual Studio API is not allowed,
-as different Visual Studio versions require different dependencies.
+To simplify the codebase in SDK-style projects, direct interaction with the Visual Studio API is limited, due to the need for specific versions of dependencies across different Visual Studio versions.
 
-The solution is to use a facade that abstracts the entire Visual Studio API, allowing the majority of the code to only depend on this facade, not the concrete API.
-
-The `VSFacade` class should be used in a similar manner as the `VS` class from [Community.VisualStudio.Toolkit](https://github.com/VsixCommunity/Community.VisualStudio.Toolkit),
-but it is extended with additional functions.
+An API facade abstracts away the complexity of the Visual Studio API, enabling the bulk of the code to interact with this facade rather than directly with varying versions of dependencies.
 
 ## Projects
 
 | Project | Description |
 |---|---|
-| ExtensionManager.VisualStudio.Abstractions | Provides the abstraction for the facade and includes the `VSFacade` class |
-| ExtensionManager.VisualStudio.V15 | Divergent implementation and referenced DLLs for Visual Studio 2017 |
-| ExtensionManager.VisualStudio.V16 | Divergent implementation and referenced DLLs for Visual Studio 2019 |
-| ExtensionManager.VisualStudio.V17 | Divergent implementation and referenced DLLs for Visual Studio 2022 |
-| ExtensionManager.VisualStudio.Shared | Contains the shared code and the implementation of the `VSFacade` class. |
+| ExtensionManager.VisualStudio.Abstractions | Houses the facade abstraction |
+| ExtensionManager.VisualStudio.VS2017 | Specifies dependencies for projects targeting Visual Studio 2017 |
+| ExtensionManager.VisualStudio.VS2019 | Specifies dependencies for projects targeting Visual Studio 2019 |
+| ExtensionManager.VisualStudio.VS2022 | Specifies dependencies for projects targeting Visual Studio 2022 |
+| ExtensionManager.VisualStudio.Shared | Contains the implementation of the abstractions |

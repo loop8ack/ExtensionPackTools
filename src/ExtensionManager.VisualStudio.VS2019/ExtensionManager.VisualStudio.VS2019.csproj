@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <VsixTargetVersion>16</VsixTargetVersion>
+    <VSVersion>2019</VSVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,12 +14,7 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
   </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\ExtensionManager.VisualStudio.Adapter.Abstractions\ExtensionManager.VisualStudio.Adapter.Abstractions.csproj" />
-    <ProjectReference Include="..\ExtensionManager.VisualStudio.Adapter.Generator\ExtensionManager.VisualStudio.Adapter.Generator.csproj" />
-  </ItemGroup>
-
+  
   <Import Project="..\ExtensionManager.VisualStudio.Shared\ExtensionManager.VisualStudio.Shared.projitems" Label="Shared" />
   <Import Project="..\ExtensionManager.VisualStudio.props" />
 

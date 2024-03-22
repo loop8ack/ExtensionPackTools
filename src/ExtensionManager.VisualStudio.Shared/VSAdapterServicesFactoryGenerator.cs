@@ -4,13 +4,7 @@ using System.Reflection;
 
 using ExtensionManager.VisualStudio.Adapter.Generator;
 
-#if V15
-namespace ExtensionManager.VisualStudio.V15;
-#elif V16
-namespace ExtensionManager.VisualStudio.V16;
-#elif V17
-namespace ExtensionManager.VisualStudio.V17;
-#endif
+namespace ExtensionManager.VisualStudio;
 
 internal sealed class VSAdapterServicesFactoryGenerator : VSAdapterServicesFactoryGeneratorBase
 {
@@ -21,12 +15,12 @@ internal sealed class VSAdapterServicesFactoryGenerator : VSAdapterServicesFacto
 
     protected override string GetGalleryExtensionBaseTypeName()
     {
-#if V15 || V16
+#if VS2017 || VS2019
         return "GalleryOnlineExtension";
-#elif V17
+#elif VS2022
         return "OnlineExtensionBase";
 #else
-        throw new NotImplementedException();
+#error Not implemented
 #endif
     }
 
@@ -40,17 +34,17 @@ internal sealed class VSAdapterServicesFactoryGenerator : VSAdapterServicesFacto
     
     private IEnumerable<string> GetVisualStudioAssemblyFilePaths(string devenvDirectory)
     {
-#if V15 || V16
+#if VS2017 || VS2019
         yield return @$"{devenvDirectory}Microsoft.VisualStudio.ExtensionEngine.dll";
         yield return @$"{devenvDirectory}PrivateAssemblies\Microsoft.VisualStudio.ExtensionManager.dll";
         yield return @$"{devenvDirectory}PrivateAssemblies\Microsoft.VisualStudio.ExtensionsExplorer.dll";
-#elif V17
+#elif VS2022
         yield return @$"{devenvDirectory}Microsoft.VisualStudio.ExtensionEngine.dll";
         yield return @$"{devenvDirectory}Microsoft.VisualStudio.ExtensionEngineContract.dll";
         yield return @$"{devenvDirectory}PrivateAssemblies\Microsoft.VisualStudio.ExtensionManager.dll";
         yield return @$"{devenvDirectory}PrivateAssemblies\Microsoft.VisualStudio.ExtensionsExplorer.dll";
 #else
-        throw new NotImplementedException();
+#error Not implemented
 #endif
     }
 }

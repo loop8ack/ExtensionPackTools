@@ -2,11 +2,13 @@
 
   <PropertyGroup>
     <RootNamespace>ExtensionManager.VisualStudio</RootNamespace>
-    <DefineConstants>$(DefineConstants);V$(VsixTargetVersion)</DefineConstants>
+    <DefineConstants>$(DefineConstants);VS$(VSVersion)</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\ExtensionManager.VisualStudio.Abstractions\ExtensionManager.VisualStudio.Abstractions.csproj" />
+    <ProjectReference Include="..\ExtensionManager.VisualStudio.Adapter.Abstractions\ExtensionManager.VisualStudio.Adapter.Abstractions.csproj" />
+    <ProjectReference Include="..\ExtensionManager.VisualStudio.Adapter.Generator\ExtensionManager.VisualStudio.Adapter.Generator.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,16 +1,12 @@
 using System;
 using System.ComponentModel.Design;
-using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
-using System.Threading.Tasks;
 
 using Community.VisualStudio.Toolkit;
-
-using EnvDTE;
 
 using ExtensionManager.Features.Export;
 using ExtensionManager.Features.Install;
@@ -64,14 +60,14 @@ public sealed class ExtensionManagerPackage : AsyncPackage
 
     private static IVSServicesRegistrar CreateVSServiceFactory(Version vsVersion)
     {
-#if V17
-        return new VisualStudio.V17.VSServicesRegistrar(vsVersion);
-#elif V16
-        return new VisualStudio.V16.VSServicesRegistrar(vsVersion);
-#elif V15
-        return new VisualStudio.V15.VSServicesRegistrar(vsVersion);
+#if VS2022
+        return new VisualStudio.VS2022.VSServicesRegistrar(vsVersion);
+#elif VS2019
+        return new VisualStudio.VS2019.VSServicesRegistrar(vsVersion);
+#elif VS2017
+        return new VisualStudio.VS2017.VSServicesRegistrar(vsVersion);
 #else
-        throw new InvalidOperationException("Not supported Visual Studio version");
+#error Not implemented
 #endif
     }
 

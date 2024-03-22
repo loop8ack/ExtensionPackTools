@@ -11,14 +11,12 @@ using Microsoft.VisualStudio.ExtensionManager;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 
-#if V15
-namespace ExtensionManager.VisualStudio.V15;
-#elif V16
-namespace ExtensionManager.VisualStudio.V16;
-#elif V17_5
-namespace ExtensionManager.VisualStudio.V17_5;
-#elif V17_7
-namespace ExtensionManager.VisualStudio.V17_7;
+#if VS2017
+namespace ExtensionManager.VisualStudio.VS2017;
+#elif VS2019
+namespace ExtensionManager.VisualStudio.VS2019;
+#elif VS2022
+namespace ExtensionManager.VisualStudio.VS2022;
 #endif
 
 public sealed class VisualStudioServices : IVisualStudioServices

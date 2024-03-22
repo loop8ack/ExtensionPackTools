@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <MinimumVisualStudioVersion>$(VisualStudioVersion)</MinimumVisualStudioVersion>
@@ -51,7 +51,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <DefineConstants>$(DefineConstants);V17</DefineConstants>
+    <DefineConstants>$(DefineConstants);VS2022</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Content Include="..\..\LICENSE">
@@ -122,9 +122,9 @@
       <Project>{3a474662-f23f-4339-bf62-22d52b834cfc}</Project>
       <Name>ExtensionManager.VisualStudio.Abstractions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ExtensionManager.VisualStudio.V17\ExtensionManager.VisualStudio.V17.csproj">
+    <ProjectReference Include="..\ExtensionManager.VisualStudio.VS2022\ExtensionManager.VisualStudio.VS2022.csproj">
       <Project>{8cad40ad-aaec-4f29-9e74-cbd51d5c4001}</Project>
-      <Name>ExtensionManager.VisualStudio.V17</Name>
+      <Name>ExtensionManager.VisualStudio.VS2022</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="..\ExtensionManager.Vsix.Shared\ExtensionManager.Vsix.Shared.projitems" Label="Shared" />

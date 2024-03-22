@@ -11,12 +11,12 @@ using ExtensionManager.VisualStudio.Threads;
 
 using Microsoft.Extensions.DependencyInjection;
 
-#if V15
-namespace ExtensionManager.VisualStudio.V15;
-#elif V16
-namespace ExtensionManager.VisualStudio.V16;
-#elif V17
-namespace ExtensionManager.VisualStudio.V17;
+#if VS2017
+namespace ExtensionManager.VisualStudio.VS2017;
+#elif VS2019
+namespace ExtensionManager.VisualStudio.VS2019;
+#elif VS2022
+namespace ExtensionManager.VisualStudio.VS2022;
 #endif
 
 public sealed class VSServicesRegistrar : IVSServicesRegistrar
