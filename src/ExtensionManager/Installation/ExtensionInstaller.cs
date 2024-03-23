@@ -34,8 +34,6 @@ internal sealed class ExtensionInstaller : IExtensionInstaller
 
         uiProgress.Report(null, InstallStep.DownloadData);
 
-        extensions = await _extensions.GetGalleryExtensionsAsync(extensions.Select(x => x.Id)).ConfigureAwait(false);
-
         try
         {
             IReadOnlyList<ExtensionDownloader>? downloaders;

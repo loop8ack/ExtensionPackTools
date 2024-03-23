@@ -1,3 +1,5 @@
+using System.Runtime.Remoting.Channels;
+
 using ExtensionManager.Manifest;
 using ExtensionManager.UI.Utils;
 using ExtensionManager.UI.ViewModels;
@@ -61,19 +63,33 @@ internal sealed class DialogService : IDialogService
         await ShowInstallExportDialogAsync(vm);
     }
 
-    public Task ShowInstallDialogAsync(IInstallWorker worker, IManifest manifest, IReadOnlyCollection<IVSExtension> installedExtensions)
-        => ShowInstallForSolutionDialogAsync(worker, manifest, installedExtensions, forSolution: false);
-    public Task ShowInstallForSolutionDialogAsync(IInstallWorker worker, IManifest manifest, IReadOnlyCollection<IVSExtension> installedExtensions)
-        => ShowInstallForSolutionDialogAsync(worker, manifest, installedExtensions, forSolution: true);
-    private async Task ShowInstallForSolutionDialogAsync(IInstallWorker worker, IManifest manifest, IReadOnlyCollection<IVSExtension> installedExtensions, bool forSolution)
+    public Task ShowInstallDialogAsync(IInstallWorker worker, IManifest manifest, IReadOnlyCollection<VSExtensionToInstall> extensions)
+        => ShowInstallForSolutionDialogAsync(worker, manifest, extensions, forSolution: false);
+    public Task ShowInstallForSolutionDialogAsync(IInstallWorker worker, IManifest manifest, IReadOnlyCollection<VSExtensionToInstall> extensions)
+        => ShowInstallForSolutionDialogAsync(worker, manifest, extensions, forSolution: true);
+    private async Task ShowInstallForSolutionDialogAsync(IInstallWorker worker, IManifest manifest, IReadOnlyCollection<VSExtensionToInstall> extensions, bool forSolution)
     {
         var vm = new InstallDialogViewModel(worker, manifest, forSolution);
 
-        foreach (var ext in manifest.Extensions)
+        foreach (var (extension, status) in extensions)
         {
-            var isInstalled = installedExtensions.Contains(ext, ExtensionEqualityComparerById.Instance);
+            switch (status)
+            {
+                case VSExtensionStatus.Installed:
+                    vm.AddExtension(extension, canBeSelected: false, group: "Already installed");
+                    break;
 
-            vm.AddExtension(ext, isInstalled);
+                case VSExtensionStatus.NotInstalled:
+                    vm.AddExtension(extension, canBeSelected: true, group: "Extensions");
+                    break;
+
+                case VSExtensionStatus.NotSupported:
+                    vm.AddExtension(extension, canBeSelected: false, group: "Not supported");
+                    break;
+
+                default:
+                    throw new InvalidOperationException($"Unknown status {status} for extension {extension.Id}");
+            }
         }
 
         await ShowInstallExportDialogAsync(vm);

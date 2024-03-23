@@ -14,8 +14,8 @@ public sealed class ExportFeature : ExportFeatureBase
     protected override async Task<string?> GetFilePathAsync()
         => await DialogService.ShowSaveVsextFileDialogAsync();
 
-    protected override async Task ShowExportDialogAsync(IManifest manifest, IExportWorker worker, IReadOnlyCollection<IVSExtension> installedExtensions)
-        => await DialogService.ShowExportDialogAsync(worker, manifest, installedExtensions);
+    protected override async Task ShowExportDialogAsync(IManifest manifest, IExportWorker worker, IReadOnlyCollection<IVSExtension> extensions)
+        => await DialogService.ShowExportDialogAsync(worker, manifest, extensions);
 
     protected override async Task OnManifestWrittenAsync(string filePath)
         => await Documents.OpenAsync(filePath);

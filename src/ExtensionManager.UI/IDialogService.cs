@@ -11,6 +11,6 @@ public interface IDialogService
 
     Task ShowExportDialogAsync(IExportWorker worker, IManifest manifest, IReadOnlyCollection<IVSExtension> installedExtensions);
     Task ShowExportForSolutionDialogAsync(IExportWorker worker, IManifest manifest, IReadOnlyCollection<IVSExtension> installedExtensions);
-    Task ShowInstallDialogAsync(IInstallWorker worker, IManifest manifest, IReadOnlyCollection<IVSExtension> installedExtensions);
-    Task ShowInstallForSolutionDialogAsync(IInstallWorker worker, IManifest manifest, IReadOnlyCollection<IVSExtension> installedExtensions);
+    Task ShowInstallDialogAsync(IInstallWorker worker, IManifest manifest, IReadOnlyCollection<VSExtensionToInstall> extensions);
+    Task ShowInstallForSolutionDialogAsync(IInstallWorker worker, IManifest manifest, IReadOnlyCollection<VSExtensionToInstall> extensions);
 }

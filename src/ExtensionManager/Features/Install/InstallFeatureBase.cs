@@ -2,6 +2,7 @@ using ExtensionManager.Installation;
 using ExtensionManager.Manifest;
 using ExtensionManager.UI;
 using ExtensionManager.UI.Worker;
+using ExtensionManager.Utils;
 using ExtensionManager.VisualStudio.Extensions;
 using ExtensionManager.VisualStudio.MessageBox;
 
@@ -50,10 +51,32 @@ public abstract class InstallFeatureBase : IFeature, IInstallWorker
         if (!File.Exists(filePath))
             return;
 
-        var installedExtensions = await Extensions.GetInstalledExtensionsAsync().ConfigureAwait(false);
         var manifest = await ManifestService.ReadAsync(filePath).ConfigureAwait(false);
+        var extensionsToInstall = await CreateExtensionsToInstallListAsync(manifest.Extensions).ConfigureAwait(false);
 
-        await ShowInstallDialogAsync(manifest, this, installedExtensions);
+        await ShowInstallDialogAsync(manifest, this, extensionsToInstall);
+    }
+
+    private async Task<IReadOnlyList<VSExtensionToInstall>> CreateExtensionsToInstallListAsync(IEnumerable<IVSExtension> toInstall)
+    {
+        var installed = await Extensions.GetInstalledExtensionsAsync().ConfigureAwait(false);
+        var gallery = await Extensions.GetGalleryExtensionsAsync(toInstall.Select(x => x.Id)).ConfigureAwait(false);
+
+        var statuses = new Dictionary<string, VSExtensionStatus>();
+
+        foreach (var extension in toInstall)
+            statuses[extension.Id] = VSExtensionStatus.NotSupported;
+
+        foreach (var extension in gallery)
+            statuses[extension.Id] = VSExtensionStatus.NotInstalled;
+
+        foreach (var extension in installed.Intersect(toInstall, ExtensionEqualityComparer.Instance))
+            statuses[extension.Id] = VSExtensionStatus.Installed;
+
+        return toInstall
+            .Distinct(ExtensionEqualityComparer.Instance)
+            .Select(x => new VSExtensionToInstall(x, statuses[x.Id]))
+            .ToList();
     }
 
     async Task IInstallWorker.InstallAsync(IManifest manifest, IReadOnlyCollection<IVSExtension> extensions, bool systemWide, IProgress<ProgressStep<InstallStep>> progress, CancellationToken cancellationToken)
@@ -63,5 +86,5 @@ public abstract class InstallFeatureBase : IFeature, IInstallWorker
     }
 
     protected abstract Task<string?> GetFilePathAsync();
-    protected abstract Task ShowInstallDialogAsync(IManifest manifest, IInstallWorker worker, IReadOnlyCollection<IVSExtension> installedExtensions);
+    protected abstract Task ShowInstallDialogAsync(IManifest manifest, IInstallWorker worker, IReadOnlyCollection<VSExtensionToInstall> extensions);
 }

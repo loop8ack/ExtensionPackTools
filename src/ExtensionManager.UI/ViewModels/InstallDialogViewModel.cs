@@ -18,12 +18,12 @@ internal class InstallDialogViewModel : InstallExportDialogViewModel<InstallStep
         _manifest = manifest;
     }
 
-    public void AddExtension(IVSExtension extension, bool isInstalled)
+    public void AddExtension(IVSExtension extension, bool canBeSelected, string? group)
     {
         Extensions.Add(new(extension)
         {
-            CanBeSelected = !isInstalled,
-            Group = isInstalled ? "Already installed" : "Extensions",
+            CanBeSelected = canBeSelected,
+            Group = group,
         });
     }
 

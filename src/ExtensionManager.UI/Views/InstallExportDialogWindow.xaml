@@ -183,7 +183,7 @@
                         <Grid.Resources>
                             <CollectionViewSource x:Key="ExtensionsSource" Source="{Binding Extensions}">
                                 <CollectionViewSource.SortDescriptions>
-                                    <scm:SortDescription PropertyName="Group" Direction="Descending" />
+                                    <scm:SortDescription PropertyName="CanBeSelected" Direction="Descending" />
                                 </CollectionViewSource.SortDescriptions>
 
                                 <CollectionViewSource.GroupDescriptions>
