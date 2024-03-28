@@ -1,6 +1,10 @@
+using System;
+using System.Collections.Generic;
 using System.Reflection;
 
 using ExtensionManager.VisualStudio.Adapter.Generator;
+
+#nullable enable
 
 namespace ExtensionManager.VisualStudio;
 

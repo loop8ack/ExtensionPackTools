@@ -21,22 +21,26 @@ jobs:
           fetch-depth: 0
 
       - name: Download VSIX 2017
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4.1.4
         with:
           name: ExtensionManager2017.vsix
-          path: artifacts
 
       - name: Download VSIX 2019
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4.1.4
         with:
           name: ExtensionManager2019.vsix
-          path: artifacts
 
       - name: Download VSIX 2022
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4.1.4
         with:
           name: ExtensionManager2022.vsix
-          path: artifacts
+
+      - name: Unzip VSIX Archives
+        shell: pwsh
+        run: |
+          Get-ChildItem . -Filter *.zip | ForEach-Object {
+            Expand-Archive -LiteralPath $_.FullName -DestinationPath .
+          }
 
       - name: Create version tag
         run: |
@@ -55,4 +59,4 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release upload v${{ needs.build.outputs.version }} "artifacts/ExtensionManager2017.vsix" "artifacts/ExtensionManager2019.vsix" "artifacts/ExtensionManager2022.vsix"
+          gh release upload v${{ needs.build.outputs.version }} "ExtensionManager2017.vsix" "ExtensionManager2019.vsix" "ExtensionManager2022.vsix"

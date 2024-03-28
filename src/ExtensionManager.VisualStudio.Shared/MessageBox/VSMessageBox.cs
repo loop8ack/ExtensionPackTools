@@ -1,6 +1,10 @@
+using System.Threading.Tasks;
+
 using Community.VisualStudio.Toolkit;
 
 using Microsoft.VisualStudio;
+
+#nullable enable
 
 namespace ExtensionManager.VisualStudio.MessageBox;
 

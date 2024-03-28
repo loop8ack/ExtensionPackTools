@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="3d183c28-64c6-4efb-a201-50310d65e675" Version="1.2.9999" Language="en-US" Publisher="Loop8ack" />
+        <Identity Id="3d183c28-64c6-4efb-a201-50310d65e675" Version="9.9.9999" Language="en-US" Publisher="Loop8ack" />
         <DisplayName>Extension Manager 2022</DisplayName>
         <Description xml:space="preserve">Import/export extensions as well as associate extensions with individual solutions</Description>
         <MoreInfo>https://github.com/loop8ack/ExtensionPackTools</MoreInfo>

@@ -1,4 +1,8 @@
+using System.Threading.Tasks;
+
 using Community.VisualStudio.Toolkit;
+
+#nullable enable
 
 namespace ExtensionManager.VisualStudio.Documents;
 

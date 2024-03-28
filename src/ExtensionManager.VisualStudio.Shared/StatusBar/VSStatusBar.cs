@@ -1,4 +1,8 @@
+using System.Threading.Tasks;
+
 using VS = Community.VisualStudio.Toolkit.VS;
+
+#nullable enable
 
 namespace ExtensionManager.VisualStudio.StatusBar;
 

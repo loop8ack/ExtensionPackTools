@@ -19,7 +19,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>ExtensionManager</RootNamespace>
     <AssemblyName>$(MSBuildProjectName)</AssemblyName>
-    <TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <GeneratePkgDefFile>true</GeneratePkgDefFile>
     <IncludeAssemblyInVSIXContainer>true</IncludeAssemblyInVSIXContainer>
     <IncludeDebugSymbolsInVSIXContainer>true</IncludeDebugSymbolsInVSIXContainer>
@@ -28,7 +28,7 @@
     <CopyOutputSymbolsToOutputDirectory>false</CopyOutputSymbolsToOutputDirectory>
     <StartAction>Program</StartAction>
     <StartProgram Condition="'$(DevEnvDir)' != ''">$(DevEnvDir)devenv.exe</StartProgram>
-    <StartArguments>/rootsuffix Exp</StartArguments>
+    <StartArguments>/rootsuffix Exp /Log</StartArguments>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -51,6 +51,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <DefineConstants>$(DefineConstants);VS2017</DefineConstants>
+    <TargetVsixContainerName>ExtensionManager2017.vsix</TargetVsixContainerName>
   </PropertyGroup>
   <ItemGroup>
     <Content Include="..\..\LICENSE">
@@ -95,10 +96,18 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Madskristensen.VisualStudio.SDK" ExcludeAssets="runtime" Version="15.7.81-pre" />
-    <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="17.0.1619-preview1">
+    <PackageReference Include="Community.VisualStudio.Toolkit.15">
+      <Version>15.0.507</Version>
+    </PackageReference>
+    <PackageReference Include="Madskristensen.VisualStudio.SDK">
+      <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <ExcludeAssets>runtime</ExcludeAssets>
+      <Version>15.7.81-pre</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VSSDK.BuildTools">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
+      <Version>17.0.1619-preview1</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
@@ -110,6 +119,14 @@
       <Project>{6468e392-1c88-4f3c-b8d7-e61f942adbfc}</Project>
       <Name>ExtensionManager.UI</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ExtensionManager.VisualStudio.Adapter.Abstractions\ExtensionManager.VisualStudio.Adapter.Abstractions.csproj">
+      <Project>{78e14f78-6b4a-4e64-95c1-7cc4e91d4a9f}</Project>
+      <Name>ExtensionManager.VisualStudio.Adapter.Abstractions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ExtensionManager.VisualStudio.Adapter.Generator\ExtensionManager.VisualStudio.Adapter.Generator.csproj">
+      <Project>{9baca2e2-713c-42fc-9aa0-a128d48e2d12}</Project>
+      <Name>ExtensionManager.VisualStudio.Adapter.Generator</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ExtensionManager\ExtensionManager.csproj">
       <Project>{B03BF78A-E1A1-4295-A3B2-C5C1AC7E5F70}</Project>
       <Name>ExtensionManager</Name>
@@ -118,12 +135,9 @@
       <Project>{3a474662-f23f-4339-bf62-22d52b834cfc}</Project>
       <Name>ExtensionManager.VisualStudio.Abstractions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ExtensionManager.VisualStudio.VS2017\ExtensionManager.VisualStudio.VS2017.csproj">
-      <Project>{c555a2a9-6045-41d1-a8b4-7b9ee859ca96}</Project>
-      <Name>ExtensionManager.VisualStudio.VS2017</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="..\ExtensionManager.Vsix.Shared\ExtensionManager.Vsix.Shared.projitems" Label="Shared" />
+  <Import Project="..\ExtensionManager.VisualStudio.Shared\ExtensionManager.VisualStudio.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="..\ExtensionManager.Vsix.props" />

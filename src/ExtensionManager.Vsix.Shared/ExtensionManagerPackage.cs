@@ -60,12 +60,12 @@ public sealed class ExtensionManagerPackage : AsyncPackage
 
     private static IVSServicesRegistrar CreateVSServiceFactory(Version vsVersion)
     {
-#if VS2022
-        return new VisualStudio.VS2022.VSServicesRegistrar(vsVersion);
+#if VS2017
+        return new VisualStudio.VS2017.VSServicesRegistrar(vsVersion);
 #elif VS2019
         return new VisualStudio.VS2019.VSServicesRegistrar(vsVersion);
-#elif VS2017
-        return new VisualStudio.VS2017.VSServicesRegistrar(vsVersion);
+#elif VS2022
+        return new VisualStudio.VS2022.VSServicesRegistrar(vsVersion);
 #else
 #error Not implemented
 #endif

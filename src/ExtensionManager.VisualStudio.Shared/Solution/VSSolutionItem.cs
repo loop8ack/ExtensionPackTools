@@ -1,5 +1,7 @@
 using CT = Community.VisualStudio.Toolkit;
 
+#nullable enable
+
 namespace ExtensionManager.VisualStudio.Solution;
 
 internal class VSSolutionItem<TItem> : IVSSolutionItem

@@ -1,6 +1,9 @@
-using Microsoft.VisualStudio.Shell;
+using System;
+using System.Threading.Tasks;
 
-using Task = System.Threading.Tasks.Task;
+using ThreadHelper = Microsoft.VisualStudio.Shell.ThreadHelper;
+
+#nullable enable
 
 namespace ExtensionManager.VisualStudio.Threads;
 

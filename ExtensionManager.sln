@@ -23,7 +23,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "VisualStudio", "VisualStudio", "{DD63B191-4457-40BA-984A-0C1D6B95D197}"
 	ProjectSection(SolutionItems) = preProject
 		src\ExtensionManager.VisualStudio.md = src\ExtensionManager.VisualStudio.md
-		src\ExtensionManager.VisualStudio.props = src\ExtensionManager.VisualStudio.props
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExtensionManager.VisualStudio.Abstractions", "src\ExtensionManager.VisualStudio.Abstractions\ExtensionManager.VisualStudio.Abstractions.csproj", "{3A474662-F23F-4339-BF62-22D52B834CFC}"
@@ -50,7 +49,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{431E
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{5C6EB350-6BEE-4D5A-B02F-7B331D6D8FE8}"
 	ProjectSection(SolutionItems) = preProject
-		.github\workflows\Build Redevelopment.yml = .github\workflows\Build Redevelopment.yml
 		.github\workflows\Build.yml = .github\workflows\Build.yml
 		.github\workflows\Release.yml = .github\workflows\Release.yml
 	EndProjectSection
@@ -61,14 +59,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExtensionManager.VisualStud
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Adapter", "Adapter", "{F180C738-5477-4CE7-9D4A-247BB4E5C1DF}"
 	ProjectSection(SolutionItems) = preProject
-		ExtensionManager.VisualStudio.Adapter.md = ExtensionManager.VisualStudio.Adapter.md
+		src\ExtensionManager.VisualStudio.Adapter.md = src\ExtensionManager.VisualStudio.Adapter.md
 	EndProjectSection
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExtensionManager.VisualStudio.VS2019", "src\ExtensionManager.VisualStudio.VS2019\ExtensionManager.VisualStudio.VS2019.csproj", "{37A5DBB8-C876-4D60-A972-4EC91A857C11}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExtensionManager.VisualStudio.VS2017", "src\ExtensionManager.VisualStudio.VS2017\ExtensionManager.VisualStudio.VS2017.csproj", "{76FBCF19-CCFF-450E-9B37-4601CDEA0D71}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExtensionManager.VisualStudio.VS2022", "src\ExtensionManager.VisualStudio.VS2022\ExtensionManager.VisualStudio.VS2022.csproj", "{E669F8BE-9801-4794-ADF9-26949DBAFF8D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtensionManager.Vsix.VS2017", "src\ExtensionManager.Vsix.VS2017\ExtensionManager.Vsix.VS2017.csproj", "{E2DDEDFD-659B-40D1-A8DB-2048E3556FDB}"
 EndProject
@@ -158,42 +150,6 @@ Global
 		{9BACA2E2-713C-42FC-9AA0-A128D48E2D12}.Release|arm64.Build.0 = Release|Any CPU
 		{9BACA2E2-713C-42FC-9AA0-A128D48E2D12}.Release|x86.ActiveCfg = Release|Any CPU
 		{9BACA2E2-713C-42FC-9AA0-A128D48E2D12}.Release|x86.Build.0 = Release|Any CPU
-		{37A5DBB8-C876-4D60-A972-4EC91A857C11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{37A5DBB8-C876-4D60-A972-4EC91A857C11}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{37A5DBB8-C876-4D60-A972-4EC91A857C11}.Debug|arm64.ActiveCfg = Debug|Any CPU
-		{37A5DBB8-C876-4D60-A972-4EC91A857C11}.Debug|arm64.Build.0 = Debug|Any CPU
-		{37A5DBB8-C876-4D60-A972-4EC91A857C11}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{37A5DBB8-C876-4D60-A972-4EC91A857C11}.Debug|x86.Build.0 = Debug|Any CPU
-		{37A5DBB8-C876-4D60-A972-4EC91A857C11}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{37A5DBB8-C876-4D60-A972-4EC91A857C11}.Release|Any CPU.Build.0 = Release|Any CPU
-		{37A5DBB8-C876-4D60-A972-4EC91A857C11}.Release|arm64.ActiveCfg = Release|Any CPU
-		{37A5DBB8-C876-4D60-A972-4EC91A857C11}.Release|arm64.Build.0 = Release|Any CPU
-		{37A5DBB8-C876-4D60-A972-4EC91A857C11}.Release|x86.ActiveCfg = Release|Any CPU
-		{37A5DBB8-C876-4D60-A972-4EC91A857C11}.Release|x86.Build.0 = Release|Any CPU
-		{76FBCF19-CCFF-450E-9B37-4601CDEA0D71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{76FBCF19-CCFF-450E-9B37-4601CDEA0D71}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{76FBCF19-CCFF-450E-9B37-4601CDEA0D71}.Debug|arm64.ActiveCfg = Debug|Any CPU
-		{76FBCF19-CCFF-450E-9B37-4601CDEA0D71}.Debug|arm64.Build.0 = Debug|Any CPU
-		{76FBCF19-CCFF-450E-9B37-4601CDEA0D71}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{76FBCF19-CCFF-450E-9B37-4601CDEA0D71}.Debug|x86.Build.0 = Debug|Any CPU
-		{76FBCF19-CCFF-450E-9B37-4601CDEA0D71}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{76FBCF19-CCFF-450E-9B37-4601CDEA0D71}.Release|Any CPU.Build.0 = Release|Any CPU
-		{76FBCF19-CCFF-450E-9B37-4601CDEA0D71}.Release|arm64.ActiveCfg = Release|Any CPU
-		{76FBCF19-CCFF-450E-9B37-4601CDEA0D71}.Release|arm64.Build.0 = Release|Any CPU
-		{76FBCF19-CCFF-450E-9B37-4601CDEA0D71}.Release|x86.ActiveCfg = Release|Any CPU
-		{76FBCF19-CCFF-450E-9B37-4601CDEA0D71}.Release|x86.Build.0 = Release|Any CPU
-		{E669F8BE-9801-4794-ADF9-26949DBAFF8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E669F8BE-9801-4794-ADF9-26949DBAFF8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E669F8BE-9801-4794-ADF9-26949DBAFF8D}.Debug|arm64.ActiveCfg = Debug|Any CPU
-		{E669F8BE-9801-4794-ADF9-26949DBAFF8D}.Debug|arm64.Build.0 = Debug|Any CPU
-		{E669F8BE-9801-4794-ADF9-26949DBAFF8D}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{E669F8BE-9801-4794-ADF9-26949DBAFF8D}.Debug|x86.Build.0 = Debug|Any CPU
-		{E669F8BE-9801-4794-ADF9-26949DBAFF8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E669F8BE-9801-4794-ADF9-26949DBAFF8D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E669F8BE-9801-4794-ADF9-26949DBAFF8D}.Release|arm64.ActiveCfg = Release|Any CPU
-		{E669F8BE-9801-4794-ADF9-26949DBAFF8D}.Release|arm64.Build.0 = Release|Any CPU
-		{E669F8BE-9801-4794-ADF9-26949DBAFF8D}.Release|x86.ActiveCfg = Release|Any CPU
-		{E669F8BE-9801-4794-ADF9-26949DBAFF8D}.Release|x86.Build.0 = Release|Any CPU
 		{E2DDEDFD-659B-40D1-A8DB-2048E3556FDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E2DDEDFD-659B-40D1-A8DB-2048E3556FDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E2DDEDFD-659B-40D1-A8DB-2048E3556FDB}.Debug|arm64.ActiveCfg = Debug|arm64
@@ -249,9 +205,6 @@ Global
 		{78E14F78-6B4A-4E64-95C1-7CC4E91D4A9F} = {F180C738-5477-4CE7-9D4A-247BB4E5C1DF}
 		{9BACA2E2-713C-42FC-9AA0-A128D48E2D12} = {F180C738-5477-4CE7-9D4A-247BB4E5C1DF}
 		{F180C738-5477-4CE7-9D4A-247BB4E5C1DF} = {DD63B191-4457-40BA-984A-0C1D6B95D197}
-		{37A5DBB8-C876-4D60-A972-4EC91A857C11} = {DD63B191-4457-40BA-984A-0C1D6B95D197}
-		{76FBCF19-CCFF-450E-9B37-4601CDEA0D71} = {DD63B191-4457-40BA-984A-0C1D6B95D197}
-		{E669F8BE-9801-4794-ADF9-26949DBAFF8D} = {DD63B191-4457-40BA-984A-0C1D6B95D197}
 		{E2DDEDFD-659B-40D1-A8DB-2048E3556FDB} = {DA9ABE41-806C-442B-B8D5-56AD9C958E32}
 		{44FB8945-D937-4F89-B8F5-3DEB763BDD0E} = {DA9ABE41-806C-442B-B8D5-56AD9C958E32}
 		{DD73CF2D-9D26-4760-928B-454B9B682246} = {DA9ABE41-806C-442B-B8D5-56AD9C958E32}
@@ -260,17 +213,17 @@ Global
 		SolutionGuid = {1BD96434-7B7A-4183-ABA0-CA3DC2FCD23B}
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		src\ExtensionManager.VisualStudio.Shared\ExtensionManager.VisualStudio.Shared.projitems*{37a5dbb8-c876-4d60-a972-4ec91a857c11}*SharedItemsImports = 5
+		src\ExtensionManager.VisualStudio.Shared\ExtensionManager.VisualStudio.Shared.projitems*{44fb8945-d937-4f89-b8f5-3deb763bdd0e}*SharedItemsImports = 4
 		src\ExtensionManager.Vsix.Shared\ExtensionManager.Vsix.Shared.projitems*{44fb8945-d937-4f89-b8f5-3deb763bdd0e}*SharedItemsImports = 4
 		src\ExtensionManager.Shared\ExtensionManager.Shared.projitems*{6468e392-1c88-4f3c-b8d7-e61f942adbfc}*SharedItemsImports = 5
 		src\ExtensionManager.Shared\ExtensionManager.Shared.projitems*{6539aa53-aa60-402d-9334-83d3a63459db}*SharedItemsImports = 5
-		src\ExtensionManager.VisualStudio.Shared\ExtensionManager.VisualStudio.Shared.projitems*{76fbcf19-ccff-450e-9b37-4601cdea0d71}*SharedItemsImports = 5
 		src\ExtensionManager.Vsix.Shared\ExtensionManager.Vsix.Shared.projitems*{77052739-b59a-4e8b-9e4a-8d1372f0e6b5}*SharedItemsImports = 13
 		src\ExtensionManager.Shared\ExtensionManager.Shared.projitems*{c67042cb-6c88-4273-bef3-6a99b87b4c3f}*SharedItemsImports = 5
 		src\ExtensionManager.VisualStudio.Shared\ExtensionManager.VisualStudio.Shared.projitems*{db482bd0-94ba-4e7d-8a51-ac2a2663267a}*SharedItemsImports = 13
+		src\ExtensionManager.VisualStudio.Shared\ExtensionManager.VisualStudio.Shared.projitems*{dd73cf2d-9d26-4760-928b-454b9b682246}*SharedItemsImports = 4
 		src\ExtensionManager.Vsix.Shared\ExtensionManager.Vsix.Shared.projitems*{dd73cf2d-9d26-4760-928b-454b9b682246}*SharedItemsImports = 4
 		src\ExtensionManager.Shared\ExtensionManager.Shared.projitems*{e21ceac2-5e8c-4ae9-84ee-2e390cd272a9}*SharedItemsImports = 13
+		src\ExtensionManager.VisualStudio.Shared\ExtensionManager.VisualStudio.Shared.projitems*{e2ddedfd-659b-40d1-a8db-2048e3556fdb}*SharedItemsImports = 4
 		src\ExtensionManager.Vsix.Shared\ExtensionManager.Vsix.Shared.projitems*{e2ddedfd-659b-40d1-a8db-2048e3556fdb}*SharedItemsImports = 4
-		src\ExtensionManager.VisualStudio.Shared\ExtensionManager.VisualStudio.Shared.projitems*{e669f8be-9801-4794-adf9-26949dbaff8d}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal

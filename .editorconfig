@@ -137,6 +137,12 @@ dotnet_code_quality_unused_parameters = non_public:warning
 # 'using' directive preferences
 csharp_using_directive_placement = outside_namespace:warning
 
+# Use primary constructor
+csharp_style_prefer_primary_constructors = false
+
+# Use collection expression
+dotnet_style_prefer_collection_expression = false
+
 ###############################
 # Formatting Rules            #
 ###############################

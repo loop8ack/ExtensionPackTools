@@ -1,4 +1,8 @@
+using System.Threading.Tasks;
+
 using CT = Community.VisualStudio.Toolkit;
+
+#nullable enable
 
 namespace ExtensionManager.VisualStudio.Solution;
 

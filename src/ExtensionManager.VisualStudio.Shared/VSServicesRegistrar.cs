@@ -1,3 +1,5 @@
+using System;
+
 using ExtensionManager.VisualStudio.Adapter;
 using ExtensionManager.VisualStudio.Documents;
 using ExtensionManager.VisualStudio.Extensions;
@@ -9,12 +11,16 @@ using ExtensionManager.VisualStudio.Threads;
 
 using Microsoft.Extensions.DependencyInjection;
 
+#nullable enable
+
 #if VS2017
 namespace ExtensionManager.VisualStudio.VS2017;
 #elif VS2019
 namespace ExtensionManager.VisualStudio.VS2019;
 #elif VS2022
 namespace ExtensionManager.VisualStudio.VS2022;
+#else
+#error Not implemented
 #endif
 
 public sealed class VSServicesRegistrar : IVSServicesRegistrar

@@ -11,7 +11,7 @@ namespace ExtensionManager
         public const string Name = "Extension Manager 2017";
         public const string Description = @"Import/export extensions as well as associate extensions with individual solutions";
         public const string Language = "en-US";
-        public const string Version = "1.2.9999";
+        public const string Version = "9.9.9999";
         public const string Author = "Loop8ack";
         public const string Tags = "extension pack, vsix";
     }
