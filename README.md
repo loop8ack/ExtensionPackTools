@@ -8,7 +8,7 @@ Download the extension from the [Visual Studio Marketplace](https://marketplace.
 
 --------------------------------------
 
-This extension allows you to export a list of extensions and importing them back into any instance of VS 2017.
+This extension allows you to export a list of extensions and importing them back into any instance of Visual Studio.
 
 ![Tools menu](art/menu_tools.png)
 
