@@ -17,14 +17,14 @@ internal static class VisualStudioExtensions
     {
         var solution = await solutions.GetCurrentOrThrowAsync();
 
-        if (solution.Name is null or { Length: 0 })
+        if (solution.FullPath is null or { Length: 0 })
         {
             await messageBox.ShowErrorAsync("The solution must be saved in order to manage solution extensions.").ConfigureAwait(false);
 
             return null;
         }
 
-        return Path.ChangeExtension(solution.Name, ".vsext");
+        return Path.ChangeExtension(solution.FullPath, ".vsext");
     }
 
     public static async Task<IVSSolution> GetCurrentOrThrowAsync(this IVSSolutions solutions)

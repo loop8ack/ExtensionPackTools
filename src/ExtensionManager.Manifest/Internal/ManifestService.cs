@@ -41,7 +41,12 @@ internal sealed class ManifestService : IManifestService
 
     public async Task WriteAsync(string filePath, IManifest manifest, CancellationToken cancellationToken)
     {
-        Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+        var directoryPath = Path.GetDirectoryName(filePath);
+
+        if (string.IsNullOrWhiteSpace(directoryPath))
+            directoryPath = ".";
+
+        Directory.CreateDirectory(directoryPath);
 
         using var stream = File.Create(filePath);
 
