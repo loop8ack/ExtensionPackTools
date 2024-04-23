@@ -1,7 +1,4 @@
-using System.Runtime.Remoting.Channels;
-
 using ExtensionManager.Manifest;
-using ExtensionManager.UI.Utils;
 using ExtensionManager.UI.ViewModels;
 using ExtensionManager.UI.Views;
 using ExtensionManager.UI.Worker;
@@ -114,7 +111,16 @@ internal sealed class DialogService : IDialogService
                 DataContext = viewModel
             };
 
-            window.ShowDialog();
+            try
+            {
+                window.ShowDialog();
+            }
+            catch
+            {
+                window.Close();
+
+                throw;
+            }
         }
     }
 }
