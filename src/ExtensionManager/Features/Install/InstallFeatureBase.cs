@@ -54,10 +54,10 @@ public abstract class InstallFeatureBase : IFeature, IInstallWorker
         var manifest = await ManifestService.ReadAsync(filePath).ConfigureAwait(false);
         var extensionsToInstall = await CreateExtensionsToInstallListAsync(manifest.Extensions).ConfigureAwait(false);
 
-        await ShowInstallDialogAsync(manifest, this, extensionsToInstall);
+        await ShowInstallDialogAsync(manifest, this, extensionsToInstall.ToList());
     }
 
-    private async Task<IReadOnlyList<VSExtensionToInstall>> CreateExtensionsToInstallListAsync(IEnumerable<IVSExtension> toInstall)
+    protected virtual async Task<IEnumerable<VSExtensionToInstall>> CreateExtensionsToInstallListAsync(IEnumerable<IVSExtension> toInstall)
     {
         var installed = await Extensions.GetInstalledExtensionsAsync().ConfigureAwait(false);
         var gallery = await Extensions.GetGalleryExtensionsAsync(toInstall.Select(x => x.Id)).ConfigureAwait(false);
@@ -75,8 +75,7 @@ public abstract class InstallFeatureBase : IFeature, IInstallWorker
 
         return toInstall
             .Distinct(ExtensionEqualityComparer.Instance)
-            .Select(x => new VSExtensionToInstall(x, statuses[x.Id]))
-            .ToList();
+            .Select(x => new VSExtensionToInstall(x, statuses[x.Id]));
     }
 
     async Task IInstallWorker.InstallAsync(IManifest manifest, IReadOnlyCollection<IVSExtension> extensions, bool systemWide, IProgress<ProgressStep<InstallStep>> progress, CancellationToken cancellationToken)
