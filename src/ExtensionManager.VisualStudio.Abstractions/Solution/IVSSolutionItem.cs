@@ -1,3 +1,4 @@
+
 namespace ExtensionManager.VisualStudio.Solution;
 
 /// <summary>
@@ -14,4 +15,9 @@ public interface IVSSolutionItem
     /// The absolute file path on disk.
     /// </summary>
     string? FullPath { get; }
+
+    /// <summary>
+    /// Gets the children of this solution item.
+    /// </summary>
+    Task<IReadOnlyList<IVSSolutionItem>> GetChildrenAsync();
 }

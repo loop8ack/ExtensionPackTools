@@ -23,8 +23,13 @@ public sealed class ExportSolutionFeature : ExportFeatureBase
 
     protected override async Task OnManifestWrittenAsync(string filePath)
     {
+        const string folderName = "Solution Items";
+
         var solution = await _solutions.GetCurrentOrThrowAsync();
-        var folder = await solution.AddSolutionFolderAsync("Solution Items");
+        var solutionChildren = await solution.GetChildrenAsync();
+
+        var folder = solutionChildren.SingleOrDefault(x => x.Name == folderName) as IVSSolutionFolder
+            ?? await solution.AddSolutionFolderAsync(folderName);
 
         if (folder is null)
             throw new InvalidOperationException("Could not add solution folder");
