@@ -49,6 +49,8 @@ internal sealed class VSExtensions : IVSExtensions
     {
         var rootSuffix = await VS.Shell.TryGetCommandLineArgumentAsync("rootsuffix").ConfigureAwait(false);
 
+        vsixFiles = vsixFiles.Select(x => $"{x}");
+
         var arguments = $"{string.Join(" ", vsixFiles)} /instanceIds:{GetInstallationId()}";
 
         if (systemWide)
