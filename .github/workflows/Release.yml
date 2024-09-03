@@ -21,17 +21,17 @@ jobs:
           fetch-depth: 0
 
       - name: Download VSIX 2017
-        uses: actions/download-artifact@v4.1.4
+        uses: actions/download-artifact@v4.1.7
         with:
           name: ExtensionManager2017.vsix
 
       - name: Download VSIX 2019
-        uses: actions/download-artifact@v4.1.4
+        uses: actions/download-artifact@v4.1.7
         with:
           name: ExtensionManager2019.vsix
 
       - name: Download VSIX 2022
-        uses: actions/download-artifact@v4.1.4
+        uses: actions/download-artifact@v4.1.7
         with:
           name: ExtensionManager2022.vsix
 
