@@ -21,7 +21,7 @@ internal class ExportDialogViewModel : InstallExportDialogViewModel<ExportStep>
     {
         _manifest.Extensions.Clear();
 
-        foreach (var ext in Extensions)
+        foreach (var ext in SelectedExtensions)
             _manifest.Extensions.Add(ext.Model);
 
         await _worker.ExportAsync(_manifest, progress, cancellationToken);
