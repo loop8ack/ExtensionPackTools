@@ -127,18 +127,47 @@ public sealed class ExtensionManagerPackage : AsyncPackage
 
 file static class AssemblyResolver
 {
+    [ThreadStatic]
+    private static int _nestingCount;
+
     public static void Initialize()
         => AppDomain.CurrentDomain.AssemblyResolve += OnAssemblyResolve;
 
     private static Assembly? OnAssemblyResolve(object sender, ResolveEventArgs e)
     {
-        var assemblyName = new AssemblyName(e.Name).Name;
-        var currentFolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-        var assemblyPath = Path.Combine(currentFolder, assemblyName + ".dll");
+        // Prevent infinite recursion by checking if we're already inside this resolver
+        if (_nestingCount > 0)
+            return null;
 
-        if (File.Exists(assemblyPath))
+        _nestingCount++;
+        try
+        {
+            var requestedAssembly = new AssemblyName(e.Name);
+            var assemblyName = requestedAssembly.Name;
+            var currentFolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            var assemblyPath = Path.Combine(currentFolder, assemblyName + ".dll");
+
+            if (!File.Exists(assemblyPath))
+                return null;
+
+            var onDiskAssembly = AssemblyName.GetAssemblyName(assemblyPath);
+            
+            // Only load if versions match - return null if they don't to allow other resolvers to try
+            if (requestedAssembly.Version != null && 
+                onDiskAssembly.Version != requestedAssembly.Version)
+                return null;
+
             return Assembly.LoadFile(assemblyPath);
-
-        return null;
+        }
+        catch
+        {
+            // Swallow all exceptions and return null to allow other resolvers to try
+            // or to let the CLR handle the failure in the standard way
+            return null;
+        }
+        finally
+        {
+            _nestingCount--;
+        }
     }
 }
