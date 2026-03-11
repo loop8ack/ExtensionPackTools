@@ -46,16 +46,18 @@ internal sealed class DialogService : IDialogService
         }
     }
 
-    public Task ShowExportDialogAsync(IExportWorker worker, IManifest manifest, IReadOnlyCollection<IVSExtension> installedExtensions)
-        => ShowExportDialogAsync(worker, manifest, installedExtensions, forSolution: false);
-    public Task ShowExportForSolutionDialogAsync(IExportWorker worker, IManifest manifest, IReadOnlyCollection<IVSExtension> installedExtensions)
-        => ShowExportDialogAsync(worker, manifest, installedExtensions, forSolution: true);
-    private async Task ShowExportDialogAsync(IExportWorker worker, IManifest manifest, IReadOnlyCollection<IVSExtension> installedExtensions, bool forSolution)
+    public Task ShowExportDialogAsync(IExportWorker worker, IManifest manifest, IReadOnlyCollection<IVSExtension> installedExtensions, IReadOnlyCollection<IVSExtension> selectedExtensions)
+        => ShowExportDialogAsync(worker, manifest, installedExtensions, selectedExtensions, forSolution: false);
+    public Task ShowExportForSolutionDialogAsync(IExportWorker worker, IManifest manifest, IReadOnlyCollection<IVSExtension> installedExtensions, IReadOnlyCollection<IVSExtension> selectedExtensions)
+        => ShowExportDialogAsync(worker, manifest, installedExtensions, selectedExtensions, forSolution: true);
+    private async Task ShowExportDialogAsync(IExportWorker worker, IManifest manifest, IReadOnlyCollection<IVSExtension> installedExtensions, IReadOnlyCollection<IVSExtension> selectedExtensions, bool forSolution)
     {
         var vm = new ExportDialogViewModel(worker, manifest, forSolution);
 
+        var selectedIds = new HashSet<string>(selectedExtensions.Select(se => se.Id));
+
         foreach (var ext in installedExtensions)
-            vm.Extensions.Add(new(ext));
+            vm.Extensions.Add(new(ext) { IsSelected = selectedIds.Contains(ext.Id) });
 
         await ShowInstallExportDialogAsync(vm);
     }

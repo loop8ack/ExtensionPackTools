@@ -99,7 +99,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Community.VisualStudio.Toolkit.17">
-      <Version>17.0.507</Version>
+      <Version>17.0.549</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.SDK">
       <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -107,12 +107,12 @@
       <Version>17.6.36389</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Setup.Configuration.Interop">
-      <Version>3.6.2115</Version>
+      <Version>3.14.2075</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.VSSDK.BuildTools">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
-      <Version>17.6.2164</Version>
+      <Version>17.14.2120</Version>
     </PackageReference>
     <PackageReference Include="System.Collections.Immutable">
       <Version>8.0.0</Version>
