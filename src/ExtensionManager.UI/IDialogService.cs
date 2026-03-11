@@ -9,8 +9,8 @@ public interface IDialogService
     Task<string?> ShowSaveVsextFileDialogAsync();
     Task<string?> ShowOpenVsextFileDialogAsync();
 
-    Task ShowExportDialogAsync(IExportWorker worker, IManifest manifest, IReadOnlyCollection<IVSExtension> installedExtensions);
-    Task ShowExportForSolutionDialogAsync(IExportWorker worker, IManifest manifest, IReadOnlyCollection<IVSExtension> installedExtensions);
+    Task ShowExportDialogAsync(IExportWorker worker, IManifest manifest, IReadOnlyCollection<IVSExtension> installedExtensions, IReadOnlyCollection<IVSExtension> selectedExtensions);
+    Task ShowExportForSolutionDialogAsync(IExportWorker worker, IManifest manifest, IReadOnlyCollection<IVSExtension> installedExtensions, IReadOnlyCollection<IVSExtension> selectedExtensions);
     Task ShowInstallDialogAsync(IInstallWorker worker, IManifest manifest, IReadOnlyCollection<VSExtensionToInstall> extensions);
     Task ShowInstallForSolutionDialogAsync(IInstallWorker worker, IManifest manifest, IReadOnlyCollection<VSExtensionToInstall> extensions);
 }
