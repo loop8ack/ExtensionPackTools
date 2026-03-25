@@ -20,9 +20,8 @@ public abstract class ExportFeatureBase : IFeature, IExportWorker
         public IVSExtensions Extensions { get; }
         public IDialogService DialogService { get; }
         public IManifestService ManifestService { get; }
-        public IVSSolutions Solutions { get; }
 
-        public Args(IThisVsixInfo vsixInfo, IVSDocuments documents, IVSMessageBox messageBox, IVSExtensions extensions, IDialogService dialogService, IManifestService manifestService, IVSSolutions solutions)
+        public Args(IThisVsixInfo vsixInfo, IVSDocuments documents, IVSMessageBox messageBox, IVSExtensions extensions, IDialogService dialogService, IManifestService manifestService)
         {
             VsixInfo = vsixInfo;
             Documents = documents;
@@ -30,7 +29,6 @@ public abstract class ExportFeatureBase : IFeature, IExportWorker
             Extensions = extensions;
             DialogService = dialogService;
             ManifestService = manifestService;
-            Solutions = solutions;
         }
     }
 
@@ -42,7 +40,6 @@ public abstract class ExportFeatureBase : IFeature, IExportWorker
     protected IVSExtensions Extensions => _args.Extensions;
     protected IDialogService DialogService => _args.DialogService;
     protected IManifestService ManifestService => _args.ManifestService;
-    protected IVSSolutions Solutions => _args.Solutions;
 
     protected ExportFeatureBase(Args args)
     {
@@ -51,21 +48,7 @@ public abstract class ExportFeatureBase : IFeature, IExportWorker
 
     public async Task ExecuteAsync()
     {
-        IManifest manifest;
-
-        var vsextFile = await Solutions.GetCurrentSolutionExtensionsManifestFilePathAsync(MessageBox).ConfigureAwait(false);
-
-        if (vsextFile != null && !string.IsNullOrEmpty(vsextFile))
-        {
-            // Attempt to read manifest from the found .vsext file
-            manifest = await ManifestService.ReadAsync(vsextFile).ConfigureAwait(false);
-        }
-        else
-        {
-            // No .vsext found: create new manifest
-            manifest = ManifestService.CreateNew();
-        }
-
+        var manifest = ManifestService.CreateNew();
         var installedExtensions = await Extensions.GetInstalledExtensionsAsync().ConfigureAwait(false);
 
         var installedExtensionsList = installedExtensions as List<IVSExtension>
@@ -73,9 +56,7 @@ public abstract class ExportFeatureBase : IFeature, IExportWorker
 
         installedExtensionsList.RemoveAll(vsix => vsix.Id == VsixInfo.Id);
 
-        var selectedExtensions = manifest.Extensions;
-
-        await ShowExportDialogAsync(manifest, this, installedExtensions, new ReadOnlyCollection<IVSExtension>(selectedExtensions));
+        await ShowExportDialogAsync(manifest, this, installedExtensions);
     }
 
     async Task IExportWorker.ExportAsync(IManifest manifest, IProgress<ProgressStep<ExportStep>> progress, CancellationToken cancellationToken)
@@ -93,7 +74,6 @@ public abstract class ExportFeatureBase : IFeature, IExportWorker
     }
 
     protected abstract Task<string?> GetFilePathAsync();
-    protected abstract Task ShowExportDialogAsync(IManifest manifest, IExportWorker worker, IReadOnlyCollection<IVSExtension> installedExtensions, IReadOnlyCollection<IVSExtension> selectedExtensions);
+    protected abstract Task ShowExportDialogAsync(IManifest manifest, IExportWorker worker, IReadOnlyCollection<IVSExtension> installedExtensions);
     protected abstract Task OnManifestWrittenAsync(string filePath);
 }
-

@@ -46,11 +46,11 @@ internal sealed class DialogService : IDialogService
         }
     }
 
-    public Task ShowExportDialogAsync(IExportWorker worker, IManifest manifest, IReadOnlyCollection<IVSExtension> installedExtensions, IReadOnlyCollection<IVSExtension> selectedExtensions)
+    public Task ShowExportDialogAsync(IExportWorker worker, IManifest manifest, IReadOnlyCollection<IVSExtension> installedExtensions, IEnumerable<IVSExtension> selectedExtensions)
         => ShowExportDialogAsync(worker, manifest, installedExtensions, selectedExtensions, forSolution: false);
-    public Task ShowExportForSolutionDialogAsync(IExportWorker worker, IManifest manifest, IReadOnlyCollection<IVSExtension> installedExtensions, IReadOnlyCollection<IVSExtension> selectedExtensions)
+    public Task ShowExportForSolutionDialogAsync(IExportWorker worker, IManifest manifest, IReadOnlyCollection<IVSExtension> installedExtensions, IEnumerable<IVSExtension> selectedExtensions)
         => ShowExportDialogAsync(worker, manifest, installedExtensions, selectedExtensions, forSolution: true);
-    private async Task ShowExportDialogAsync(IExportWorker worker, IManifest manifest, IReadOnlyCollection<IVSExtension> installedExtensions, IReadOnlyCollection<IVSExtension> selectedExtensions, bool forSolution)
+    private async Task ShowExportDialogAsync(IExportWorker worker, IManifest manifest, IReadOnlyCollection<IVSExtension> installedExtensions, IEnumerable<IVSExtension> selectedExtensions, bool forSolution)
     {
         var vm = new ExportDialogViewModel(worker, manifest, forSolution);
 
