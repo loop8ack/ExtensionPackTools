@@ -113,6 +113,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
       <Version>17.14.2120</Version>
+      <Version Condition="'$(VisualStudioVersion)' &gt;= '18.0'">18.9.820</Version>
     </PackageReference>
     <PackageReference Include="System.Collections.Immutable">
       <Version>8.0.0</Version>

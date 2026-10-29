@@ -119,6 +119,16 @@ To create a `.vsext` file containing the checked extensions in a location on the
 
 You have the option to commit the generated .vsext file to souce control.  This is highly recommended.
 
+## Development and debugging
+
+Install the **Visual Studio extension development** workload and the .NET Framework 4.8.1 targeting pack. Open `ExtensionManager.sln` in Visual Studio 2022 or Visual Studio 2026, then set `ExtensionManager.Vsix.VS2022` as the startup project and select **Debug | Any CPU**.
+
+Restore NuGet packages and press **F5**. The project deploys to and launches the **experimental instance of the same Visual Studio installation**, using `/rootsuffix Exp /Log`. This keeps the extension under development separate from your normal profile. Set a breakpoint in `ExtensionManagerPackage.InitializeAsync` or a command handler to verify debugging.
+
+The VSIX project selects `Microsoft.VSSDK.BuildTools` for the build host: 17.x for VS2022 and 18.x for VS2026. Restore packages again when switching between these Visual Studio versions. After changing build-tool versions, restart the development IDE before retrying F5 so that previously loaded task assemblies are released.
+
+For command-line deployment, use that installation's full-framework `MSBuild.exe`, not `dotnet build`. Keep installation paths, `DeployTargetInstanceId`, and other machine-specific overrides in local debug settings or the ignored `.csproj.user`; the deployment target and launcher must select the same installation and `Exp` profile. A Release build with `DeployExtension=False` checks packaging only, not F5 deployment.
+
 ## Project Takeover
 
 This project has been taken over by [Loop8ack](https://github.com/loop8ack), the original author was [Mads Kristensen](https://github.com/madskristensen).
