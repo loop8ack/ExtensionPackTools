@@ -1,14 +1,18 @@
 name: Release
 
 on:
-  workflow_dispatch:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
 
 permissions:
   contents: write
-  
+
 jobs:
   build:
     uses: ./.github/workflows/Build.yml
+    with:
+      tag: ${{ github.ref_name }}
 
   release:
     needs: build
@@ -17,8 +21,6 @@ jobs:
     steps:
       - name: Checkup code
         uses: actions/checkout@v4.1.1
-        with:
-          fetch-depth: 0
 
       - name: Download VSIX 2017
         uses: actions/download-artifact@v4.1.7
@@ -42,21 +44,14 @@ jobs:
             Expand-Archive -LiteralPath $_.FullName -DestinationPath .
           }
 
-      - name: Create version tag
-        run: |
-          git config user.name "GitHub Action"
-          git config user.email "<>"
-          git tag v${{ needs.build.outputs.version }}
-          git push origin v${{ needs.build.outputs.version }}
-
       - name: Create Release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release create v${{ needs.build.outputs.version }}
+          gh release create ${{ github.ref_name }}
 
       - name: Upload Release Binaries
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release upload v${{ needs.build.outputs.version }} "ExtensionManager2017.vsix" "ExtensionManager2019.vsix" "ExtensionManager2022.vsix"
+          gh release upload ${{ github.ref_name }} "ExtensionManager2017.vsix" "ExtensionManager2019.vsix" "ExtensionManager2022.vsix"

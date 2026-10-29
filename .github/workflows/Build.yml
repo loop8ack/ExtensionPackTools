@@ -8,9 +8,10 @@ on:
       - master
 
   workflow_call:
-    outputs:
-      version:
-        value: ${{ jobs.build.outputs.version }}
+    inputs:
+      tag:
+        type: string
+        required: true
 
 jobs:
   build:
@@ -19,38 +20,24 @@ jobs:
         vsVersion: ["2017", "2019", "2022"]
 
     runs-on: windows-2022
-    
-    outputs:
-      version: ${{ steps.version.outputs.version }}
 
     steps:
         - name: Checkup code
           uses: actions/checkout@v4.1.1
-          with:
-            fetch-depth: 0
-            
+
         - name: Setup NuGet
           uses: nuget/setup-nuget@v2
-          
+
         - name: Setup MSBuild
           uses: microsoft/setup-msbuild@v2
-        
+
         - name: Setup .NET Core SDK
           uses: actions/setup-dotnet@v4
           with:
             dotnet-version: '8.0.x'
-        
-        - name: Search and increment last version
-          id: version
-          run: |
-            $latestTag = git tag --list 'v*' | Where-Object { $_ -match '^v[0-9]+\.[0-9]+\.[0-9]+$' } | Sort-Object { [Version]($_.TrimStart('v')) } | Select-Object -Last 1
-            $oldVersion = $latestTag.TrimStart('v')
-            $versionParts = $oldVersion -split '\.'
-            $versionParts[2] = [int]$versionParts[2] + 1
-            $newVersion = "$($versionParts -join '.')"
-            echo version=$newVersion >> $env:GITHUB_OUTPUT
-    
+
         - name: Set manifest versions
+          if: inputs.tag != ''
           shell: pwsh
           run: |
             $paths = @(
@@ -59,26 +46,26 @@ jobs:
             )
 
             foreach ($path in $paths) {
-                (Get-Content -Path $path) -Replace '9.9.9999', '${{ steps.version.outputs.version }}' | Set-Content -Path $path
+                (Get-Content -Path $path) -Replace '9.9.9999', '${{ inputs.tag }}'.TrimStart('v') | Set-Content -Path $path
             }
-            
+
         - name: Build library projects
           shell: pwsh
           run: |
             $projects = Get-ChildItem -Recurse -Filter *.csproj -Exclude *.Vsix.*.csproj | Select-Object -ExpandProperty FullName
-            
+
             foreach ($project in $projects) {
                 dotnet build "$project" -c Release
             }
-       
+
         - name: Build vsix project
           shell: pwsh
           run: |
             $project = "src/ExtensionManager.Vsix.VS${{ matrix.vsVersion }}/ExtensionManager.Vsix.VS${{ matrix.vsVersion }}.csproj"
-            
+
             nuget restore "$project"
             msbuild /p:BuildProjectReferences=False /p:RestorePackages=False /p:Configuration=Release /p:DeployExtension=False /p:ZipPackageCompressionLevel=normal /v:n "$project"
-            
+
         - name: Upload artifact
           uses: actions/upload-artifact@v4.3.1
           with:
